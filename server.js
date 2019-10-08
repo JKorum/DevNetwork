@@ -1,4 +1,6 @@
 const express = require('express')
+const connectToMongo = require('./config/db')
+connectToMongo()
 
 const app = express()
 
