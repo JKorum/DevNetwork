@@ -7,7 +7,8 @@ const connectToMongo = async () => {
       const dbURL = config.get('mongoURL')
       await mongoose.connect(dbURL, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true
       })
       console.log('connected to database...')
     } else {
