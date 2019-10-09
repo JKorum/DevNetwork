@@ -97,7 +97,38 @@ router.post('/login', loginValidation, async (req, res) => {
   }
 })
 
-//log out route (in-> token out-> delete token from array)
+//@route   PATCH api/users/logout
+//@desc    logout from current session
+//@access  private
+router.patch('/logout', auth, async (req, res) => {
+  const { userId, token } = req.body
+  try {
+    const user = await UserModel.findById(userId)
+    await user.updateOne({ $pull: { tokens: { token } } })
+    res.status(204).send()
+  } catch (err) {}
+})
+
+//@route   PATCH api/users/logoutall
+//@desc    logout from all sessions
+//@access  private
+router.patch('/logoutall', auth, async (req, res) => {
+  const { userId } = req.body
+  try {
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      { $set: { tokens: [] } },
+      { useFindAndModify: false }
+    )
+    res.status(204).send()
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
 //update account route (in-> token out-> updated profile)
+
+// res.send({ status: 'new route' })
 
 module.exports = router

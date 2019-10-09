@@ -19,6 +19,7 @@ module.exports = async (req, res, next) => {
         if (user) {
           //attach user id to req
           req.body.userId = user._id
+          req.body.token = token
           next()
         } else {
           res.status(401).send({ errors: [{ msg: 'authorization failed' }] })
