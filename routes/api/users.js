@@ -2,6 +2,7 @@ const express = require('express')
 const { validationResult } = require('express-validator')
 const gravatar = require('gravatar')
 const tokenGenerator = require('../../utils/token-generator')
+const auth = require('../../utils/auth')
 const {
   registerValidation,
   loginValidation
@@ -50,6 +51,20 @@ router.post('/register', registerValidation, async (req, res) => {
   }
 })
 
+//@route   DELETE api/users/unregister
+//@desc    delete user
+//@access  private
+router.delete('/unregister', auth, async (req, res) => {
+  const { userId } = req.body
+  try {
+    await UserModel.findByIdAndDelete(userId)
+    res.status(204).send()
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
 //@route   POST api/users/login
 //@desc    login user
 //@access  public
@@ -82,7 +97,6 @@ router.post('/login', loginValidation, async (req, res) => {
   }
 })
 
-//unregister route (in-> token out-> delete account)
 //log out route (in-> token out-> delete token from array)
 //update account route (in-> token out-> updated profile)
 
