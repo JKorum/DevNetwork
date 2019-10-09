@@ -5,7 +5,8 @@ const tokenGenerator = require('../../utils/token-generator')
 const auth = require('../../utils/auth')
 const {
   registerValidation,
-  loginValidation
+  loginValidation,
+  updateValidation
 } = require('../../utils/validation-middlewares')
 const UserModel = require('../../models/User')
 
@@ -127,8 +128,43 @@ router.patch('/logoutall', auth, async (req, res) => {
   }
 })
 
-//update account route (in-> token out-> updated profile)
-
-// res.send({ status: 'new route' })
+//@route   PATCH api/users/update
+//@desc    update user credentials
+//@access  private
+router.patch('/update', auth, updateValidation, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errors: errors.array() })
+  }
+  const { userId, name, email, password } = req.body
+  if (!name && !email && !password) {
+    return res.status(400).send({ errors: [{ msg: 'no updates provided' }] })
+  }
+  try {
+    if (name) {
+      await UserModel.findByIdAndUpdate(
+        userId,
+        { name },
+        { useFindAndModify: false }
+      )
+    }
+    if (email) {
+      await UserModel.findByIdAndUpdate(
+        userId,
+        { email },
+        { useFindAndModify: false }
+      )
+    }
+    if (password) {
+      const user = await UserModel.findById(userId)
+      user.password = password
+      await user.save()
+    }
+    res.status(200).send({ status: 'user updated' }) //maybe should send some user data back
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
 
 module.exports = router
