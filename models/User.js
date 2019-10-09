@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema(
 )
 
 userSchema.pre('save', async function() {
+  console.log('hook triggered')
   const user = this
   try {
     const salt = await bcrypt.genSalt(8)
