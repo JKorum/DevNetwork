@@ -7,6 +7,9 @@ connectToMongo()
 const PORT = process.env.PORT || 3015
 const app = express()
 
+//register middlewares
+app.use(express.json())
+
 //define routes
 app.use('/api/users', require('./routes/api/users'))
 app.use('/api/auth', require('./routes/api/auth'))
