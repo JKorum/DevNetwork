@@ -116,11 +116,9 @@ router.patch('/logout', auth, async (req, res) => {
 router.patch('/logoutall', auth, async (req, res) => {
   const { userId } = req.body
   try {
-    const user = await UserModel.findByIdAndUpdate(
-      userId,
-      { $set: { tokens: [] } },
-      { useFindAndModify: false }
-    )
+    const user = await UserModel.findByIdAndUpdate(userId, {
+      $set: { tokens: [] }
+    })
     res.status(204).send()
   } catch (err) {
     console.log(err.message)
@@ -149,11 +147,7 @@ router.patch('/update', auth, updateValidation, async (req, res) => {
       )
     }
     if (email) {
-      await UserModel.findByIdAndUpdate(
-        userId,
-        { email },
-        { useFindAndModify: false }
-      )
+      await UserModel.findByIdAndUpdate(userId, { email })
     }
     if (password) {
       const user = await UserModel.findById(userId)

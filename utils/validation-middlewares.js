@@ -47,5 +47,101 @@ module.exports = {
       .not()
       .isEmpty()
       .optional()
+  ],
+  profileValidation: [
+    check('status', 'status is required')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty(),
+    check('skills', 'skills is required')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty(),
+    check('company', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('website', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('location', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('bio', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('githubusername', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('youtube', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('twitter', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('facebook', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('linkedin', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('instargam', 'should be not empty string if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional()
+  ],
+  profileUpdateValidation: [
+    check(
+      [
+        'status',
+        'skills',
+        'company',
+        'website',
+        'location',
+        'bio',
+        'githubusername',
+        'youtube',
+        'twitter',
+        'facebook',
+        'linkedin',
+        'instargam'
+      ],
+      'should be not empty string if provided'
+    )
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional()
   ]
 }
