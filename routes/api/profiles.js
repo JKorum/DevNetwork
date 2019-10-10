@@ -61,7 +61,7 @@ router.get('/me', auth, async (req, res) => {
   }
 })
 
-//@route   GET api/profiles/me/update
+//@route   PATCH api/profiles/me/update
 //@desc    update user profile
 //@access  private
 router.patch('/me/update', auth, profileUpdateValidation, async (req, res) => {
@@ -83,6 +83,68 @@ router.patch('/me/update', auth, profileUpdateValidation, async (req, res) => {
       { new: true }
     )
     res.status(200).send(profile)
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   GET api/profiles
+//@desc    get all profiles
+//@access  public
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await ProfileModel.find()
+      .populate({ path: 'user', select: ['name', 'avatar'] })
+      .exec()
+    if (profiles.length === 0) {
+      res.status(404).send({ errors: [{ msg: 'no profiles' }] })
+    } else {
+      res.status(200).send(profiles)
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   GET api/profiles/user/:user_id
+//@desc    get profile by user id
+//@access  public
+router.get('/user/:user_id', async (req, res) => {
+  try {
+    let profile = await ProfileModel.findOne({ user: req.params.user_id })
+    if (profile) {
+      profile = await profile
+        .populate({ path: 'user', select: ['name', 'avatar'] })
+        .execPopulate()
+      res.status(200).send(profile)
+    } else {
+      res.status(404).send({ errors: [{ msg: 'profile not found' }] })
+    }
+  } catch (err) {
+    console.log(err)
+    if (err.kind === 'ObjectId') {
+      res.status(404).send({ errors: [{ msg: 'profile not found' }] })
+    } else {
+      res.status(500).send({ errors: [{ msg: 'server error' }] })
+    }
+  }
+})
+
+//@route   DELETE api/profiles
+//@desc    delete profile
+//@access  private
+router.delete('/', auth, async (req, res) => {
+  const { userId } = req.body
+  try {
+    console.log(userId)
+    const profile = await ProfileModel.findOneAndDelete({ user: userId })
+    if (profile) {
+      res.status(204).send()
+    } else {
+      res.status(404).send({ errors: [{ msg: 'profile not found' }] })
+    }
   } catch (err) {
     console.log(err)
     res.status(500).send({ errors: [{ msg: 'server error' }] })
