@@ -176,5 +176,12 @@ module.exports = {
       .not()
       .isEmpty()
       .optional()
+  ],
+  postValidation: [
+    check('text', 'should be not empty')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
   ]
 }

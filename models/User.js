@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
     },
     tokens: [tokenSchema],
     avatar: {
-      type: Buffer
+      type: String
     }
   },
   options
