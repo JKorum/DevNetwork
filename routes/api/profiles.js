@@ -1,5 +1,7 @@
 const express = require('express')
 const auth = require('../../utils/auth')
+const request = require('request-promise')
+const config = require('config')
 const { validationResult } = require('express-validator')
 const ProfileModel = require('../../models/Profile')
 const UserModel = require('../../models/User')
@@ -379,6 +381,41 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   GET api/profiles/github/:username
+//@desc    get user repos from github
+//@access  public
+router.get('/github/:username', async (req, res) => {
+  try {
+    if (config.has('gitId') && config.has('gitSecret')) {
+      let response = await request({
+        uri: `https://api.github.com/users/${
+          req.params.username
+        }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+          'gitId'
+        )}&client_secret=${config.get('gitSecret')}`,
+        method: 'GET',
+        headers: { 'User-Agent': 'node.js' }
+      })
+
+      response = JSON.parse(response)
+      if (response.length === 0) {
+        return res
+          .status(404)
+          .send({ errors: [{ msg: 'github repos not found' }] })
+      }
+      res.status(200).send(response)
+    } else {
+      throw new Error('config values inaccessible')
+    }
+  } catch (err) {
+    if (err.statusCode === 404) {
+      res.status(404).send({ errors: [{ msg: 'git user not found' }] })
+    } else {
+      res.status(500).send({ errors: [{ msg: 'server error' }] })
+    }
   }
 })
 
