@@ -163,5 +163,18 @@ module.exports = {
       .not()
       .isEmpty()
       .optional()
+  ],
+  educationValidation: [
+    check(['school', 'degree', 'fieldofstudy', 'from'], 'should be not empty')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty(),
+    check('to', 'current', 'description', 'should be not empty if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional()
   ]
 }

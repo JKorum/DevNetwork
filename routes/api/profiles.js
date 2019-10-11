@@ -6,11 +6,21 @@ const UserModel = require('../../models/User')
 const {
   profileValidation,
   profileUpdateValidation,
-  experienceValidation
+  experienceValidation,
+  educationValidation
 } = require('../../utils/validation-middlewares')
 const profileBuilder = require('../../utils/profile-builder')
 
 const router = express.Router()
+
+/* general issues:
+   > common functionality in routes -> extact it in util functions
+   > /education -- /experience --> should work properly
+   profile schema --> education and experience --> all fields should be optional
+   express-validator --> should check for required fields if necessary
+   --> so when you create education or experience --> some fields are required
+   --> when you update education or experience --> all fields are optional --> and only they are updated
+*/
 
 //@route   POST api/profiles
 //@desc    create user profile
@@ -153,7 +163,7 @@ router.delete('/', auth, async (req, res) => {
 })
 
 //@route   PATCH api/profiles/experience
-//@desc    add experience array to profile
+//@desc    add experience
 //@access  private
 router.patch('/experience', auth, experienceValidation, async (req, res) => {
   const errors = validationResult(req)
@@ -254,6 +264,116 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
     const profile = await ProfileModel.findOne({ user: req.body.userId })
     profile.experience.pull({ _id: req.params.exp_id })
+    await profile.save()
+    res.status(204).send()
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   PATCH api/profiles/education
+//@desc    add education
+//@access  private
+router.patch('/education', auth, educationValidation, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errors: errors.array() })
+  }
+  try {
+    const {
+      userId,
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    } = req.body
+    const profile = await ProfileModel.findOne({ user: userId })
+    if (!profile) {
+      res.status(404).send({ errors: [{ msg: 'profile not found' }] })
+    }
+    profile.education.push({
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    })
+    await profile.save()
+    res.status(200).send(profile.education)
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   PATCH api/profiles/education/:edu_id
+//@desc    update education by id
+//@access  private
+router.patch(
+  '/education/:edu_id',
+  auth,
+  educationValidation,
+  async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).send({ errors: errors.array() })
+    }
+    try {
+      const {
+        userId,
+        school,
+        degree,
+        fieldofstudy,
+        from,
+        to,
+        current,
+        description
+      } = req.body
+
+      const updates = {
+        school,
+        degree,
+        fieldofstudy,
+        from,
+        to,
+        current,
+        description
+      }
+
+      //find correct profile
+      const profile = await ProfileModel.findOne({ user: userId })
+      //find index of correct education
+      const index = profile.education.findIndex(
+        item => item._id.toString() === req.params.edu_id
+      )
+      //set fields only with truthy values
+      for (item in updates) {
+        if (updates[item]) {
+          profile.education[index][item] = updates[item]
+        }
+      }
+      await profile.save()
+      res.send(profile.education[index])
+    } catch (err) {
+      console.log(err)
+      res.status(500).send({ errors: [{ msg: 'server error' }] })
+    }
+  }
+)
+
+//@route   DELETE api/profiles/education/:edu_id
+//@desc    delete education by id
+//@access  private
+router.delete('/education/:edu_id', auth, async (req, res) => {
+  try {
+    const profile = await ProfileModel.findOne({ user: req.body.userId })
+    profile.education.pull({ _id: req.params.edu_id })
     await profile.save()
     res.status(204).send()
   } catch (err) {
