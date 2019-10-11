@@ -143,5 +143,25 @@ module.exports = {
       .not()
       .isEmpty()
       .optional()
+  ],
+  experienceValidation: [
+    check(['title', 'company'], 'should be not empty')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty(),
+    check(['location', 'description'], 'should be not empty if provided')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .optional(),
+    check('from', 'should be not empty')
+      .not()
+      .isEmpty(),
+    check(['to', 'current'], 'should be not empty if provided')
+      .not()
+      .isEmpty()
+      .optional()
   ]
 }

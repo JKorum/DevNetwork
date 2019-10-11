@@ -5,7 +5,8 @@ const ProfileModel = require('../../models/Profile')
 const UserModel = require('../../models/User')
 const {
   profileValidation,
-  profileUpdateValidation
+  profileUpdateValidation,
+  experienceValidation
 } = require('../../utils/validation-middlewares')
 const profileBuilder = require('../../utils/profile-builder')
 
@@ -145,6 +146,116 @@ router.delete('/', auth, async (req, res) => {
     } else {
       res.status(404).send({ errors: [{ msg: 'profile not found' }] })
     }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   PATCH api/profiles/experience
+//@desc    add experience array to profile
+//@access  private
+router.patch('/experience', auth, experienceValidation, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errors: errors.array() })
+  }
+  try {
+    const {
+      userId,
+      title,
+      company,
+      from,
+      location,
+      to,
+      current,
+      description
+    } = req.body
+    const profile = await ProfileModel.findOne({ user: userId })
+    if (!profile) {
+      res.status(404).send({ errors: [{ msg: 'profile not found' }] })
+    }
+    profile.experience.push({
+      title,
+      company,
+      from,
+      location,
+      to,
+      current,
+      description
+    })
+    await profile.save()
+    res.status(200).send(profile.experience)
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   PATCH api/profiles/experience/:exp_id
+//@desc    update experience by id
+//@access  private
+router.patch(
+  '/experience/:exp_id',
+  auth,
+  experienceValidation,
+  async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).send({ errors: errors.array() })
+    }
+    try {
+      const {
+        userId,
+        title,
+        company,
+        location,
+        from,
+        to,
+        description,
+        current
+      } = req.body
+
+      const updates = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        description,
+        current
+      }
+
+      //find correct profile
+      const profile = await ProfileModel.findOne({ user: userId })
+      //find index of correct expence
+      const index = profile.experience.findIndex(
+        item => item._id.toString() === req.params.exp_id
+      )
+      //set fields only with truthy values
+      for (item in updates) {
+        if (updates[item]) {
+          profile.experience[index][item] = updates[item]
+        }
+      }
+      await profile.save()
+      res.send(profile.experience[index])
+    } catch (err) {
+      console.log(err)
+      res.status(500).send({ errors: [{ msg: 'server error' }] })
+    }
+  }
+)
+
+//@route   DELETE api/profiles/experience/:exp_id
+//@desc    delete experience by id
+//@access  private
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+  try {
+    const profile = await ProfileModel.findOne({ user: req.body.userId })
+    profile.experience.pull({ _id: req.params.exp_id })
+    await profile.save()
+    res.status(204).send()
   } catch (err) {
     console.log(err)
     res.status(500).send({ errors: [{ msg: 'server error' }] })

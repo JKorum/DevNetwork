@@ -57,3 +57,6 @@ module.exports = input => {
 
   return profile
 }
+
+//check --> maybe check for undefined is redundent
+//(if use `save` -> Mongoose doesn't save this field)
