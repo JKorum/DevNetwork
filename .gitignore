@@ -1,4 +1,5 @@
 node_modules/
 ideas_to_implement.txt
 playground/
+project-theme/dist/css/style.min.css
 .env
