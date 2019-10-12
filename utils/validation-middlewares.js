@@ -177,7 +177,7 @@ module.exports = {
       .isEmpty()
       .optional()
   ],
-  postValidation: [
+  postAndCommentValidation: [
     check('text', 'should be not empty')
       .isString()
       .trim()
