@@ -1,6 +1,7 @@
 @import 'normalize';
 @import 'config';
 @import 'utils';
+@import 'form';
 
 // general
 * {
@@ -61,7 +62,10 @@ img {
 // landing
 .landing {
   position: relative;
-  // background
+  background-image: url('../imgs/bg_v1.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   height: 100vh;
 
   &-inner {
