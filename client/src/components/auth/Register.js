@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const Register = () => {
+import { connect } from 'react-redux'
+import { setAlert } from '../../store/actions/alert'
+import { registerGenerator } from '../../store/actions/auth'
+
+const Register = ({ setAlert, registerUser }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,9 +22,11 @@ const Register = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (password === passwordConfirm) {
-      console.log('SUCCESS')
+      console.log('passwords matched')
+      registerUser({ name, email, password })
     } else {
       console.log("passwords don't match")
+      setAlert("passwords don't match", 'danger')
     }
   }
 
@@ -85,4 +91,12 @@ const Register = () => {
   )
 }
 
-export default Register
+const mapDispatchToProps = dispatch => ({
+  setAlert: (msg, alertType) => dispatch(setAlert(msg, alertType)),
+  registerUser: data => dispatch(registerGenerator(data))
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Register)
