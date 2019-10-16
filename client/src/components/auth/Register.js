@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { setAlert } from '../../store/actions/alert'
 import { registerGenerator } from '../../store/actions/auth'
 
-const Register = ({ setAlert, registerUser }) => {
+const Register = ({ setAlert, registerUser, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,6 +28,10 @@ const Register = ({ setAlert, registerUser }) => {
       console.log("passwords don't match")
       setAlert("passwords don't match", 'danger')
     }
+  }
+
+  if (isAuthenticated) {
+    return <Redirect to='dashboard' />
   }
 
   return (
@@ -91,12 +95,16 @@ const Register = ({ setAlert, registerUser }) => {
   )
 }
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.authentication.isAuthenticated
+})
+
 const mapDispatchToProps = dispatch => ({
   setAlert: (msg, alertType) => dispatch(setAlert(msg, alertType)),
   registerUser: data => dispatch(registerGenerator(data))
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Register)

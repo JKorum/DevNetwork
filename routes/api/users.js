@@ -94,7 +94,7 @@ router.post('/login', loginValidation, async (req, res) => {
     }
   } catch (err) {
     console.log(err.message)
-    res.status(400).send({ errors: [{ msg: 'login failed' }] })
+    res.status(400).send({ errors: [{ msg: 'login failed' }] }) //maybe add status 500
   }
 })
 

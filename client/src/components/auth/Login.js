@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
-const Register = () => {
+import { connect } from 'react-redux'
+import { loginUserGenerator } from '../../store/actions/auth'
+
+const Login = ({ loginUser, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -15,8 +18,13 @@ const Register = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log(formData)
-    console.log('SUCCESS')
+    console.log('handleSubmit is fired')
+    loginUser(formData)
+  }
+
+  // render <Redirect /> will redirect to specified location
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />
   }
 
   return (
@@ -46,7 +54,7 @@ const Register = () => {
             required
           />
         </div>
-        <input type='submit' value='register' className='btn btn-primary' />
+        <input type='submit' value='login' className='btn btn-primary' />
       </form>
       <p className='my-1'>
         Don't have an account? <Link to='/register'>Sign Up</Link>
@@ -55,4 +63,15 @@ const Register = () => {
   )
 }
 
-export default Register
+const mapStateToProps = state => ({
+  isAuthenticated: state.authentication.isAuthenticated
+})
+
+const mapDispatchToProps = dispatch => ({
+  loginUser: data => dispatch(loginUserGenerator(data))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login)
