@@ -1,15 +1,22 @@
 const express = require('express')
 const auth = require('../../utils/auth')
+const UserModel = require('../../models/User')
 
 const router = express.Router()
 
 //@route   GET api/auth
-//@desc    ...
+//@desc    send back user data
 //@access  private
-router.get('/', auth, (req, res) => {
-  //this route should send back user data (-tokens, -password) -> but why?
-  console.log(req.body.userId)
-  res.send({ status: 'pass middleware' })
+router.get('/', auth, async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.body.userId).select(
+      '_id name email avatar'
+    )
+    res.status(200).send(user)
+  } catch (err) {
+    console.log(err.message)
+    return res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
 })
 
 module.exports = router
