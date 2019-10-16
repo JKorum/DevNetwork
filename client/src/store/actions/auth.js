@@ -5,7 +5,8 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGOUT
 } from '../actions/types'
 import { setAlert } from './alert'
 import setAuthHeader from '../../utils/setAuthHeader'
@@ -116,6 +117,28 @@ export const loginUserGenerator = data => {
         dispatch({
           type: LOGIN_FAIL
         })
+      }
+    }
+  }
+}
+
+// logout & clear user profile
+export const logoutUserGenerator = () => {
+  return async dispatch => {
+    // logout user on client side first
+    dispatch({
+      type: LOGOUT
+    })
+    // then hit logout endpoint
+    try {
+      const res = await axios.patch('api/users/logout')
+      if (res.status === 204) console.log('server responded with 204 (logout)')
+    } catch (err) {
+      if (err.response && err.response.status === 500) {
+        console.log('server responded with 500 (logout)')
+      } else {
+        console.log('no response from server (logout)')
+        console.log(err.message)
       }
     }
   }

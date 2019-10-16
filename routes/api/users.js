@@ -107,7 +107,10 @@ router.patch('/logout', auth, async (req, res) => {
     const user = await UserModel.findById(userId)
     await user.updateOne({ $pull: { tokens: { token } } })
     res.status(204).send()
-  } catch (err) {}
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
 })
 
 //@route   PATCH api/users/logoutall
