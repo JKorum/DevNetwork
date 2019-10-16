@@ -1,8 +1,37 @@
 import axios from 'axios'
-import { REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/types'
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR
+} from '../actions/types'
 import { setAlert } from './alert'
+import setAuthHeader from '../../utils/setAuthHeader'
 
-// in-> { name, email, password } out-> async function
+export const loadUserGenerator = () => {
+  // if token in `localStorage` -> set `Authorization: Bearer <token>` for all requests
+  if (localStorage.token) {
+    setAuthHeader(localStorage.token)
+  }
+  return async dispatch => {
+    try {
+      const res = await axios.get('/api/auth')
+      if (res.status === 200) {
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data
+        })
+      }
+    } catch (err) {
+      console.log('loadUserGenerator failed to load user', err.message)
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }
+  }
+}
+
+// in-> { name, email, password }
 export const registerGenerator = data => {
   const config = {
     url: '/api/users/register',
@@ -36,6 +65,10 @@ export const registerGenerator = data => {
       } else {
         // no response is received
         console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: REGISTER_FAIL
+        })
       }
     }
   }
