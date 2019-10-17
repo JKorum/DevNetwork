@@ -11,6 +11,8 @@ import Alert from './components/layout/Alert'
 import store from './store/store'
 
 import { loadUserGenerator } from './store/actions/auth'
+import Dashboard from './components/dashboard/Dashboard'
+import PrivateRoute from './components/routing/PrivateRoute'
 
 const App = () => {
   //will run after component is rendered -> when first load the app & after each browser refresh
@@ -27,8 +29,17 @@ const App = () => {
           <Route path='/' exact={true} component={Landing} />
           <Alert />
           <Switch>
-            <Route path='/login' exact={true} component={Login} />
-            <Route path='/register' exact={true} component={Register} />
+            <Route path='/login' exact={true}>
+              <Login />
+            </Route>
+            <Route path='/register' exact={true}>
+              <Register />
+            </Route>
+            <PrivateRoute
+              path='/dashboard'
+              exact={true}
+              component={Dashboard}
+            />
           </Switch>
         </Fragment>
       </BrowserRouter>
