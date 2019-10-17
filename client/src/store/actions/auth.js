@@ -6,7 +6,8 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  CLEAR_PROFILE
 } from '../actions/types'
 import { setAlert } from './alert'
 import setAuthHeader from '../../utils/setAuthHeader'
@@ -130,6 +131,10 @@ export const logoutUserGenerator = () => {
     // logout user on client side first
     dispatch({
       type: LOGOUT
+    })
+    // clear user profile
+    dispatch({
+      type: CLEAR_PROFILE
     })
     // then hit logout endpoint
     try {

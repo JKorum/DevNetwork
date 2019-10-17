@@ -12,6 +12,7 @@ import store from './store/store'
 
 import { loadUserGenerator } from './store/actions/auth'
 import Dashboard from './components/dashboard/Dashboard'
+import CreateProfile from './components/profile_forms/CreateProfile'
 import PrivateRoute from './components/routing/PrivateRoute'
 
 const App = () => {
@@ -39,6 +40,11 @@ const App = () => {
               path='/dashboard'
               exact={true}
               component={Dashboard}
+            />
+            <PrivateRoute
+              path='/create-profile'
+              exact={true}
+              component={CreateProfile}
             />
           </Switch>
         </Fragment>
