@@ -1,9 +1,14 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { createProfileGenerator } from '../../store/actions/profile'
+import {
+  editProfileGenerator,
+  fetchProfileGenerator
+} from '../../store/actions/profile'
 
-const CreateProfile = ({ createProfile, history }) => {
+import formFiller from '../../utils/formFiller'
+
+const EditProfile = ({ editProfile, profile, loading, loadProfile }) => {
   const [formData, setFormData] = useState({
     status: '',
     company: '',
@@ -36,6 +41,22 @@ const CreateProfile = ({ createProfile, history }) => {
     youtube
   } = formData
 
+  useEffect(() => {
+    // in case of hard refresh while on `/edit-profile`
+    if (!profile) {
+      console.log('hard refresh -> fetching profile')
+      loadProfile()
+    }
+    // prefill form fields
+    if (profile && !loading) {
+      const data = formFiller(profile)
+      setFormData({
+        ...formData,
+        ...data
+      })
+    }
+  }, [profile])
+
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -50,12 +71,12 @@ const CreateProfile = ({ createProfile, history }) => {
         filtered[item[0]] = item[1]
       }
     })
-    createProfile(filtered, history)
+    editProfile(filtered)
   }
 
   return (
     <section className='container'>
-      <h1 className='large text-primary'>Create your profile</h1>
+      <h1 className='large text-primary'>Edit your profile</h1>
       <p className='lead'>
         <i className='fas fa-user'></i>Let's get some information to make your
         profile stand out
@@ -223,12 +244,17 @@ const CreateProfile = ({ createProfile, history }) => {
   )
 }
 
+const mapStateToProps = state => ({
+  profile: state.profile.profile,
+  loading: state.profile.loading
+})
+
 const mapDispatchToProps = dispatch => ({
-  createProfile: (data, history) =>
-    dispatch(createProfileGenerator(data, history))
+  editProfile: data => dispatch(editProfileGenerator(data)),
+  loadProfile: () => dispatch(fetchProfileGenerator())
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
-)(CreateProfile)
+)(EditProfile)

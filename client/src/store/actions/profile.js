@@ -95,4 +95,51 @@ export const createProfileGenerator = (data, history) => {
   }
 }
 
-// add editProfileGenerator
+// in-> form data
+export const editProfileGenerator = data => {
+  const config = {
+    url: '/api/profiles/me/update',
+    method: 'patch',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 200) {
+        dispatch({
+          type: GET_PROFILE,
+          payload: res.data
+        })
+        dispatch(setAlert('profile updated', 'success'))
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (
+          status === 401 ||
+          status === 422 ||
+          status === 500 ||
+          status === 404
+        ) {
+          const { errors } = err.response.data
+          errors &&
+            errors.forEach(err => {
+              dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
+            })
+        }
+        dispatch({
+          type: PROFILE_ERROR
+        })
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: PROFILE_ERROR
+        })
+      }
+    }
+  }
+}

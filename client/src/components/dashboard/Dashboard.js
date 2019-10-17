@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchProfileGenerator } from '../../store/actions/profile'
 import Spinner from '../layout/Spinner'
+import { DashboardActions } from '../dashboard/DashboardActions'
 
 const Dashboard = ({
   loadProfile,
@@ -23,7 +24,9 @@ const Dashboard = ({
         <i className='fas fa-user'></i> Welcome {user && user.name}
       </p>
       {profile !== null ? (
-        <Fragment>has profile</Fragment>
+        <Fragment>
+          <DashboardActions />
+        </Fragment>
       ) : (
         <Fragment>
           <p>Your profile is not setup yet</p>

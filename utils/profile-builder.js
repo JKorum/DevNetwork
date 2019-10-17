@@ -26,7 +26,7 @@ module.exports = input => {
     twitter,
     facebook,
     linkedin,
-    instargam
+    instagram
   } = input
 
   //start build profile
@@ -43,7 +43,7 @@ module.exports = input => {
 
   //construct social obj
   let social = {}
-  getRidOfUndefined(social, { youtube, twitter, facebook, linkedin, instargam })
+  getRidOfUndefined(social, { youtube, twitter, facebook, linkedin, instagram })
 
   //end build profile
   if (Object.entries(social).length !== 0) {
