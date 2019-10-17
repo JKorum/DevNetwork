@@ -17,7 +17,7 @@ import PrivateRoute from './components/routing/PrivateRoute'
 const App = () => {
   //will run after component is rendered -> when first load the app & after each browser refresh
   useEffect(() => {
-    console.log('hook')
+    console.log('useEffect from <App /> is fired')
     store.dispatch(loadUserGenerator())
   }, [])
 

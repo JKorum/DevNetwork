@@ -26,7 +26,9 @@ export const loadUserGenerator = () => {
         })
       }
     } catch (err) {
-      console.log('loadUserGenerator failed to load user', err.message)
+      console.log(
+        `loadUserGenerator failed to load user. reason: ${err.message}`
+      )
       dispatch({
         type: AUTH_ERROR
       })
