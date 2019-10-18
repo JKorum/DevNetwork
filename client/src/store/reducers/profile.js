@@ -5,7 +5,11 @@ import {
   ADD_EXPERIENCE,
   ADD_EXPERIENCE_ERROR,
   ADD_EDUCATION,
-  ADD_EDUCATION_ERROR
+  ADD_EDUCATION_ERROR,
+  DELETE_EDUCATION,
+  DELETE_EDUCATION_ERROR,
+  DELETE_EXPERIENCE,
+  DELETE_EXPERIENCE_ERROR
 } from '../actions/types'
 
 const initialState = {
@@ -49,6 +53,12 @@ export default (state = initialState, action) => {
           education: [...state.profile.education]
         }
       }
+    case DELETE_EXPERIENCE:
+    case DELETE_EDUCATION:
+      return {
+        ...state,
+        loading: false
+      }
     case ADD_EDUCATION:
       return {
         ...state,
@@ -63,10 +73,12 @@ export default (state = initialState, action) => {
       }
     case ADD_EXPERIENCE_ERROR:
     case ADD_EDUCATION_ERROR:
+    case DELETE_EDUCATION_ERROR:
+    case DELETE_EXPERIENCE_ERROR:
       return {
         ...state,
         loading: false,
-        error: action.payload
+        error: action.payload // where this data is used?
       }
     default:
       return state

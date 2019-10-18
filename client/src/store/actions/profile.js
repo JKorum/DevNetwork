@@ -8,7 +8,13 @@ import {
   ADD_EXPERIENCE,
   ADD_EXPERIENCE_ERROR,
   ADD_EDUCATION_ERROR,
-  ADD_EDUCATION
+  ADD_EDUCATION,
+  DELETE_EDUCATION,
+  DELETE_EDUCATION_ERROR,
+  DELETE_EXPERIENCE,
+  DELETE_EXPERIENCE_ERROR,
+  ACCOUNT_DELETED,
+  CLEAR_PROFILE
 } from '../actions/types'
 
 // get current user profile
@@ -235,6 +241,118 @@ export const addEducationGenerator = (data, history) => {
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: ADD_EDUCATION_ERROR
+        })
+      }
+    }
+  }
+}
+
+// should add logic for handling 404!
+export const deleteExperienceGenerator = id => {
+  return async dispatch => {
+    try {
+      const res = await axios.delete(`api/profiles/experience/${id}`)
+      if (res.status === 204) {
+        dispatch(setAlert('experience deleted', 'success'))
+        dispatch({
+          type: DELETE_EXPERIENCE
+        })
+        dispatch(fetchProfileGenerator())
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500) {
+          dispatch(setAlert(errors[0].msg, 'danger'))
+        }
+        dispatch({
+          type: DELETE_EXPERIENCE_ERROR,
+          payload: errors[0]
+        })
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: DELETE_EXPERIENCE_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// should add logic for handling 404!
+export const deleteEducationGenerator = id => {
+  return async dispatch => {
+    try {
+      const res = await axios.delete(`api/profiles/education/${id}`)
+      if (res.status === 204) {
+        dispatch(setAlert('education deleted', 'success'))
+        dispatch({
+          type: DELETE_EDUCATION
+        })
+        dispatch(fetchProfileGenerator())
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500) {
+          dispatch(setAlert(errors[0].msg, 'danger'))
+        }
+        dispatch({
+          type: DELETE_EDUCATION_ERROR,
+          payload: errors[0]
+        })
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: DELETE_EDUCATION_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+export const accountDeleteGenerator = () => {
+  return async dispatch => {
+    try {
+      const res = await axios.delete('api/profiles')
+      if (res.status === 204) {
+        dispatch({
+          type: CLEAR_PROFILE
+        })
+        await axios.delete('api/users/unregister')
+        dispatch({
+          type: ACCOUNT_DELETED
+        })
+        dispatch(setAlert('account deleted'))
+      }
+    } catch (err) {
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500 || status === 404) {
+          dispatch(setAlert(errors[0].msg, 'danger'))
+        }
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: errors[0]
+        })
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: err
         })
       }
     }

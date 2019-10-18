@@ -270,7 +270,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     res.status(204).send()
   } catch (err) {
     console.log(err)
-    res.status(500).send({ errors: [{ msg: 'server error' }] })
+    res.status(500).send({ errors: [{ msg: 'server error' }] }) //add logic for 404
   }
 })
 
@@ -380,7 +380,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     res.status(204).send()
   } catch (err) {
     console.log(err)
-    res.status(500).send({ errors: [{ msg: 'server error' }] })
+    res.status(500).send({ errors: [{ msg: 'server error' }] }) //should add logic for 404
   }
 })
 

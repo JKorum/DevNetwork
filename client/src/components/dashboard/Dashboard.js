@@ -1,12 +1,18 @@
 import React, { Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { fetchProfileGenerator } from '../../store/actions/profile'
+import {
+  fetchProfileGenerator,
+  accountDeleteGenerator
+} from '../../store/actions/profile'
 import Spinner from '../layout/Spinner'
 import { DashboardActions } from '../dashboard/DashboardActions'
+import ExperienceList from './ExperienceList'
+import EducationList from './EducationList'
 
 const Dashboard = ({
   loadProfile,
+  deleteAccount,
   authentication: { user },
   profile: { loading, profile }
 }) => {
@@ -14,6 +20,12 @@ const Dashboard = ({
     console.log(`useEffect from <Dashboard /> is fired`)
     loadProfile()
   }, [])
+
+  const handleDelete = () => {
+    if (window.confirm("Are you sure? This action can't be undone")) {
+      deleteAccount()
+    }
+  }
 
   // if done loading -> render JSX
   // else -> render <Spinner />
@@ -26,6 +38,13 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
+          <ExperienceList experience={profile.experience} />
+          <EducationList education={profile.education} />
+          <div className='my-2'>
+            <button className='btn btn-danger' onClick={handleDelete}>
+              <i className='fas fa-user-minus'></i>Delete my account
+            </button>
+          </div>
         </Fragment>
       ) : (
         <Fragment>
@@ -47,7 +66,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadProfile: () => dispatch(fetchProfileGenerator())
+  loadProfile: () => dispatch(fetchProfileGenerator()),
+  deleteAccount: () => dispatch(accountDeleteGenerator())
 })
 
 export default connect(
