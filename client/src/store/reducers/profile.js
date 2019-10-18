@@ -3,7 +3,9 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
   ADD_EXPERIENCE,
-  ADD_EXPERIENCE_ERROR
+  ADD_EXPERIENCE_ERROR,
+  ADD_EDUCATION,
+  ADD_EDUCATION_ERROR
 } from '../actions/types'
 
 const initialState = {
@@ -47,7 +49,20 @@ export default (state = initialState, action) => {
           education: [...state.profile.education]
         }
       }
+    case ADD_EDUCATION:
+      return {
+        ...state,
+        loading: false,
+        profile: {
+          ...state.profile,
+          education: action.payload,
+          user: { ...state.profile.user },
+          skills: [...state.profile.skills],
+          experience: [...state.profile.experience]
+        }
+      }
     case ADD_EXPERIENCE_ERROR:
+    case ADD_EDUCATION_ERROR:
       return {
         ...state,
         loading: false,

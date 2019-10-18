@@ -6,7 +6,9 @@ import {
   GET_PROFILE,
   PROFILE_ERROR,
   ADD_EXPERIENCE,
-  ADD_EXPERIENCE_ERROR
+  ADD_EXPERIENCE_ERROR,
+  ADD_EDUCATION_ERROR,
+  ADD_EDUCATION
 } from '../actions/types'
 
 // get current user profile
@@ -164,7 +166,7 @@ export const addExperienceGenerator = (data, history) => {
           type: ADD_EXPERIENCE,
           payload: res.data
         })
-        dispatch(setAlert('profile updated', 'success'))
+        dispatch(setAlert('experience added', 'success'))
         history.push('/dashboard')
       }
     } catch (err) {
@@ -188,6 +190,51 @@ export const addExperienceGenerator = (data, history) => {
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: ADD_EXPERIENCE_ERROR
+        })
+      }
+    }
+  }
+}
+
+export const addEducationGenerator = (data, history) => {
+  const config = {
+    url: 'api/profiles/education',
+    method: 'patch',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 200) {
+        dispatch({
+          type: ADD_EDUCATION,
+          payload: res.data
+        })
+        dispatch(setAlert('education added', 'success'))
+        history.push('/dashboard')
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 422) {
+          errors.forEach(err =>
+            dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
+          )
+        } else if (status === 404 || status === 500) {
+          errors.forEach(err => dispatch(setAlert(err.msg, 'danger')))
+        }
+        dispatch({
+          type: ADD_EDUCATION_ERROR
+        })
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: ADD_EDUCATION_ERROR
         })
       }
     }
