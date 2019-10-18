@@ -1,4 +1,10 @@
-import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from '../actions/types'
+import {
+  GET_PROFILE,
+  PROFILE_ERROR,
+  CLEAR_PROFILE,
+  ADD_EXPERIENCE,
+  ADD_EXPERIENCE_ERROR
+} from '../actions/types'
 
 const initialState = {
   profile: null,
@@ -28,6 +34,24 @@ export default (state = initialState, action) => {
         profile: null, // should it also clear `profiles` & `errors`?
         repos: [],
         loading: false
+      }
+    case ADD_EXPERIENCE:
+      return {
+        ...state,
+        loading: false,
+        profile: {
+          ...state.profile,
+          experience: action.payload,
+          user: { ...state.profile.user },
+          skills: [...state.profile.skills],
+          education: [...state.profile.education]
+        }
+      }
+    case ADD_EXPERIENCE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
       }
     default:
       return state

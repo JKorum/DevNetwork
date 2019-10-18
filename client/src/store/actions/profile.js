@@ -2,7 +2,12 @@ import axios from 'axios'
 import { setAlert } from './alert'
 import setAuthHeader from '../../utils/setAuthHeader'
 
-import { GET_PROFILE, PROFILE_ERROR } from '../actions/types'
+import {
+  GET_PROFILE,
+  PROFILE_ERROR,
+  ADD_EXPERIENCE,
+  ADD_EXPERIENCE_ERROR
+} from '../actions/types'
 
 // get current user profile
 export const fetchProfileGenerator = () => {
@@ -138,6 +143,51 @@ export const editProfileGenerator = data => {
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: PROFILE_ERROR
+        })
+      }
+    }
+  }
+}
+
+export const addExperienceGenerator = (data, history) => {
+  const config = {
+    url: 'api/profiles/experience',
+    method: 'patch',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 200) {
+        dispatch({
+          type: ADD_EXPERIENCE,
+          payload: res.data
+        })
+        dispatch(setAlert('profile updated', 'success'))
+        history.push('/dashboard')
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 422) {
+          errors.forEach(err =>
+            dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
+          )
+        } else if (status === 404 || status === 500) {
+          errors.forEach(err => dispatch(setAlert(err.msg, 'danger')))
+        }
+        dispatch({
+          type: ADD_EXPERIENCE_ERROR
+        })
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: ADD_EXPERIENCE_ERROR
         })
       }
     }
