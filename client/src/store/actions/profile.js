@@ -16,7 +16,8 @@ import {
   ACCOUNT_DELETED,
   CLEAR_PROFILE,
   GET_PROFILES,
-  GET_REPOS
+  GET_REPOS,
+  CLEAR_REPOS
 } from '../actions/types'
 
 // get all profiles
@@ -24,9 +25,9 @@ export const fetchAllProfilesGenerator = () => {
   return async dispatch => {
     try {
       // this maybe redundant
-      // dispatch({
-      //   type: CLEAR_PROFILE
-      // })
+      dispatch({
+        type: CLEAR_PROFILE
+      })
 
       const res = await axios.get('/api/profiles')
       if (res.status === 200) {

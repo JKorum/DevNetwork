@@ -7,6 +7,7 @@ import ProfileTop from './ProfileTop'
 import ProfileAbout from './ProfileAbout'
 import ProfileExperience from './ProfileExperience'
 import ProfileEducation from './ProfileEducation'
+import ProfileGitRepos from './ProfileGitRepos'
 
 const Profile = ({
   loadProfile,
@@ -19,7 +20,7 @@ const Profile = ({
     loadProfile(user_id)
   }, [])
 
-  return !loading || profile !== null ? (
+  return !loading && profile !== null ? (
     <section className='container'>
       <Link to='/profiles' className='btn'>
         Back to profiles
@@ -48,8 +49,8 @@ const Profile = ({
             <h4>No experience credentials</h4>
           )}
         </div>
-        <div class='profile-edu bg-white p-2'>
-          <h2 class='text-primary'>Education</h2>
+        <div className='profile-edu bg-white p-2'>
+          <h2 className='text-primary'>Education</h2>
           {profile.education.length > 0 ? (
             profile.education.map(edu => (
               <ProfileEducation key={edu._id} education={edu} />
@@ -58,6 +59,9 @@ const Profile = ({
             <h4>No education credentials</h4>
           )}
         </div>
+        {profile.githubusername && (
+          <ProfileGitRepos githubusername={profile.githubusername} />
+        )}
       </div>
     </section>
   ) : (
@@ -78,111 +82,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Profile)
-
-/*
-<section class="container">
-      <a href="profiles.html" class="btn">Back to profiles</a>
-      <div class="profile-grid my-1">
-        
-        
-        <!-- experience -->
-        <div class="profile-exp bg-white p-2">
-          <h2 class="text-primary">Experiences</h2>
-          <div>
-            <h3>Microsoft</h3>
-            <p>Oct 2011 - Current</p>
-            <p><strong>Position: </strong>Senior Developer</p>
-            <p>
-              <strong>Description: </strong>Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Explicabo dicta modi beatae quod
-              libero nemo qui cumque voluptates. Porro, aperiam.
-            </p>
-          </div>
-          <div>
-            <h3>Another company</h3>
-            <p>Oct 2000 - 2011</p>
-            <p><strong>Position: </strong>Senior Developer</p>
-            <p>
-              <strong>Description: </strong>Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Explicabo dicta modi beatae quod
-              libero nemo qui cumque voluptates. Porro, aperiam.
-            </p>
-          </div>
-        </div>
-
-
-        <!-- education -->
-        <div class="profile-edu bg-white p-2">
-          <h2 class="text-primary">Education</h2>
-          <div>
-            <h3>University of Washington</h3>
-            <p>Oct 1993 - 1999</p>
-            <p><strong>Degree: </strong>Some degree</p>
-            <p><strong>Field of study: </strong>Computer science</p>
-            <p>
-              <strong>Description: </strong>Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Explicabo dicta modi beatae quod
-              libero nemo qui cumque voluptates. Porro, aperiam.
-            </p>
-          </div>
-        </div>
-        <!-- github repos -->
-        <div class="profile-github">
-          <h2 class="text-primary my-1">
-            <i class="fab fa-github"></i>Github repos
-          </h2>
-          <div class="repo bg-white my-1 p-1">
-            <div>
-              <h4><a href="#">Repo One</a></h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Laudantium, quia!
-              </p>
-            </div>
-            <div>
-              <ul>
-                <li class="badge badge-primary">Stars: 44</li>
-                <li class="badge badge-dark">Watchers: 20</li>
-                <li class="badge badge-light">Forks: 25</li>
-              </ul>
-            </div>
-          </div>
-          <div class="repo bg-white my-1 p-1">
-            <div>
-              <h4><a href="#">Repo Two</a></h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Laudantium, quia!
-              </p>
-            </div>
-            <div>
-              <ul>
-                <li class="badge badge-primary">Stars: 44</li>
-                <li class="badge badge-dark">Watchers: 20</li>
-                <li class="badge badge-light">Forks: 25</li>
-              </ul>
-            </div>
-          </div>
-          <div class="repo bg-white my-1 p-1">
-            <div>
-              <h4><a href="#">Repo Three</a></h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Laudantium, quia!
-              </p>
-            </div>
-            <div>
-              <ul>
-                <li class="badge badge-primary">Stars: 44</li>
-                <li class="badge badge-dark">Watchers: 20</li>
-                <li class="badge badge-light">Forks: 25</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-*/
