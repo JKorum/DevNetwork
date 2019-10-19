@@ -3,6 +3,10 @@ import { connect } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 import { fetchProfileByIdGenerator } from '../../store/actions/profile'
 import Spinner from '../layout/Spinner'
+import ProfileTop from './ProfileTop'
+import ProfileAbout from './ProfileAbout'
+import ProfileExperience from './ProfileExperience'
+import ProfileEducation from './ProfileEducation'
 
 const Profile = ({
   loadProfile,
@@ -31,6 +35,30 @@ const Profile = ({
             Edit profile
           </Link>
         )}
+      <div className='profile-grid my-1'>
+        <ProfileTop profile={profile} />
+        <ProfileAbout profile={profile} />
+        <div className='profile-exp bg-white p-2'>
+          <h2 className='text-primary'>Experiences</h2>
+          {profile.experience.length > 0 ? (
+            profile.experience.map(exp => (
+              <ProfileExperience key={exp._id} experience={exp} />
+            ))
+          ) : (
+            <h4>No experience credentials</h4>
+          )}
+        </div>
+        <div class='profile-edu bg-white p-2'>
+          <h2 class='text-primary'>Education</h2>
+          {profile.education.length > 0 ? (
+            profile.education.map(edu => (
+              <ProfileEducation key={edu._id} education={edu} />
+            ))
+          ) : (
+            <h4>No education credentials</h4>
+          )}
+        </div>
+      </div>
     </section>
   ) : (
     <Spinner />
@@ -55,42 +83,8 @@ export default connect(
 <section class="container">
       <a href="profiles.html" class="btn">Back to profiles</a>
       <div class="profile-grid my-1">
-        <!-- top -->
-        <div class="profile-top bg-primary p-2">
-          <img
-            class="round-img my-1"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-            alt="an image of a developer"
-          />
-          <h1 class="large">John Doe</h1>
-          <p class="lead">Developer at Microsoft</p>
-          <p>Seattle, WA</p>
-          <div class="icons my-1">
-            <a href="#"><i class="fas fa-globe fa-2x"></i></a>
-            <a href="#"><i class="fab fa-twitter-square fa-2x"></i></a>
-            <a href="#"><i class="fab fa-facebook fa-2x"></i></a>
-            <a href="#"><i class="fab fa-linkedin fa-2x"></i></a>
-            <a href="#"><i class="fab fa-instagram fa-2x"></i></a>
-            <a href="#"><i class="fab fa-youtube fa-2x"></i></a>
-          </div>
-        </div>
-        <!-- about -->
-        <div class="profile-about bg-light p-2">
-          <h2 class="text-primary">John's Bio</h2>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non,
-            beatae debitis culpa incidunt minima itaque. Repellat eveniet natus
-            eius excepturi?
-          </p>
-          <div class="line"></div>
-          <h2 class="text-primary">Skill Set</h2>
-          <div class="skills">
-            <div class="p-1"><i class="fas fa-check"></i>JavaScript</div>
-            <div class="p-1"><i class="fas fa-check"></i>Python</div>
-            <div class="p-1"><i class="fas fa-check"></i>HTML</div>
-            <div class="p-1"><i class="fas fa-check"></i>CSS</div>
-          </div>
-        </div>
+        
+        
         <!-- experience -->
         <div class="profile-exp bg-white p-2">
           <h2 class="text-primary">Experiences</h2>
@@ -115,6 +109,8 @@ export default connect(
             </p>
           </div>
         </div>
+
+
         <!-- education -->
         <div class="profile-edu bg-white p-2">
           <h2 class="text-primary">Education</h2>
