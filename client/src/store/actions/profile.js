@@ -14,8 +14,83 @@ import {
   DELETE_EXPERIENCE,
   DELETE_EXPERIENCE_ERROR,
   ACCOUNT_DELETED,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  GET_PROFILES,
+  GET_REPOS
 } from '../actions/types'
+
+// get all profiles
+export const fetchAllProfilesGenerator = () => {
+  return async dispatch => {
+    try {
+      // this maybe redundant
+      dispatch({
+        type: CLEAR_PROFILE
+      })
+
+      const res = await axios.get('/api/profiles')
+      if (res.status === 200) {
+        dispatch({
+          type: GET_PROFILES,
+          payload: res.data
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500 || status === 404) {
+          dispatch({
+            type: PROFILE_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// get profile by user id
+export const fetchProfileByIdGenerator = userId => {
+  return async dispatch => {
+    try {
+      const res = await axios.get(`/api/profiles/user/${userId}`)
+      if (res.status === 200) {
+        dispatch({
+          type: GET_PROFILE,
+          payload: res.data
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500 || status === 404) {
+          dispatch({
+            type: PROFILE_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
 
 // get current user profile
 export const fetchProfileGenerator = () => {
@@ -350,6 +425,40 @@ export const accountDeleteGenerator = () => {
         // no response is received
         console.log(err.message)
         dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// get user repos by user github name
+export const getReposGenerator = githubName => {
+  return async dispatch => {
+    try {
+      const res = await axios.get(`/api/profiles/github/${githubName}`)
+      if (res.status === 200) {
+        dispatch({
+          type: GET_REPOS,
+          payload: res.data
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500 || status === 404) {
+          dispatch({
+            type: PROFILE_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
         dispatch({
           type: PROFILE_ERROR,
           payload: err

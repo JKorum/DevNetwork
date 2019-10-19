@@ -9,7 +9,9 @@ import {
   DELETE_EDUCATION,
   DELETE_EDUCATION_ERROR,
   DELETE_EXPERIENCE,
-  DELETE_EXPERIENCE_ERROR
+  DELETE_EXPERIENCE_ERROR,
+  GET_PROFILES,
+  GET_REPOS
 } from '../actions/types'
 
 const initialState = {
@@ -20,6 +22,7 @@ const initialState = {
   error: {}
 }
 
+// maybe refactor -> compute new state using deep copying not shallow
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PROFILE:
@@ -33,6 +36,18 @@ export default (state = initialState, action) => {
         ...state,
         error: action.payload,
         loading: false
+      }
+    case GET_PROFILES:
+      return {
+        ...state,
+        loading: false,
+        profiles: action.payload
+      }
+    case GET_REPOS:
+      return {
+        ...state,
+        loading: false,
+        repos: action.payload
       }
     case CLEAR_PROFILE:
       return {
