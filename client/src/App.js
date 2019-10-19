@@ -17,6 +17,8 @@ import EditProfile from './components/profile_forms/EditProfile'
 import AddExperience from './components/profile_forms/AddExperience'
 import AddEducation from './components/profile_forms/AddEducation'
 import PrivateRoute from './components/routing/PrivateRoute'
+import ProfilesList from './components/profiles/ProfilesList'
+import Profile from './components/profile/Profile'
 
 const App = () => {
   //will run after component is rendered -> when first load the app & after each browser refresh
@@ -38,6 +40,12 @@ const App = () => {
             </Route>
             <Route path='/register' exact={true}>
               <Register />
+            </Route>
+            <Route path='/profiles' exact={true}>
+              <ProfilesList />
+            </Route>
+            <Route path='/profiles/:user_id' exact={true}>
+              <Profile />
             </Route>
             <PrivateRoute
               path='/dashboard'

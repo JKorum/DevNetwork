@@ -7,6 +7,9 @@ const Navbar = ({ isAuthenticated, loading, logoutUser }) => {
   const authLinks = (
     <ul>
       <li>
+        <Link to='/profiles'>Developers</Link>
+      </li>
+      <li>
         <Link to='/dashboard'>
           <i className='fas fa-user'></i>{' '}
           <span className='hide-sm'>Dashboard</span>
@@ -35,6 +38,7 @@ const Navbar = ({ isAuthenticated, loading, logoutUser }) => {
     </ul>
   )
 
+  // maybe link to '/' should clear state fields
   return (
     <nav className='navbar bg-dark'>
       <h1>
