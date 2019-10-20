@@ -4,7 +4,8 @@ import {
   GET_POSTS,
   POST_ERROR,
   UPDATE_LIKES,
-  DELETE_POST
+  DELETE_POST,
+  ADD_POST
 } from '../actions/types'
 
 // get posts
@@ -99,6 +100,48 @@ export const deletePostGenerator = postId => {
           status === 500 ||
           status === 401
         ) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// add post
+export const addPostGenerator = data => {
+  const config = {
+    url: '/api/posts',
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 201) {
+        dispatch({
+          type: ADD_POST,
+          payload: res.data
+        })
+        dispatch(setAlert('post added', 'success'))
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (status === 422 || status === 401 || status === 500) {
           const { errors } = err.response.data
           dispatch({
             type: POST_ERROR,

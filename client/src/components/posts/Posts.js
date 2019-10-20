@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 import { fetchPostsGenerator } from '../../store/actions/post'
 import Spinner from '../layout/Spinner'
 import PostItem from './PostItem'
-
-// testing
-import axios from 'axios'
+import PostForm from './PostForm'
 
 const Posts = ({ loadPosts, posts, isLoading, isAuthenticated }) => {
   useEffect(() => {
@@ -22,7 +20,7 @@ const Posts = ({ loadPosts, posts, isLoading, isAuthenticated }) => {
           <p className='lead'>
             <i className='fas fa-user'></i>Welcome to the community
           </p>
-          {/* PostForm */}
+          <PostForm />
           <div className='posts'>
             {posts.length > 0 ? (
               posts.map(post => <PostItem key={post._id} post={post} />)

@@ -17,9 +17,12 @@ const Profile = ({
   const { user_id } = useParams()
 
   useEffect(() => {
-    loadProfile(user_id)
+    const id = user_id
+    loadProfile(id)
   }, [])
 
+  // it will show spinner if would try to view profile of non-existent user -> fix it
+  // maybe redirect back to posts and show alert 'profile doesn't exist'
   return !loading && profile !== null ? (
     <section className='container'>
       <Link to='/profiles' className='btn'>

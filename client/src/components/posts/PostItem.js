@@ -13,6 +13,7 @@ const PostItem = ({
   return (
     <div className='post bg-white my-1 p-1'>
       <div>
+        {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
         <Link to={`/profiles/${owner}`}>
           <img className='round-img my-1' src={avatar} />
           <h4>{ownerName}</h4>
@@ -35,7 +36,7 @@ const PostItem = ({
         {/* show delete button only if post belongs to auth user */}
         {owner === user && (
           <button className='btn btn-danger' onClick={e => deletePost(_id)}>
-            <i class='fas fa-times'></i>
+            <i className='fas fa-times'></i>
           </button>
         )}
       </div>
