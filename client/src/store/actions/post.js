@@ -1,6 +1,11 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { GET_POSTS, POST_ERROR } from '../actions/types'
+import {
+  GET_POSTS,
+  POST_ERROR,
+  UPDATE_LIKES,
+  DELETE_POST
+} from '../actions/types'
 
 // get posts
 export const fetchPostsGenerator = () => {
@@ -18,6 +23,82 @@ export const fetchPostsGenerator = () => {
       if (err.response) {
         const { status } = err.response
         if (status === 400 || status === 422 || status === 401) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// add & remove like on post
+export const likesGenerator = postId => {
+  return async dispatch => {
+    try {
+      const res = await axios.patch(`/api/posts/${postId}/likes`)
+      if (res.status === 200) {
+        dispatch({
+          type: UPDATE_LIKES,
+          payload: { postId, likes: res.data }
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (status === 404 || status === 500 || status === 401) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// delete post
+export const deletePostGenerator = postId => {
+  return async dispatch => {
+    try {
+      const res = await axios.delete(`api/posts/${postId}`)
+      if (res.status === 204) {
+        dispatch({
+          type: DELETE_POST,
+          payload: postId
+        })
+        dispatch(setAlert('post deleted', 'success'))
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (
+          status === 404 ||
+          status === 403 ||
+          status === 500 ||
+          status === 401
+        ) {
           const { errors } = err.response.data
           dispatch({
             type: POST_ERROR,
