@@ -19,6 +19,7 @@ import AddEducation from './components/profile_forms/AddEducation'
 import PrivateRoute from './components/routing/PrivateRoute'
 import ProfilesList from './components/profiles/ProfilesList'
 import Profile from './components/profile/Profile'
+import Posts from './components/posts/Posts'
 
 const App = () => {
   //will run after component is rendered -> when first load the app & after each browser refresh
@@ -72,6 +73,7 @@ const App = () => {
               exact={true}
               component={AddEducation}
             />
+            <PrivateRoute path='/posts' exact={true} component={Posts} />
           </Switch>
         </Fragment>
       </BrowserRouter>
