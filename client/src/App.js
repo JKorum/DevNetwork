@@ -2,8 +2,6 @@ import React, { Fragment, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import './styles/style.scss'
-
 import Navbar from './components/layout/Navbar'
 import Landing from './components/layout/Landing'
 import Register from './components/auth/Register'
