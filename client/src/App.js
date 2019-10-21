@@ -20,6 +20,7 @@ import PrivateRoute from './components/routing/PrivateRoute'
 import ProfilesList from './components/profiles/ProfilesList'
 import Profile from './components/profile/Profile'
 import Posts from './components/posts/Posts'
+import Post from './components/post/Post'
 
 const App = () => {
   //will run after component is rendered -> when first load the app & after each browser refresh
@@ -74,6 +75,11 @@ const App = () => {
               component={AddEducation}
             />
             <PrivateRoute path='/posts' exact={true} component={Posts} />
+            <PrivateRoute
+              path='/posts/:post_id'
+              exact={true}
+              component={Post}
+            />
           </Switch>
         </Fragment>
       </BrowserRouter>

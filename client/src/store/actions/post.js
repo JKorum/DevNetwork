@@ -5,7 +5,10 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
-  ADD_POST
+  ADD_POST,
+  GET_POST,
+  ADD_COMMENT,
+  DELETE_COMMENT
 } from '../actions/types'
 
 // get posts
@@ -24,6 +27,46 @@ export const fetchPostsGenerator = () => {
       if (err.response) {
         const { status } = err.response
         if (status === 400 || status === 422 || status === 401) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// get post by id
+export const fetchPostByIdGenerator = postId => {
+  return async dispatch => {
+    try {
+      const res = await axios.get(`/api/posts/${postId}`)
+      if (res.status === 200) {
+        dispatch({
+          type: GET_POST,
+          payload: res.data
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (
+          status === 400 ||
+          status === 404 ||
+          status === 401 ||
+          status === 500
+        ) {
           const { errors } = err.response.data
           dispatch({
             type: POST_ERROR,
@@ -142,6 +185,93 @@ export const addPostGenerator = data => {
       if (err.response) {
         const { status } = err.response
         if (status === 422 || status === 401 || status === 500) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// add comment
+// in-> postId & data ({ text: value })
+export const addCommentGenerator = (postId, data) => {
+  const config = {
+    url: `/api/posts/${postId}/comments`,
+    method: 'patch',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 201) {
+        dispatch({
+          type: ADD_COMMENT,
+          payload: res.data
+        })
+        dispatch(setAlert('comment added', 'success'))
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (
+          status === 422 ||
+          status === 401 ||
+          status === 404 ||
+          status === 500
+        ) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// delete comment
+// in-> postId & commentId
+export const deleteCommentGenerator = (postId, commentId) => {
+  return async dispatch => {
+    try {
+      const res = await axios.delete(
+        `/api/posts/${postId}/comments/${commentId}`
+      )
+      if (res.status === 200) {
+        dispatch({
+          type: DELETE_COMMENT,
+          payload: commentId
+        })
+        dispatch(setAlert('comment deleted', 'success'))
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (status === 401 || status === 404 || status === 500) {
           const { errors } = err.response.data
           dispatch({
             type: POST_ERROR,
