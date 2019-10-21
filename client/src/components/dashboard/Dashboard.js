@@ -9,8 +9,10 @@ import Spinner from '../layout/Spinner'
 import { DashboardActions } from '../dashboard/DashboardActions'
 import ExperienceList from './ExperienceList'
 import EducationList from './EducationList'
+import Alert from '../layout/Alert'
 
 const Dashboard = ({
+  alerts,
   loadProfile,
   deleteAccount,
   authentication: { user },
@@ -29,38 +31,44 @@ const Dashboard = ({
 
   // if done loading -> render JSX
   // else -> render <Spinner />
-  return !loading ? (
-    <Fragment>
-      <h1 className='large text-primary'>Dashboard</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Welcome {user && user.name}
-      </p>
-      {profile !== null ? (
+  return (
+    <section className='container'>
+      {alerts.length > 0 && <Alert />}
+      {!loading ? (
         <Fragment>
-          <DashboardActions />
-          <ExperienceList experience={profile.experience} />
-          <EducationList education={profile.education} />
-          <div className='my-2'>
-            <button className='btn btn-danger' onClick={handleDelete}>
-              <i className='fas fa-user-minus'></i>Delete my account
-            </button>
-          </div>
+          <h1 className='large text-primary'>Dashboard</h1>
+          <p className='lead'>
+            <i className='fas fa-user'></i> Welcome, {user && user.name}!
+          </p>
+          {profile !== null ? (
+            <Fragment>
+              <DashboardActions />
+              <ExperienceList experience={profile.experience} />
+              <EducationList education={profile.education} />
+              <div className='my-2'>
+                <button className='btn btn-danger' onClick={handleDelete}>
+                  <i className='fas fa-user-minus'></i> Delete my account
+                </button>
+              </div>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <p>Your profile is not setup yet</p>
+              <Link to='/create-profile' className='btn btn-primary my-1'>
+                Create profile
+              </Link>
+            </Fragment>
+          )}
         </Fragment>
       ) : (
-        <Fragment>
-          <p>Your profile is not setup yet</p>
-          <Link to='/create-profile' className='btn btn-primary my-1'>
-            Create profile
-          </Link>
-        </Fragment>
+        <Spinner />
       )}
-    </Fragment>
-  ) : (
-    <Spinner />
+    </section>
   )
 }
 
 const mapStateToProps = state => ({
+  alerts: state.alerts,
   authentication: state.authentication,
   profile: state.profile
 })

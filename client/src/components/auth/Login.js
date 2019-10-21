@@ -4,7 +4,9 @@ import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { loginUserGenerator } from '../../store/actions/auth'
 
-const Login = ({ loginUser, isAuthenticated }) => {
+import Alert from '../layout/Alert'
+
+const Login = ({ loginUser, isAuthenticated, alerts }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -29,6 +31,7 @@ const Login = ({ loginUser, isAuthenticated }) => {
 
   return (
     <section className='container'>
+      {alerts.length > 0 && <Alert />}
       <h1 className='large text-primary'>Sign In</h1>
       <p className='lead'>
         <i className='fas fa-user'></i>Login to your account
@@ -64,7 +67,8 @@ const Login = ({ loginUser, isAuthenticated }) => {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authentication.isAuthenticated
+  isAuthenticated: state.authentication.isAuthenticated,
+  alerts: state.alerts
 })
 
 const mapDispatchToProps = dispatch => ({

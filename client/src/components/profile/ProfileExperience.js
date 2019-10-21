@@ -5,7 +5,7 @@ const ProfileExperience = ({
   experience: { title, company, location, description, from, to, current }
 }) => (
   <div>
-    <h3 className='text-dark'>
+    <h3>
       {company} {location && <span>/ {location}</span>}
     </h3>
     <p>

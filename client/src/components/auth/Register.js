@@ -4,8 +4,9 @@ import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setAlert } from '../../store/actions/alert'
 import { registerGenerator } from '../../store/actions/auth'
+import Alert from '../layout/Alert'
 
-const Register = ({ setAlert, registerUser, isAuthenticated }) => {
+const Register = ({ setAlert, registerUser, isAuthenticated, alerts }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -36,6 +37,7 @@ const Register = ({ setAlert, registerUser, isAuthenticated }) => {
 
   return (
     <section className='container'>
+      {alerts.length > 0 && <Alert />}
       <h1 className='large text-primary'>Sign Up</h1>
       <p className='lead'>
         <i className='fas fa-user'></i>Create your account
@@ -96,7 +98,8 @@ const Register = ({ setAlert, registerUser, isAuthenticated }) => {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authentication.isAuthenticated
+  isAuthenticated: state.authentication.isAuthenticated,
+  alerts: state.alerts
 })
 
 const mapDispatchToProps = dispatch => ({

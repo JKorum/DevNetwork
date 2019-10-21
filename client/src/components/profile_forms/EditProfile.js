@@ -7,8 +7,15 @@ import {
 } from '../../store/actions/profile'
 
 import formFiller from '../../utils/formFiller'
+import Alert from '../layout/Alert'
 
-const EditProfile = ({ editProfile, profile, loading, loadProfile }) => {
+const EditProfile = ({
+  editProfile,
+  profile,
+  loading,
+  loadProfile,
+  alerts
+}) => {
   const [formData, setFormData] = useState({
     status: '',
     company: '',
@@ -76,6 +83,7 @@ const EditProfile = ({ editProfile, profile, loading, loadProfile }) => {
 
   return (
     <section className='container'>
+      {alerts.length > 0 && <Alert />}
       <h1 className='large text-primary'>Edit your profile</h1>
       <p className='lead'>
         <i className='fas fa-user'></i>Let's get some information to make your
@@ -169,7 +177,7 @@ const EditProfile = ({ editProfile, profile, loading, loadProfile }) => {
             value={bio}
             onChange={handleChange}
           ></textarea>
-          <small className='form-text'>Tell us a little about youself</small>
+          <small className='form-text'>Tell a little about youself</small>
         </div>
         <div className='my-2'>
           <button
@@ -245,6 +253,7 @@ const EditProfile = ({ editProfile, profile, loading, loadProfile }) => {
 }
 
 const mapStateToProps = state => ({
+  alerts: state.alerts,
   profile: state.profile.profile,
   loading: state.profile.loading
 })

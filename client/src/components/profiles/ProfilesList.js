@@ -3,20 +3,22 @@ import { connect } from 'react-redux'
 import { fetchAllProfilesGenerator } from '../../store/actions/profile'
 import Spinner from '../layout/Spinner'
 import ProfileItem from './ProfileItem'
+import Alert from '../layout/Alert'
 
-const ProfilesList = ({ loadProfiles, profiles, isLoading }) => {
+const ProfilesList = ({ alerts, loadProfiles, profiles, isLoading }) => {
   useEffect(() => {
     loadProfiles()
   }, [])
 
   return (
     <section className='container'>
+      {alerts.length > 0 && <Alert />}
       {!isLoading ? (
         <Fragment>
           <h1 className='large text-primary'>Developers</h1>
           <p className='lead'>
-            <i className='fab fa-connectdevelop'></i>Browse and collaborate with
-            developers
+            <i className='fab fa-connectdevelop'></i> Browse and collaborate
+            with developers
           </p>
           <div className='profiles'>
             {profiles.length > 0 ? (
@@ -36,6 +38,7 @@ const ProfilesList = ({ loadProfiles, profiles, isLoading }) => {
 }
 
 const mapStateToProps = state => ({
+  alerts: state.alerts,
   profiles: state.profile.profiles,
   isLoading: state.profile.loading
 })

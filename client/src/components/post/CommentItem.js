@@ -17,9 +17,9 @@ const CommentItem = ({
           <img className='round-img my-1' src={avatar} />
           <h4>{ownerName}</h4>
         </Link>
-        <div>
-          <p className='my-1'>{text}</p>
-        </div>
+      </div>
+      <div>
+        <p className='my-1'>{text}</p>
         {user === owner && (
           <button
             type='button'

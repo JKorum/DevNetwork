@@ -5,7 +5,7 @@ const ProfileEducation = ({
   education: { school, degree, fieldofstudy, from, to, current, description }
 }) => (
   <div>
-    <h3 className='text-dark'>{school}</h3>
+    <h3>{school}</h3>
     <p>
       <Moment date={from} format='YYYY/MM/DD' /> -{' '}
       {current ? 'till now' : <Moment date={to} format='YYYY/MM/DD' />}

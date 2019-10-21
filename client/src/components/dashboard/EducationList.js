@@ -13,7 +13,7 @@ const EducationList = ({ education, deleteEducation }) => {
   return (
     education.length > 0 && (
       <Fragment>
-        <h2 className='my-2'>Education credentials</h2>
+        <h2 className='my-2'>Education</h2>
         <table className='table'>
           <thead>
             <tr>

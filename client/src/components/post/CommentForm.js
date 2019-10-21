@@ -11,23 +11,18 @@ const CommentForm = ({ postId, addComment }) => {
   }
 
   return (
-    <div className='post-form'>
-      <div className='post-form-header bg-primary'>
-        <h3>Leave a comment</h3>
-      </div>
-      <form className='form my-1' onSubmit={handleSubmit}>
-        <textarea
-          name='text'
-          cols='30'
-          rows='5'
-          placeholder='Your comment...'
-          value={text}
-          onChange={e => setText(e.target.value)}
-          required
-        ></textarea>
-        <input type='submit' value='submit' className='btn btn-dark my-1' />
-      </form>
-    </div>
+    <form className='form my-1' onSubmit={handleSubmit}>
+      <textarea
+        name='text'
+        cols='30'
+        rows='5'
+        placeholder='Your comment...'
+        value={text}
+        onChange={e => setText(e.target.value)}
+        required
+      ></textarea>
+      <input type='submit' value='submit' className='btn btn-dark my-1' />
+    </form>
   )
 }
 

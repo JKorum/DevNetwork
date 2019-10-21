@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+// maybe all rendering logic is rudundant
 const Alert = ({ alerts }) =>
   alerts !== null &&
   alerts.length > 0 &&

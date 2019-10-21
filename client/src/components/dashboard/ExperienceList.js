@@ -12,7 +12,7 @@ const ExperienceList = ({ experience, deleteExperience }) => {
   return (
     experience.length > 0 && (
       <Fragment>
-        <h2 className='my-2'>Experience credentials</h2>
+        <h2 className='my-2'>Experience</h2>
         <table className='table'>
           <thead>
             <tr>

@@ -5,8 +5,10 @@ import {
   fetchProfileGenerator,
   addEducationGenerator
 } from '../../store/actions/profile'
+import Alert from '../layout/Alert'
 
 const AddEducation = ({
+  alerts,
   isProfileLoaded,
   loadProfile,
   addEducation,
@@ -57,9 +59,10 @@ const AddEducation = ({
 
   return (
     <section className='container'>
+      {alerts.length > 0 && <Alert />}
       <h1 className='large text-primary'>Add your education</h1>
       <p className='lead'>
-        <i className='fas fa-graduation-cap'></i>Add any school, bootcamp, etc
+        <i className='fas fa-graduation-cap'></i> Add any school, bootcamp, etc
         that you have attended
       </p>
       <small>* required fields</small>
@@ -147,6 +150,7 @@ const AddEducation = ({
 }
 
 const mapStateToProps = state => ({
+  alerts: state.alerts,
   isProfileLoaded: state.profile.profile
 })
 

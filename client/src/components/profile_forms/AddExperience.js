@@ -5,8 +5,9 @@ import {
   fetchProfileGenerator,
   addExperienceGenerator
 } from '../../store/actions/profile'
+import Alert from '../layout/Alert'
 
-const AddExperience = ({ loadProfile, addExperience, history }) => {
+const AddExperience = ({ loadProfile, addExperience, history, alerts }) => {
   const [formData, setFormData] = useState({
     title: '',
     company: '',
@@ -41,9 +42,10 @@ const AddExperience = ({ loadProfile, addExperience, history }) => {
 
   return (
     <section className='container'>
+      {alerts.length > 0 && <Alert />}
       <h1 className='large text-primary'>Add an experience</h1>
       <p className='lead'>
-        <i className='fas fa-code-branch'></i>Add any developer/programming
+        <i className='fas fa-code-branch'></i> Add any developer/programming
         positions that you have had in the past
       </p>
       <small>* required fields</small>
@@ -129,6 +131,10 @@ const AddExperience = ({ loadProfile, addExperience, history }) => {
   )
 }
 
+const mapStateToProps = state => ({
+  alerts: state.alerts
+})
+
 const mapDispatchToProps = dispatch => ({
   loadProfile: () => dispatch(fetchProfileGenerator()),
   addExperience: (data, history) =>
@@ -136,6 +142,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AddExperience)
