@@ -16,7 +16,7 @@ const Posts = ({ loadPosts, posts, isLoading, isAuthenticated, alerts }) => {
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      {isAuthenticated && !isLoading ? (
+      {isAuthenticated ? (
         <Fragment>
           <h1 className='large text-primary'>Posts</h1>
           <p className='lead'>
