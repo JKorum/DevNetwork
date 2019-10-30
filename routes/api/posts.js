@@ -36,6 +36,36 @@ router.post('/', auth, postAndCommentValidation, async (req, res) => {
   }
 })
 
+//@route   PATCH api/posts/:id
+//@desc    update post
+//@access  private
+router.patch('/:id', auth, postAndCommentValidation, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errors: errors.array() })
+  }
+  try {
+    const { userId, text } = req.body
+    const { id } = req.params
+    // check if post exists & user is its owner
+    const post = await PostModel.findOne({ _id: id, owner: userId })
+    if (!post) {
+      return res.status(404).send({ errors: [{ msg: 'post not found' }] })
+    }
+    // update & send updated post
+    post.text = text
+    post.wasUpdated = true
+    await post.save()
+    res.status(200).send(post)
+  } catch (err) {
+    console.log(err)
+    if (err.name === 'ValidationError' || err.kind === 'ObjectId') {
+      return res.status(404).send({ errors: [{ msg: 'resource not found' }] })
+    }
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
 //@route   GET api/posts
 //@desc    get all posts
 //@access  private
@@ -154,7 +184,7 @@ router.patch(
       }
       const user = await UserModel.findById(userId)
       //add comment
-      post.comments.push({
+      post.comments.unshift({
         owner: userId,
         text,
         ownerName: user.name,
@@ -184,32 +214,34 @@ router.patch(
     if (!errors.isEmpty()) {
       return res.status(422).send({ errors: errors.array() })
     }
-    const { userId, text } = req.body
-    const { post_id, comment_id } = req.params
-
-    //check for post
-    const post = await PostModel.findById(post_id)
-    if (!post) {
-      return res.status(404).send({ errors: [{ msg: 'post not found' }] })
-    }
-    //check for comment
-    const index = post.comments.findIndex(comment => {
-      return (
-        comment.owner.toString() === userId.toString() &&
-        comment._id.toString() === comment_id
-      )
-    })
-    if (index === -1) {
-      return res.status(404).send({ errors: [{ msg: 'comment not found' }] })
-    }
-    //update comment
-    post.comments[index].text = text
-    await post.save()
-    res.status(200).send(post.comments[index])
     try {
+      const { userId, text } = req.body
+      console.log(req.body)
+      const { post_id, comment_id } = req.params
+
+      //check for post
+      const post = await PostModel.findById(post_id)
+      if (!post) {
+        return res.status(404).send({ errors: [{ msg: 'post not found' }] })
+      }
+      //check for comment
+      const index = post.comments.findIndex(comment => {
+        return (
+          comment.owner.toString() === userId.toString() &&
+          comment._id.toString() === comment_id
+        )
+      })
+      if (index === -1) {
+        return res.status(404).send({ errors: [{ msg: 'comment not found' }] })
+      }
+      //update comment
+      post.comments[index].text = text
+      post.comments[index].wasUpdated = true
+      await post.save()
+      res.status(200).send(post.comments[index])
     } catch (err) {
       console.log(err)
-      if (err.name === 'ValidationError') {
+      if (err.name === 'ValidationError' || err.kind === 'ObjectId') {
         return res.status(404).send({ errors: [{ msg: 'resource not found' }] })
       }
       res.status(500).send({ errors: [{ msg: 'server error' }] })
@@ -246,6 +278,56 @@ router.delete('/:post_id/comments/:comment_id', auth, async (req, res) => {
   } catch (err) {
     console.log(err)
     if (err.name === 'ValidationError') {
+      return res.status(404).send({ errors: [{ msg: 'resource not found' }] })
+    }
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   PATCH api/posts/:post_id/comments/:comment_id/likes
+//@desc    add & remove like to the comment
+//@access  private
+router.patch('/:post_id/comments/:comment_id/likes', auth, async (req, res) => {
+  try {
+    const { post_id } = req.params
+    const { comment_id } = req.params
+    const { userId } = req.body
+
+    // check if post exists
+    const post = await PostModel.findById(post_id)
+    if (!post) {
+      return res.status(404).send({ errors: [{ msg: 'post not found' }] })
+    }
+    // check if comment exists
+    if (!post.comments.length > 0) {
+      return res.status(404).send({ errors: [{ msg: 'comment not found' }] })
+    }
+    const comment_index = post.comments.findIndex(
+      comment => comment._id.toString() === comment_id
+    )
+    if (comment_index === -1) {
+      return res.status(404).send({ errors: [{ msg: 'comment not found' }] })
+    }
+    // check if user have already liked this comment
+    const like_index = post.comments[comment_index].likes.findIndex(
+      like => like.owner.toString() === userId.toString()
+    )
+    if (like_index === -1) {
+      // they haven't -> add like
+      post.comments[comment_index].likes.push({ owner: userId })
+      await post.save()
+      res.status(200).send(post.comments[comment_index].likes)
+    } else {
+      // they haven -> remove like
+      post.comments[comment_index].likes.pull({
+        _id: post.comments[comment_index].likes[like_index]._id
+      })
+      await post.save()
+      res.status(200).send(post.comments[comment_index].likes)
+    }
+  } catch (err) {
+    console.log(err)
+    if (err.kind === 'ObjectId') {
       return res.status(404).send({ errors: [{ msg: 'resource not found' }] })
     }
     res.status(500).send({ errors: [{ msg: 'server error' }] })

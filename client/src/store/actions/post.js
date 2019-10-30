@@ -8,7 +8,10 @@ import {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  UPDATE_COMMENT_LIKES,
+  UPDATE_COMMENT_TEXT,
+  UPDATE_POST_TEXT
 } from '../actions/types'
 
 // get posts
@@ -35,6 +38,52 @@ export const fetchPostsGenerator = () => {
         }
       } else {
         // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// update post by id
+export const updatePostByIdGenerator = (postId, text) => {
+  const config = {
+    url: `/api/posts/${postId}`,
+    method: 'patch',
+    headers: { 'Content-Type': 'application/json' },
+    data: { text }
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 200) {
+        dispatch({
+          type: UPDATE_POST_TEXT,
+          payload: res.data
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (
+          status === 422 ||
+          status === 401 ||
+          status === 404 ||
+          status === 500
+        ) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received (or status 400)
         console.log(err.message)
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
@@ -95,6 +144,43 @@ export const likesGenerator = postId => {
         dispatch({
           type: UPDATE_LIKES,
           payload: { postId, likes: res.data }
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (status === 404 || status === 500 || status === 401) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// add & remove like on comment
+export const likeCommentGenerator = (postId, commentId) => {
+  return async dispatch => {
+    try {
+      const res = await axios.patch(
+        `/api/posts/${postId}/comments/${commentId}/likes`
+      )
+      if (res.status === 200) {
+        dispatch({
+          type: UPDATE_COMMENT_LIKES,
+          payload: { id: commentId, likes: res.data }
         })
       }
     } catch (err) {
@@ -232,6 +318,57 @@ export const addCommentGenerator = (postId, data) => {
           status === 401 ||
           status === 404 ||
           status === 500
+        ) {
+          const { errors } = err.response.data
+          dispatch({
+            type: POST_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+        dispatch({
+          type: POST_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+//update comment
+//@route   PATCH api/posts/:post_id/comments/:comment_id
+export const updateCommentTextGenerator = (postId, commentId, text) => {
+  const config = {
+    url: `/api/posts/${postId}/comments/${commentId}`,
+    method: 'patch',
+    headers: { 'Content-Type': 'application/json' },
+    data: { text }
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 200) {
+        dispatch({
+          type: UPDATE_COMMENT_TEXT,
+          payload: {
+            id: res.data._id,
+            text: res.data.text,
+            wasUpdated: res.data.wasUpdated
+          }
+        })
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (
+          status === 404 ||
+          status === 500 ||
+          status === 401 ||
+          status === 422
         ) {
           const { errors } = err.response.data
           dispatch({

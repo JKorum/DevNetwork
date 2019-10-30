@@ -16,6 +16,7 @@ const connectToMongo = async () => {
       throw new Error('database URL not accessible')
     }
   } catch (err) {
+    console.log('problem with database')
     console.log(err.message)
     process.exit(1)
   }

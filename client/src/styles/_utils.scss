@@ -6,6 +6,12 @@
   margin-bottom: 3rem;
   overflow: hidden;
   padding: 0 2rem;
+
+  &__mini_banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 }
 
 // text styles
@@ -91,6 +97,12 @@
       background: lighten($danger-color, 5%);
     }
   }
+  &.btn-red {
+    @include set-background($red);
+    &:hover {
+      background: lighten($red, 5%);
+    }
+  }
   &:hover {
     background: lighten($dark-color, 20%);
     color: #fff;
@@ -173,4 +185,21 @@
   th {
     background: $light-color;
   }
+}
+
+// comments
+.heart_red {
+  color: $red;
+}
+
+.heart_grey {
+  color: darken($grey, 10%);
+}
+
+.user_comment {
+  @include set-background($dark-color);
+  padding: 0.05rem 0.26rem 0.05rem 0.26rem;
+  line-height: 1;
+  border-radius: 8px;
+  font-weight: 400;
 }

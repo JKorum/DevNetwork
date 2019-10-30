@@ -4,7 +4,7 @@ const options = {
   timestamps: true
 }
 
-const PostSchema = new mongoose.Schema(
+const commentSchema = new mongoose.Schema(
   {
     owner: {
       type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +20,42 @@ const PostSchema = new mongoose.Schema(
     avatar: {
       type: String
     },
+    wasUpdated: {
+      type: Boolean,
+      default: false
+    },
+    likes: [
+      {
+        owner: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User'
+        }
+      }
+    ]
+  },
+  options
+)
+
+const PostSchema = new mongoose.Schema(
+  {
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    text: {
+      type: String,
+      required: true
+    },
+    wasUpdated: {
+      type: Boolean,
+      default: false
+    },
+    ownerName: {
+      type: String
+    },
+    avatar: {
+      type: String
+    },
     likes: [
       {
         owner: {
@@ -28,7 +64,17 @@ const PostSchema = new mongoose.Schema(
         }
       }
     ],
-    comments: [
+    comments: [commentSchema]
+  },
+  options
+)
+
+const PostModel = mongoose.model('Post', PostSchema)
+
+module.exports = PostModel
+
+/*
+comments: [
       {
         owner: {
           type: mongoose.Schema.Types.ObjectId,
@@ -50,10 +96,5 @@ const PostSchema = new mongoose.Schema(
         }
       }
     ]
-  },
-  options
-)
 
-const PostModel = mongoose.model('Post', PostSchema)
-
-module.exports = PostModel
+*/

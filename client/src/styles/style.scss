@@ -11,11 +11,11 @@
 }
 
 body {
-  font-family: Hack, monospace;
+  font-family: Roboto, Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
-  color: #333;
+  color: $black;
 }
 
 a {
@@ -173,23 +173,150 @@ img {
   }
 }
 
-// post page
+// posts
 .post-form-header {
   padding: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  h4 {
+    line-height: 1;
+    font-weight: 400;
+    margin-right: 0.5rem;
+  }
+  i {
+    cursor: pointer;
+    margin-left: 0.5rem;
+  }
 }
 
 .post {
   display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-gap: 2rem;
+  grid-template-columns: 0.5fr 4.5fr;
+  grid-gap: 1rem;
   align-items: center;
 
-  & > div:first-child {
-    text-align: center;
+  &__avatar_container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
+
+  &__text_container {
+    background: $grey;
+    min-height: 12rem;
+    height: 1px;
+    padding: 0.8rem;
+    margin: 0.4rem 0 0.4rem 0;
+    input {
+      height: 100%;
+      width: 100%;
+      background: $grey;
+      border: none;
+    }
+  }
+
+  // & > div:first-child {
+  //   text-align: center;
+  // }
 
   img {
     width: 150px;
+  }
+}
+
+//comments
+.comment {
+  display: grid;
+  grid-template-columns: 0.5fr 4fr;
+  grid-gap: 1rem;
+  align-items: center;
+
+  .form {
+    width: 100%;
+
+    textarea {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1.2rem;
+      border: none;
+      resize: none;
+    }
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    span > * {
+      display: inline-block;
+    }
+    &--top {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  &__avatar_container {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    width: 120px;
+  }
+  &__head_text {
+    color: $black;
+    font-weight: 300;
+  }
+  &__text_container {
+    background: $grey;
+    min-height: 6rem;
+    height: 1px;
+    padding: 0.8rem;
+    margin: 0.4rem 0 0.4rem 0;
+    input {
+      height: 100%;
+      width: 100%;
+      background: $grey;
+      border: none;
+    }
+  }
+  &__manageboard {
+    display: flex;
+    justify-content: space-between;
+    &--top {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  &__likes {
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 2.5rem;
+    min-height: 2rem;
+    i {
+      transition: all 0.2s ease-in;
+      cursor: pointer;
+    }
+  }
+}
+
+// container for developers
+.dev_container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  img {
+    width: 50px;
+  }
+  h4 {
+    line-height: 1;
   }
 }
 
