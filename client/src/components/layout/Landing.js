@@ -10,7 +10,7 @@ const Landing = ({ isAuthenticated }) => {
     <section className='landing'>
       <div className='dark-overlay'>
         <div className='landing-inner'>
-          <h1 className='x-large'>Developer Network ^1.0.1</h1>
+          <h1 className='x-large'>Developer Network ^1.0.2</h1>
           <p className='lead'>
             The place for landing your knowledge portfolio, collaboration and
             fetching feedback
