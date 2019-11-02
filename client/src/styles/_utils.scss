@@ -188,11 +188,15 @@
 }
 
 // comments
-.heart_red {
+.widget_red {
   color: $red;
 }
 
-.heart_grey {
+.widget_dark {
+  color: $dark-color;
+}
+
+.widget_grey {
   color: darken($grey, 10%);
 }
 

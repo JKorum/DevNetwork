@@ -35,7 +35,7 @@ const CommentForm = ({ postId, addComment, avatar, comments }) => {
         <div className='comment__manageboard--top'>
           <input
             type='submit'
-            value='submit'
+            value='Submit'
             className='btn btn-dark'
             form='comment_form'
           />

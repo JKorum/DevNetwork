@@ -3,8 +3,8 @@
 export default (likes, userId) => {
   const index = likes.findIndex(like => like.owner === userId)
   if (index === -1) {
-    return ' heart_grey'
+    return ' widget_grey'
   } else {
-    return ' heart_red'
+    return ' widget_red'
   }
 }
