@@ -62,10 +62,10 @@ img {
 // landing
 .landing {
   position: relative;
-  background-image: url('../imgs/bg_v1.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  // background-image: url('../imgs/bg_v1.jpg');
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: cover;
   height: 100vh;
 
   &-inner {
@@ -78,6 +78,10 @@ img {
     align-items: center;
     justify-content: center;
     text-align: center;
+
+    * {
+      z-index: 1;
+    }
   }
 }
 
