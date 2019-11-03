@@ -10,10 +10,10 @@ const Landing = ({ isAuthenticated }) => {
   return (
     <section className='landing'>
       <div className='dark-overlay'>
-        <video src={video} autoPlay loop></video>
+        <video src={video} autoPlay loop muted></video>
 
         <div className='landing-inner'>
-          <h1 className='x-large'>Developer Network ^1.0.2</h1>
+          <h1 className='x-large'>Developer Network ^1.0.3</h1>
           <p className='lead'>
             The place for landing your knowledge portfolio, collaboration and
             fetching feedback

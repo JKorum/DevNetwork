@@ -20,6 +20,7 @@ import ProfilesList from './components/profiles/ProfilesList'
 import Profile from './components/profile/Profile'
 import Posts from './components/posts/Posts'
 import Post from './components/post/Post'
+import NotFound from './components/layout/404'
 
 const App = () => {
   //will run after component is rendered -> when first load the app & after each browser refresh
@@ -33,8 +34,9 @@ const App = () => {
       <BrowserRouter>
         <Fragment>
           <Navbar />
-          <Route path='/' exact={true} component={Landing} />
+          {/* <Route path='/' exact={true} component={Landing} /> */}
           <Switch>
+            <Route path='/' exact={true} component={Landing} />
             <Route path='/login' exact={true}>
               <Login />
             </Route>
@@ -78,6 +80,7 @@ const App = () => {
               exact={true}
               component={Post}
             />
+            <Route path='*' component={NotFound} />
           </Switch>
         </Fragment>
       </BrowserRouter>
