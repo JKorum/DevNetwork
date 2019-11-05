@@ -57,170 +57,185 @@ const CreateProfile = ({ createProfile, history, alerts }) => {
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      <h1 className='large text-primary'>Create your profile</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i>Let's get some information to make your
-        profile stand out
-      </p>
-      <small>* required fields</small>
-      <form className='form' onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <select name='status' value={status} onChange={handleChange} required>
-            <option value=''>* Select professional status</option>
-            <option value='Junior developer'>Junior developer</option>
-            <option value='Developer'>Developer</option>
-            <option value='Senior developer'>Senior developer</option>
-            <option value='Manager'>Manager</option>
-            <option value='Student or learning'>Student or learning</option>
-            <option value='Instructor or teacher'>Instructor or teacher</option>
-            <option value='Intern'>Intern</option>
-            <option value='Other'>Other</option>
-          </select>
-          <small className='form-text'>
-            Give us an idea of where you are at in your career
-          </small>
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Company'
-            name='company'
-            value={company}
-            onChange={handleChange}
-          />
-          <small className='form-text'>
-            Could be your own company or one you work for
-          </small>
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Website'
-            name='website'
-            value={website}
-            onChange={handleChange}
-          />
-          <small className='form-text'>
-            Could be your own or a company website
-          </small>
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Location'
-            name='location'
-            value={location}
-            onChange={handleChange}
-          />
-          <small className='form-text'>
-            City & state suggested (eg. Boston, MA)
-          </small>
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='* Skills'
-            name='skills'
-            value={skills}
-            onChange={handleChange}
-            required
-          />
-          <small className='form-text'>
-            Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
-          </small>
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Github Username'
-            name='githubusername'
-            value={githubusername}
-            onChange={handleChange}
-          />
-          <small className='form-text'>
-            If you want your latest repos and a Github link, include your
-            username
-          </small>
-        </div>
-        <div className='form-group'>
-          <textarea
-            type='text'
-            placeholder='a short bio of yourself'
-            name='bio'
-            value={bio}
-            onChange={handleChange}
-          ></textarea>
-          <small className='form-text'>Tell a little about youself</small>
-        </div>
-        <div className='my-2'>
-          <button
-            onClick={() => toggleSocialInputs(!displaySocialInputs)}
-            type='button'
-            className='btn btn-light'
-          >
-            Add social networks links
-          </button>
-          <span>Optional</span>
-        </div>
-        {displaySocialInputs && (
-          <Fragment>
-            <div className='form-group social-input'>
-              <i className='fab fa-twitter-square fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Twitter URL'
-                name='twitter'
-                value={twitter}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='form-group social-input'>
-              <i className='fab fa-facebook fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Facebook URL'
-                name='facebook'
-                value={facebook}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='form-group social-input'>
-              <i className='fab fa-linkedin fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Linkedin URL'
-                name='linkedin'
-                value={linkedin}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='form-group social-input'>
-              <i className='fab fa-instagram fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Instagram URL'
-                name='instagram'
-                value={instagram}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='form-group social-input'>
-              <i className='fab fa-youtube fa-2x'></i>
-              <input
-                type='text'
-                placeholder='YouTube URL'
-                name='youtube'
-                value={youtube}
-                onChange={handleChange}
-              />
-            </div>
-          </Fragment>
-        )}
-        <input type='submit' className='btn btn-primary my-1' value='Submit' />
-        <Link to='/dashboard' className='btn btn-light my-1'>
+      <h1 className='large text-primary mx-1'>Create profile</h1>
+      <div className='dashboard-header bg-primary mx-1'>
+        <h4>Provide data to make your profile special</h4>
+      </div>
+
+      <div className='dashboard_main my-1 p-1'>
+        <small>* required fields</small>
+        <form id='create_form' className='form' onSubmit={handleSubmit}>
+          <div className='form-group'>
+            <select
+              name='status'
+              value={status}
+              onChange={handleChange}
+              required
+            >
+              <option value=''>* Select professional status</option>
+              <option value='Junior developer'>Junior developer</option>
+              <option value='Developer'>Developer</option>
+              <option value='Senior developer'>Senior developer</option>
+              <option value='Manager'>Manager</option>
+              <option value='Learner'>Learner</option>
+              <option value='Teacher'>Teacher</option>
+              <option value='Intern'>Intern</option>
+              <option value='Other'>Other</option>
+            </select>
+            <small className='form-text'>
+              Where you are at in your career?
+            </small>
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='Company'
+              name='company'
+              value={company}
+              onChange={handleChange}
+            />
+            <small className='form-text'>
+              Could be your own company or one you work for
+            </small>
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='Website'
+              name='website'
+              value={website}
+              onChange={handleChange}
+            />
+            <small className='form-text'>
+              Could be your own or a company website
+            </small>
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='Location'
+              name='location'
+              value={location}
+              onChange={handleChange}
+            />
+            <small className='form-text'>
+              City & area suggested (eg. Zandvoort, Netherlands)
+            </small>
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='* Skills'
+              name='skills'
+              value={skills}
+              onChange={handleChange}
+              required
+            />
+            <small className='form-text'>
+              Please use comma separated values (eg.
+              JavaScript,Typescript,HTML,CSS)
+            </small>
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='Github Username'
+              name='githubusername'
+              value={githubusername}
+              onChange={handleChange}
+            />
+            <small className='form-text'>
+              If you want your latest repos and a Github link, include your
+              username
+            </small>
+          </div>
+          <div className='form-group'>
+            <textarea
+              type='text'
+              placeholder='A short bio'
+              name='bio'
+              value={bio}
+              onChange={handleChange}
+            ></textarea>
+            <small className='form-text'>Tell a little about youself</small>
+          </div>
+          <div className='my-2'>
+            <button
+              onClick={() => toggleSocialInputs(!displaySocialInputs)}
+              type='button'
+              className='btn btn-light'
+            >
+              Add social networks links
+            </button>
+            <span>Optional</span>
+          </div>
+          {displaySocialInputs && (
+            <Fragment>
+              <div className='form-group social-input'>
+                <i className='fab fa-twitter-square fa-2x'></i>
+                <input
+                  type='text'
+                  placeholder='Twitter URL'
+                  name='twitter'
+                  value={twitter}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className='form-group social-input'>
+                <i className='fab fa-facebook fa-2x'></i>
+                <input
+                  type='text'
+                  placeholder='Facebook URL'
+                  name='facebook'
+                  value={facebook}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className='form-group social-input'>
+                <i className='fab fa-linkedin fa-2x'></i>
+                <input
+                  type='text'
+                  placeholder='Linkedin URL'
+                  name='linkedin'
+                  value={linkedin}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className='form-group social-input'>
+                <i className='fab fa-instagram fa-2x'></i>
+                <input
+                  type='text'
+                  placeholder='Instagram URL'
+                  name='instagram'
+                  value={instagram}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className='form-group social-input'>
+                <i className='fab fa-youtube fa-2x'></i>
+                <input
+                  type='text'
+                  placeholder='YouTube URL'
+                  name='youtube'
+                  value={youtube}
+                  onChange={handleChange}
+                />
+              </div>
+            </Fragment>
+          )}
+        </form>
+      </div>
+      <div className='dashboard_manageboard mx-1'>
+        <input
+          type='submit'
+          className='btn btn-dark'
+          value='Submit'
+          form='create_form'
+        />
+        <Link to='/dashboard' className='btn btn-light'>
           Go back
         </Link>
-      </form>
+      </div>
     </section>
   )
 }

@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 export const DashboardActions = () => (
-  <div className='dash-buttons'>
+  <Fragment>
     <Link to='/edit-profile' className='btn'>
-      <i className='fas fa-user-circle text-primary'></i> Edit profile
+      <i className='fas fa-user-circle'></i> Edit Profile
     </Link>
     <Link to='/add-experience' className='btn'>
-      <i className='fab fa-black-tie text-primary'></i> Add experience
+      <i className='fas fa-laptop-code'></i> Add Experience
     </Link>
     <Link to='/add-education' className='btn'>
-      <i className='fas fa-graduation-cap text-primary'></i> Add education
+      <i className='fas fa-graduation-cap'></i> Add Education
     </Link>
-  </div>
+  </Fragment>
 )

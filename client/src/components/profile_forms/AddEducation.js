@@ -53,98 +53,107 @@ const AddEducation = ({
         filtered[item[0]] = item[1]
       }
     })
-    console.log(filtered)
+
     addEducation(filtered, history)
   }
 
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      <h1 className='large text-primary'>Add your education</h1>
-      <p className='lead'>
-        <i className='fas fa-graduation-cap'></i> Add any school, bootcamp, etc
-        that you have attended
-      </p>
-      <small>* required fields</small>
-      <form className='form' onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='* School or bootcamp'
-            name='school'
-            value={school}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='* Degree or Certificate'
-            name='degree'
-            value={degree}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='* Field of study'
-            name='fieldofstudy'
-            value={fieldofstudy}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <h4>* From date</h4>
-          <input
-            type='date'
-            name='from'
-            value={from}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <h4>To date</h4>
-          <input
-            type='date'
-            name='to'
-            value={to}
-            onChange={handleChange}
-            disabled={current}
-          />
-        </div>
-        <div className='form-group'>
-          <p>
+      <h1 className='large text-primary mx-1'>Education</h1>
+      <div className='dashboard-header bg-primary mx-1'>
+        <h4>Add school, bootcamp, online course etc.</h4>
+      </div>
+
+      <div className='dashboard_main my-1 p-1'>
+        <small>* required fields</small>
+        <form id='edu_form' className='form' onSubmit={handleSubmit}>
+          <div className='form-group'>
             <input
-              type='checkbox'
-              name='current'
-              value={current}
-              onChange={e =>
-                setFormData({ ...formData, current: !current, to: '' })
-              }
+              type='text'
+              placeholder='* School/bootcamp/course'
+              name='school'
+              value={school}
+              onChange={handleChange}
+              required
             />
-            Current school
-          </p>
-        </div>
-        <div className='form-group'>
-          <textarea
-            name='description'
-            cols='30'
-            rows='5'
-            placeholder='Program description'
-            value={description}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <input type='submit' className='btn btn-primary my-1' value='Submit' />
-        <Link to='/dashboard' className='btn my-1'>
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='* Degree/certificate'
+              name='degree'
+              value={degree}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='* Field of study'
+              name='fieldofstudy'
+              value={fieldofstudy}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='form-group'>
+            <p>* From date</p>
+            <input
+              type='date'
+              name='from'
+              value={from}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='form-group'>
+            <p>To date</p>
+            <input
+              type='date'
+              name='to'
+              value={to}
+              onChange={handleChange}
+              disabled={current}
+            />
+          </div>
+          <div className='form-group'>
+            <p>
+              <input
+                type='checkbox'
+                name='current'
+                value={current}
+                onChange={e =>
+                  setFormData({ ...formData, current: !current, to: '' })
+                }
+              />{' '}
+              Current school
+            </p>
+          </div>
+          <div className='form-group'>
+            <textarea
+              name='description'
+              cols='30'
+              rows='5'
+              placeholder='Program description'
+              value={description}
+              onChange={handleChange}
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div className='dashboard_manageboard mx-1'>
+        <input
+          type='submit'
+          className='btn btn-dark'
+          value='Submit'
+          form='edu_form'
+        />
+        <Link to='/dashboard' className='btn'>
           Go back
         </Link>
-      </form>
+      </div>
     </section>
   )
 }

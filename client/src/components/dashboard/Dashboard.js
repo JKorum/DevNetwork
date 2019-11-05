@@ -10,6 +10,7 @@ import { DashboardActions } from '../dashboard/DashboardActions'
 import ExperienceList from './ExperienceList'
 import EducationList from './EducationList'
 import Alert from '../layout/Alert'
+import greetings from '../../utils/greetings'
 
 const Dashboard = ({
   alerts,
@@ -23,42 +24,53 @@ const Dashboard = ({
     loadProfile()
   }, [])
 
+  // temp -->
   const handleDelete = () => {
     if (window.confirm("Are you sure? This action can't be undone")) {
       deleteAccount()
     }
   }
 
-  // if done loading -> render JSX
-  // else -> render <Spinner />
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
       {!loading ? (
         <Fragment>
-          <h1 className='large text-primary'>Dashboard</h1>
-          <p className='lead'>
-            <i className='fas fa-user'></i> Welcome, {user && user.name}!
-          </p>
-          {profile !== null ? (
-            <Fragment>
-              <DashboardActions />
-              <ExperienceList experience={profile.experience} />
-              <EducationList education={profile.education} />
-              <div className='my-2'>
-                <button className='btn btn-danger' onClick={handleDelete}>
-                  <i className='fas fa-user-minus'></i> Delete my account
-                </button>
+          <h1 className='large text-primary mx-1'>Dashboard</h1>
+          <div className='dashboard-header bg-primary mx-1'>
+            <h4>
+              {greetings()}, {user && user.name}!
+            </h4>
+            <div className='dash-buttons'>
+              {profile !== null && <DashboardActions />}
+            </div>
+          </div>
+          <div className='dashboard_main my-1 p-1'>
+            {profile !== null ? (
+              <div className='dashboard_main__separator'>
+                <div>
+                  <ExperienceList experience={profile.experience} />
+                </div>
+                <div className='vertical_line'></div>
+                <div>
+                  <EducationList education={profile.education} />
+                </div>
               </div>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <p>Your profile is not setup yet</p>
-              <Link to='/create-profile' className='btn btn-primary my-1'>
-                Create profile
+            ) : (
+              <p>You haven't created your profile yet...</p>
+            )}
+          </div>
+          <div className='dashboard_manageboard mx-1'>
+            {profile !== null ? (
+              <button className='btn btn-red' onClick={handleDelete}>
+                Delete Account
+              </button>
+            ) : (
+              <Link to='/create-profile' className='btn btn-dark'>
+                Create Profile
               </Link>
-            </Fragment>
-          )}
+            )}
+          </div>
         </Fragment>
       ) : (
         <Spinner />

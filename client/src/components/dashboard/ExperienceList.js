@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import { deleteExperienceGenerator } from '../../store/actions/profile'
+import sorter from '../../utils/resentOnTop'
 
 // problem to solve -> add sort experiences depend on `from` field
 const ExperienceList = ({ experience, deleteExperience }) => {
@@ -12,7 +13,7 @@ const ExperienceList = ({ experience, deleteExperience }) => {
   return (
     experience.length > 0 && (
       <Fragment>
-        <h2 className='my-2'>Experience</h2>
+        <h2>Experience</h2>
         <table className='table'>
           <thead>
             <tr>
@@ -23,25 +24,24 @@ const ExperienceList = ({ experience, deleteExperience }) => {
             </tr>
           </thead>
           <tbody>
-            {experience.map(item => (
+            {sorter(experience).map(item => (
               <tr key={item._id}>
                 <td>{item.company}</td>
                 <td className='hide-sm'>{item.title}</td>
                 <td className='hide-sm'>
                   <Moment date={item.from} format='YYYY/MM/DD' /> -{' '}
                   {item.current ? (
-                    'till now'
+                    'Till Now'
                   ) : (
                     <Moment date={item.to} format='YYYY/MM/DD' />
                   )}
                 </td>
                 <td>
-                  <button
-                    className='btn btn-danger'
+                  <i
+                    className='fas fa-backspace fa-lg'
                     onClick={e => handleDelete(item._id)}
-                  >
-                    Delete
-                  </button>
+                    title='delete experience'
+                  ></i>
                 </td>
               </tr>
             ))}

@@ -383,4 +383,90 @@ img {
   }
 }
 
+// dashboard
+.dashboard-header {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h4 {
+    line-height: 1;
+    font-weight: 400;
+    margin-right: 0.5rem;
+  }
+  a {
+    line-height: 1;
+    font-weight: 400;
+  }
+  .dash-buttons {
+    a:last-child {
+      margin-right: 0;
+    }
+    i {
+      color: $dark;
+    }
+  }
+}
+
+.dashboard_main {
+  min-height: 10rem;
+  p,
+  small {
+    margin-left: 0.5rem;
+  }
+  textarea {
+    resize: none;
+  }
+  &__separator {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    th {
+      line-height: 1;
+    }
+
+    div:first-child {
+      margin-right: 1rem;
+    }
+
+    div:last-child {
+      margin-left: 1rem;
+    }
+
+    .vertical_line {
+      align-self: stretch;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      margin-left: 0.5rem;
+    }
+
+    table {
+      th:last-child {
+        background: #fff;
+      }
+      i {
+        color: $red;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.dashboard_manageboard {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+  * {
+    margin: 0;
+    line-height: 1.15;
+  }
+  input {
+    margin-right: 0.5rem;
+  }
+}
+
 @import 'mobile';

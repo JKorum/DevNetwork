@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
+import sorter from '../../utils/resentOnTop'
 
 import { deleteEducationGenerator } from '../../store/actions/profile'
 
@@ -13,7 +14,7 @@ const EducationList = ({ education, deleteEducation }) => {
   return (
     education.length > 0 && (
       <Fragment>
-        <h2 className='my-2'>Education</h2>
+        <h2>Education</h2>
         <table className='table'>
           <thead>
             <tr>
@@ -24,25 +25,24 @@ const EducationList = ({ education, deleteEducation }) => {
             </tr>
           </thead>
           <tbody>
-            {education.map(item => (
+            {sorter(education).map(item => (
               <tr key={item._id}>
                 <td>{item.school}</td>
                 <td className='hide-sm'>{item.degree}</td>
                 <td className='hide-sm'>
                   <Moment date={item.from} format='YYYY/MM/DD' /> -{' '}
                   {item.current ? (
-                    'till now'
+                    'Till Now'
                   ) : (
                     <Moment date={item.to} format='YYYY/MM/DD' />
                   )}
                 </td>
                 <td>
-                  <button
-                    className='btn btn-danger'
+                  <i
+                    className='fas fa-backspace fa-lg'
                     onClick={e => handleDelete(item._id)}
-                  >
-                    Delete
-                  </button>
+                    title='delete education'
+                  ></i>
                 </td>
               </tr>
             ))}

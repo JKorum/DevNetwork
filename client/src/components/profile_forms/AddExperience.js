@@ -43,90 +43,99 @@ const AddExperience = ({ loadProfile, addExperience, history, alerts }) => {
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      <h1 className='large text-primary'>Add an experience</h1>
-      <p className='lead'>
-        <i className='fas fa-code-branch'></i> Add any developer/programming
-        positions that you have had in the past
-      </p>
-      <small>* required fields</small>
-      <form className='form' onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='* Job title'
-            name='title'
-            value={title}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='* Company'
-            name='company'
-            value={company}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Location'
-            name='location'
-            value={location}
-            onChange={handleChange}
-          />
-        </div>
-        <div className='form-group'>
-          <h4>* From date</h4>
-          <input
-            type='date'
-            name='from'
-            value={from}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <h4>To date</h4>
-          <input
-            type='date'
-            name='to'
-            value={to}
-            onChange={handleChange}
-            disabled={current}
-          />
-        </div>
-        <div className='form-group'>
-          <p>
+      <h1 className='large text-primary mx-1'>Experience</h1>
+
+      <div className='dashboard-header bg-primary mx-1'>
+        <h4>Add your programming experience</h4>
+      </div>
+      <div className='dashboard_main my-1 p-1'>
+        <small>* required fields</small>
+        <form id='exp_form' className='form' onSubmit={handleSubmit}>
+          <div className='form-group'>
             <input
-              type='checkbox'
-              name='current'
-              value={current}
-              onChange={e =>
-                setFormData({ ...formData, current: !current, to: '' })
-              }
+              type='text'
+              placeholder='* Job title'
+              name='title'
+              value={title}
+              onChange={handleChange}
+              required
             />
-            Current job
-          </p>
-        </div>
-        <div className='form-group'>
-          <textarea
-            name='description'
-            cols='30'
-            rows='5'
-            placeholder='Job description'
-            value={description}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <input type='submit' className='btn btn-primary my-1' value='Submit' />
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='* Company'
+              name='company'
+              value={company}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='Location'
+              name='location'
+              value={location}
+              onChange={handleChange}
+            />
+          </div>
+          <div className='form-group'>
+            <p>* From date</p>
+            <input
+              type='date'
+              name='from'
+              value={from}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='form-group'>
+            <p>To date</p>
+            <input
+              type='date'
+              name='to'
+              value={to}
+              onChange={handleChange}
+              disabled={current}
+            />
+          </div>
+          <div className='form-group'>
+            <p>
+              <input
+                type='checkbox'
+                name='current'
+                value={current}
+                onChange={e =>
+                  setFormData({ ...formData, current: !current, to: '' })
+                }
+              />{' '}
+              Current job
+            </p>
+          </div>
+          <div className='form-group'>
+            <textarea
+              name='description'
+              cols='30'
+              rows='5'
+              placeholder='Job description'
+              value={description}
+              onChange={handleChange}
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div className='dashboard_manageboard mx-1'>
+        <input
+          type='submit'
+          className='btn btn-dark my-1'
+          value='Submit'
+          form='exp_form'
+        />
         <Link to='/dashboard' className='btn my-1'>
           Go back
         </Link>
-      </form>
+      </div>
     </section>
   )
 }
