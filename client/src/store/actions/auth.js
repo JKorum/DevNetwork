@@ -150,3 +150,33 @@ export const logoutUserGenerator = () => {
     }
   }
 }
+
+// logoutALL & clear user profile
+export const logoutAllSessionsGenerator = () => {
+  return async dispatch => {
+    dispatch({
+      type: LOGOUT
+    })
+    dispatch({
+      type: CLEAR_PROFILE
+    })
+
+    try {
+      const res = await axios.patch('/api/users/logoutall')
+      if (res.status === 204) {
+        console.log('logoutall: success')
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        if (status === 500 || status === 401 || status === 400) {
+          console.log(err.response.data)
+        }
+      } else {
+        // no response is received
+        console.log(err.message)
+      }
+    }
+  }
+}

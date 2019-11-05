@@ -119,9 +119,7 @@ router.patch('/logout', auth, async (req, res) => {
 router.patch('/logoutall', auth, async (req, res) => {
   const { userId } = req.body
   try {
-    const user = await UserModel.findByIdAndUpdate(userId, {
-      $set: { tokens: [] }
-    })
+    await UserModel.findByIdAndUpdate(userId, { tokens: [] })
     res.status(204).send()
   } catch (err) {
     console.log(err.message)

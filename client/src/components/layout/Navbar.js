@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { logoutUserGenerator } from '../../store/actions/auth'
+import {
+  logoutUserGenerator,
+  logoutAllSessionsGenerator
+} from '../../store/actions/auth'
 
-const Navbar = ({ isAuthenticated, loading, logoutUser }) => {
+const Navbar = ({ isAuthenticated, loading, logoutUser, logoutAll }) => {
   const authLinks = (
     <ul>
       <li>
@@ -22,6 +25,12 @@ const Navbar = ({ isAuthenticated, loading, logoutUser }) => {
         <Link onClick={logoutUser} to='/'>
           <i className='fas fa-sign-out-alt'></i>{' '}
           <span className='hide-sm'>Logout</span>
+        </Link>
+      </li>
+      <li>
+        <Link onClick={logoutAll} to='/'>
+          <i className='fas fa-angle-double-right'></i>{' '}
+          <span className='hide-sm'>End all sessions</span>
         </Link>
       </li>
     </ul>
@@ -62,7 +71,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  logoutUser: () => dispatch(logoutUserGenerator())
+  logoutUser: () => dispatch(logoutUserGenerator()),
+  logoutAll: () => dispatch(logoutAllSessionsGenerator())
 })
 
 export default connect(
