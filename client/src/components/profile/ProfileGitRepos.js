@@ -12,10 +12,10 @@ const ProfileGitRepos = ({ githubusername, repos, loadRepos }) => {
     repos.length > 0 && (
       <div className='profile-github'>
         <h2 className='text-primary my-1'>
-          <i className='fab fa-github'></i>Github repos
+          <i className='fab fa-github-alt'></i> GitHub repositories
         </h2>
         {repos.map(repo => (
-          <div key={repo.id} className='repo bg-white my-1 p-1'>
+          <div key={repo.id} className='repo p-1'>
             <div>
               <h4>
                 <a
@@ -23,7 +23,7 @@ const ProfileGitRepos = ({ githubusername, repos, loadRepos }) => {
                   rel='noopener noreferrer'
                   target='_blank'
                 >
-                  {repo.name}
+                  {repo.name} <i className='fas fa-external-link-alt fa-sm'></i>
                 </a>
               </h4>
               <p>{repo.description ? repo.description : 'No description'}</p>
@@ -36,7 +36,7 @@ const ProfileGitRepos = ({ githubusername, repos, loadRepos }) => {
                 <li className='badge badge-dark'>
                   Watchers: {repo.watchers_count}
                 </li>
-                <li className='badge badge-light'>Forks: {repo.forks_count}</li>
+                <li className='badge badge-grey'>Forks: {repo.forks_count}</li>
               </ul>
             </div>
           </div>

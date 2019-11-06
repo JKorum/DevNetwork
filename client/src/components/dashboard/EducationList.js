@@ -39,7 +39,7 @@ const EducationList = ({ education, deleteEducation }) => {
                 </td>
                 <td>
                   <i
-                    className='fas fa-backspace fa-lg'
+                    className='fas fa-backspace'
                     onClick={e => handleDelete(item._id)}
                     title='delete education'
                   ></i>

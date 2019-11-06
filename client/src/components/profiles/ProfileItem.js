@@ -28,8 +28,8 @@ const ProfileItem = ({ profile }) => {
         </Link>
       </div>
       <ul>
-        {skills.slice(0, 4).map(skill => (
-          <li className='text-primary' key={skill}>
+        {skills.slice(0, 4).map((skill, index) => (
+          <li className='text-primary' key={index}>
             <i className='fas fa-check'></i>
             {skill}
           </li>

@@ -38,7 +38,7 @@ const ExperienceList = ({ experience, deleteExperience }) => {
                 </td>
                 <td>
                   <i
-                    className='fas fa-backspace fa-lg'
+                    className='fas fa-backspace'
                     onClick={e => handleDelete(item._id)}
                     title='delete experience'
                   ></i>

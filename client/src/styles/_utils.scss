@@ -153,9 +153,9 @@
 
 // lines
 .line {
-  height: 1px;
-  background: #ccc;
-  margin: 1.5rem 0;
+  height: 0.5px;
+  background: darken($grey, 10%);
+  margin: 1rem 0;
 }
 
 .vertical_line {
@@ -173,16 +173,25 @@
   color: #333;
 
   &.badge-primary {
-    @include set-background($primary-color);
+    // @include set-background($primary-color);
+    border: 1px solid $primary-color;
+    background: none;
   }
   &.badge-dark {
-    @include set-background($dark-color);
+    // @include set-background($dark-color);
+    border: 1px solid $dark-color;
+    background: none;
   }
   &.badge-success {
     @include set-background($success-color);
   }
   &.badge-danger {
     @include set-background($danger-color);
+  }
+  &.badge-grey {
+    // @include set-background(darken($grey, 10%));
+    border: 1px solid darken($grey, 10%);
+    background: none;
   }
 }
 
@@ -217,4 +226,14 @@
   line-height: 1;
   border-radius: 8px;
   font-weight: 400;
+}
+
+.skill_item {
+  @include set-background($dark-color);
+  padding: 0.1rem 0.26rem 0.1rem 0.26rem;
+  line-height: 1;
+  border-radius: 8px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0.5rem;
 }

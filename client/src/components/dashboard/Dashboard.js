@@ -42,7 +42,7 @@ const Dashboard = ({
               {greetings()}, {user && user.name}!
             </h4>
             <div className='dash-buttons'>
-              {profile !== null && <DashboardActions />}
+              {profile !== null && <DashboardActions userId={user._id} />}
             </div>
           </div>
           <div className='dashboard_main my-1 p-1'>
@@ -52,7 +52,7 @@ const Dashboard = ({
                   <div>
                     <ExperienceList experience={profile.experience} />
                   </div>
-                  <div className='vertical_line'></div>
+                  {/* <div className='vertical_line'></div> */}
                   <div>
                     <EducationList education={profile.education} />
                   </div>
