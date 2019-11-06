@@ -6,7 +6,8 @@ const auth = require('../../utils/auth')
 const {
   registerValidation,
   loginValidation,
-  updateValidation
+  updateValidation,
+  imageValidation
 } = require('../../utils/validation-middlewares')
 const UserModel = require('../../models/User')
 
@@ -156,6 +157,49 @@ router.patch('/update', auth, updateValidation, async (req, res) => {
       await user.save()
     }
     res.status(200).send({ status: 'user updated' }) //maybe should send some user data back
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   POST api/users/image
+//@desc    set user profile img
+//@access  private
+router.patch('/image', auth, imageValidation, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).send({ errors: errors.array() })
+  }
+  const { userId, image } = req.body
+
+  try {
+    await UserModel.findByIdAndUpdate(userId, {
+      useImage: true,
+      image
+    })
+    res.status(204).send()
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).send({ errors: [{ msg: 'server error' }] })
+  }
+})
+
+//@route   POST api/users/image
+//@desc    toggle USAGE of user profile img
+//@access  private
+router.patch('/image/toggle', auth, async (req, res) => {
+  const { userId } = req.body
+  try {
+    const user = await UserModel.findById(userId).select('useImage')
+    if (user.useImage !== undefined) {
+      // user have already set an image -> toggle img usage
+      await UserModel.findByIdAndUpdate(userId, { useImage: !user.useImage })
+      res.status(204).send()
+    } else {
+      // user haven't set an image yet -> execution impossible
+      res.status(400).send({ errors: [{ msg: 'profile image is not set up' }] })
+    }
   } catch (err) {
     console.log(err.message)
     res.status(500).send({ errors: [{ msg: 'server error' }] })

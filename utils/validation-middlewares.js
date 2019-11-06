@@ -183,5 +183,13 @@ module.exports = {
       .trim()
       .not()
       .isEmpty()
+  ],
+  imageValidation: [
+    check('image', 'should be valid URL')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
+      .isURL()
   ]
 }

@@ -24,6 +24,12 @@ const commentSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    useImage: {
+      type: Boolean
+    },
+    image: {
+      type: String
+    },
     likes: [
       {
         owner: {
@@ -54,6 +60,12 @@ const PostSchema = new mongoose.Schema(
       type: String
     },
     avatar: {
+      type: String
+    },
+    useImage: {
+      type: Boolean
+    },
+    image: {
       type: String
     },
     likes: [

@@ -16,7 +16,9 @@ const PostItem = ({
     createdAt,
     likes,
     comments,
-    wasUpdated
+    wasUpdated,
+    useImage,
+    image
   },
   user,
   likeOrUnlike,
@@ -28,7 +30,7 @@ const PostItem = ({
       <div className='post__avatar_container'>
         {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
         <Link to={`/profiles/${owner}`}>
-          <img className='round-img' src={avatar} />
+          <img className='round-img' src={useImage ? image : avatar} />
         </Link>
       </div>
       <div>

@@ -367,8 +367,26 @@ img {
   }
 }
 
-// filter results
+// avatar manageboard
+.avatar_manageboard {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  button {
+    line-height: 1rem;
+    align-self: stretch;
+  }
+  button:last-child {
+    margin-right: 0;
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+}
 
+// filter results
 .filter_results {
   padding: 0.5rem;
   display: flex;

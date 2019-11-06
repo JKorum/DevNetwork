@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { addPostGenerator } from '../../store/actions/post'
 
-const PostForm = ({ addPost, avatar, postsNumber }) => {
+const PostForm = ({ addPost, image, postsNumber }) => {
   const [text, setText] = useState('')
 
   const handleSubmit = e => {
@@ -14,7 +14,7 @@ const PostForm = ({ addPost, avatar, postsNumber }) => {
   return (
     <div className='post my-1 p-1'>
       <div className='post__avatar_container'>
-        <img className='round-img' src={avatar} />
+        <img className='round-img' src={image} />
       </div>
       <div>
         <div className='comment__info--top px-xs'>

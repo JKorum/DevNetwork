@@ -61,7 +61,7 @@ router.get('/me', auth, async (req, res) => {
       await profile
         .populate({
           path: 'user',
-          select: ['name', 'avatar']
+          select: ['name', 'avatar', 'useImage', 'image']
         })
         .execPopulate()
       res.status(200).send(profile)
@@ -108,7 +108,10 @@ router.patch('/me/update', auth, profileUpdateValidation, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const profiles = await ProfileModel.find()
-      .populate({ path: 'user', select: ['name', 'avatar'] })
+      .populate({
+        path: 'user',
+        select: ['name', 'avatar', 'useImage', 'image']
+      })
       .exec()
     if (profiles.length === 0) {
       res.status(404).send({ errors: [{ msg: 'no profiles' }] })
@@ -129,7 +132,10 @@ router.get('/user/:user_id', async (req, res) => {
     let profile = await ProfileModel.findOne({ user: req.params.user_id })
     if (profile) {
       profile = await profile
-        .populate({ path: 'user', select: ['name', 'avatar'] })
+        .populate({
+          path: 'user',
+          select: ['name', 'avatar', 'useImage', 'image']
+        }) // add fields
         .execPopulate()
       res.status(200).send(profile)
     } else {

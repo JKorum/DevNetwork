@@ -18,7 +18,9 @@ const CommentItem = ({
     text,
     createdAt,
     likes,
-    wasUpdated
+    wasUpdated,
+    useImage,
+    image
   },
   deleteComment,
   updateComment,
@@ -45,7 +47,7 @@ const CommentItem = ({
   return (
     <div className='comment my-1 p-1'>
       <div className='comment__avatar_container'>
-        <img className='round-img' src={avatar} />
+        <img className='round-img' src={useImage ? image : avatar} />
       </div>
       <div>
         <div className='comment__info px-xs'>

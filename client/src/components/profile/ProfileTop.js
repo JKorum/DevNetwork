@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ProfileTop = ({ profile }) => {
   const {
-    user: { name, avatar },
+    user: { name, avatar, useImage, image },
     company,
     status,
     location,
@@ -13,7 +13,7 @@ const ProfileTop = ({ profile }) => {
 
   return (
     <div className='profile-top bg-primary p-2'>
-      <img className='round-img my-1' src={avatar} />
+      <img className='round-img my-1' src={useImage ? image : avatar} />
       <h1 className='large'>{name}</h1>
       <p className='lead'>
         {status} {company && <span>at {company}</span>}

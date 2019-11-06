@@ -93,6 +93,90 @@ export const fetchProfileByIdGenerator = userId => {
   }
 }
 
+// set profile image and get updated profile by user id
+export const setImgAndFetchProfileGenerator = (userId, data) => {
+  const config = {
+    url: '/api/users/image',
+    method: 'patch',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  }
+  return async dispatch => {
+    try {
+      // send image first ->
+      const resImage = await axios(config)
+      if (resImage.status === 204) {
+        // than get updated profile ->
+        const resProfile = await axios.get(`/api/profiles/user/${userId}`)
+        if (resProfile.status === 200) {
+          dispatch({
+            type: GET_PROFILE,
+            payload: resProfile.data
+          })
+        }
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500 || status === 404 || status === 422) {
+          dispatch({
+            type: PROFILE_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received OR status 400
+        console.log(err.message)
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
+// toggle profile image usage & get updated profile by user id
+export const toggleImgAndFetchProfileGenerator = userId => {
+  return async dispatch => {
+    try {
+      // toggle profile img usage first ->
+      const resImage = await axios.patch('/api/users/image/toggle')
+      if (resImage.status === 204) {
+        // than get updated profile ->
+        const resProfile = await axios.get(`/api/profiles/user/${userId}`)
+        if (resProfile.status === 200) {
+          dispatch({
+            type: GET_PROFILE,
+            payload: resProfile.data
+          })
+        }
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        const { status } = err.response
+        const { errors } = err.response.data
+        if (status === 500 || status === 404) {
+          dispatch({
+            type: PROFILE_ERROR,
+            payload: errors[0]
+          })
+        }
+      } else {
+        // no response is received OR status 400
+        console.log(err.message)
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: err
+        })
+      }
+    }
+  }
+}
+
 // get current user profile
 export const fetchProfileGenerator = () => {
   // if token in `localStorage` -> set `Authorization: Bearer <token>` for all requests

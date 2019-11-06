@@ -1,7 +1,11 @@
 import React, { useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
-import { fetchProfileByIdGenerator } from '../../store/actions/profile'
+import {
+  fetchProfileByIdGenerator,
+  setImgAndFetchProfileGenerator,
+  toggleImgAndFetchProfileGenerator
+} from '../../store/actions/profile'
 import Spinner from '../layout/Spinner'
 import ProfileTop from './ProfileTop'
 import ProfileAbout from './ProfileAbout'
@@ -13,6 +17,8 @@ import Alert from '../layout/Alert'
 const Profile = ({
   alerts,
   loadProfile,
+  setImgAndLoadProfile,
+  toggleImgAndLoadProfile,
   profile: { profile, loading },
   authentication: auth
 }) => {
@@ -30,20 +36,53 @@ const Profile = ({
       {alerts.length > 0 && <Alert />}
       {!loading && profile !== null ? (
         <Fragment>
-          <Link to='/profiles' className='btn'>
-            Back to profiles
-          </Link>
-          {/* i don't like syntax -> */}
-          {!auth.loading &&
-            auth.isAuthenticated &&
-            auth.user &&
-            profile &&
-            profile.user &&
-            auth.user._id === profile.user._id && (
-              <Link to='/edit-profile' className='btn btn-dark'>
-                Edit profile
+          <div className='container__mini_banner mx-1'>
+            <div>
+              <Link to='/profiles' className='btn'>
+                To Profiles List
               </Link>
-            )}
+              {/* i don't like syntax -> */}
+              {!auth.loading &&
+                auth.isAuthenticated &&
+                auth.user &&
+                profile &&
+                profile.user &&
+                auth.user._id === profile.user._id && (
+                  <Link to='/edit-profile' className='btn btn-dark'>
+                    Edit profile
+                  </Link>
+                )}
+            </div>
+            {!auth.loading &&
+              auth.isAuthenticated &&
+              auth.user &&
+              profile &&
+              profile.user &&
+              auth.user._id === profile.user._id && (
+                <div className='avatar_manageboard'>
+                  <button
+                    className='btn'
+                    // should be modal with input for URL
+                    onClick={e =>
+                      setImgAndLoadProfile(user_id, {
+                        image:
+                          'https://avatars1.githubusercontent.com/u/48204262?s=460&v=4'
+                      })
+                    }
+                  >
+                    Switch Avatar
+                  </button>
+                  <button
+                    className='btn'
+                    onClick={e => toggleImgAndLoadProfile(user_id)}
+                    disabled={profile.user.useImage === undefined}
+                  >
+                    Toggle Avatar
+                  </button>
+                </div>
+              )}
+          </div>
+
           <div className='profile-grid my-1'>
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
@@ -87,7 +126,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadProfile: id => dispatch(fetchProfileByIdGenerator(id))
+  loadProfile: id => dispatch(fetchProfileByIdGenerator(id)),
+  setImgAndLoadProfile: (userId, data) =>
+    dispatch(setImgAndFetchProfileGenerator(userId, data)),
+  toggleImgAndLoadProfile: userId =>
+    dispatch(toggleImgAndFetchProfileGenerator(userId))
 })
 
 export default connect(

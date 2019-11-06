@@ -10,7 +10,7 @@ const router = express.Router()
 router.get('/', auth, async (req, res) => {
   try {
     const user = await UserModel.findById(req.body.userId).select(
-      '_id name email avatar'
+      '_id name email avatar useImage image'
     )
     res.status(200).send(user)
   } catch (err) {

@@ -4,15 +4,15 @@ const DevelopersTalk = ({ comments }) => {
   // build list of unique developers
   const developers = []
   comments.forEach(comment => {
-    const { owner, ownerName, avatar } = comment
+    const { owner, ownerName, avatar, useImage, image } = comment
     if (developers.length === 0) {
-      developers.push({ id: owner, name: ownerName, avatar })
+      developers.push({ id: owner, name: ownerName, avatar, useImage, image })
     } else if (
       developers.findIndex(dev => {
         return dev.id === owner
       }) === -1
     ) {
-      developers.push({ id: owner, name: ownerName, avatar })
+      developers.push({ id: owner, name: ownerName, avatar, useImage, image })
     }
   })
   // extract first five developers
@@ -37,7 +37,7 @@ const DevelopersTalk = ({ comments }) => {
         return (
           <img
             key={dev.id}
-            src={dev.avatar}
+            src={dev.useImage ? dev.image : dev.avatar}
             className='round-img mxr-xs'
             title={dev.name}
           />

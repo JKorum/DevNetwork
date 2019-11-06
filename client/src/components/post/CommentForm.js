@@ -2,7 +2,14 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { addCommentGenerator } from '../../store/actions/post'
 
-const CommentForm = ({ postId, addComment, avatar, comments }) => {
+const CommentForm = ({
+  postId,
+  addComment,
+  avatar,
+  comments,
+  useImage,
+  image
+}) => {
   const [text, setText] = useState('')
 
   const handleSubmit = e => {
@@ -14,7 +21,7 @@ const CommentForm = ({ postId, addComment, avatar, comments }) => {
   return (
     <div className='comment my-1 p-1'>
       <div className='comment__avatar_container'>
-        <img src={avatar} className='round-img' />
+        <img src={useImage ? image : avatar} className='round-img' />
       </div>
       <div>
         <div className='comment__info--top px-xs'>
@@ -47,6 +54,8 @@ const CommentForm = ({ postId, addComment, avatar, comments }) => {
 
 const mapStateToProps = state => ({
   avatar: state.authentication.user.avatar,
+  useImage: state.authentication.user.useImage,
+  image: state.authentication.user.image,
   comments: state.post.post.comments
 })
 

@@ -86,7 +86,10 @@ const Post = ({
             <div className='post__avatar_container'>
               {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
               <Link to={`/profiles/${post.owner}`}>
-                <img className='round-img' src={post.avatar} />
+                <img
+                  className='round-img'
+                  src={post.useImage ? post.image : post.avatar}
+                />
               </Link>
             </div>
             <div>

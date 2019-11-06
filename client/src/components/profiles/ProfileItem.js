@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ProfileItem = ({ profile }) => {
   const {
-    user: { _id, name, avatar },
+    user: { _id, name, avatar, useImage, image },
     status,
     location,
     company,
@@ -12,7 +12,7 @@ const ProfileItem = ({ profile }) => {
 
   return (
     <div className='profile bg-light'>
-      <img className='round-img' src={avatar} />
+      <img className='round-img' src={useImage ? image : avatar} />
       <div>
         <h2>{name}</h2>
         <p>

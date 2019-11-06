@@ -21,12 +21,15 @@ router.post('/', auth, postAndCommentValidation, async (req, res) => {
   try {
     const { userId, text } = req.body
     const user = await UserModel.findById(userId).select('-password')
-    const { name, avatar } = user
+    const { name, avatar, useImage, image } = user
+
     let post = new PostModel({
       owner: userId,
       text,
       ownerName: name,
-      avatar
+      avatar,
+      useImage,
+      image
     })
     post = await post.save()
     res.status(201).send(post)
@@ -188,7 +191,9 @@ router.patch(
         owner: userId,
         text,
         ownerName: user.name,
-        avatar: user.avatar
+        avatar: user.avatar,
+        image: user.image,
+        useImage: user.useImage
       })
       await post.save()
       res.status(201).send(post.comments)

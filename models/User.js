@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { isEmail } = require('validator')
+const { isEmail, isURL } = require('validator')
 const bcrypt = require('bcryptjs')
 
 const options = {
@@ -37,13 +37,24 @@ const userSchema = new mongoose.Schema(
     tokens: [tokenSchema],
     avatar: {
       type: String
+    },
+    image: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      validate(value) {
+        return isURL(value)
+      }
+    },
+    useImage: {
+      type: Boolean
     }
   },
   options
 )
 
 userSchema.pre('save', async function() {
-  console.log('hook triggered')
+  console.log('pre save hook triggered')
   const user = this
   try {
     const salt = await bcrypt.genSalt(8)

@@ -132,7 +132,10 @@ const Posts = ({
               <i className='fas fa-clock fa-lg' onClick={handleSortByTime}></i>
             </div>
 
-            <PostForm avatar={user.avatar} postsNumber={posts.length} />
+            <PostForm
+              image={user.useImage ? user.image : user.avatar}
+              postsNumber={posts.length}
+            />
 
             <div className='posts'>
               {filteredPosts.length > 0 ? (

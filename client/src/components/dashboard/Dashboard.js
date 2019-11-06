@@ -47,15 +47,19 @@ const Dashboard = ({
           </div>
           <div className='dashboard_main my-1 p-1'>
             {profile !== null ? (
-              <div className='dashboard_main__separator'>
-                <div>
-                  <ExperienceList experience={profile.experience} />
+              profile.experience.length > 0 || profile.education.length > 0 ? (
+                <div className='dashboard_main__separator'>
+                  <div>
+                    <ExperienceList experience={profile.experience} />
+                  </div>
+                  <div className='vertical_line'></div>
+                  <div>
+                    <EducationList education={profile.education} />
+                  </div>
                 </div>
-                <div className='vertical_line'></div>
-                <div>
-                  <EducationList education={profile.education} />
-                </div>
-              </div>
+              ) : (
+                <p>No experience & education data provided... </p>
+              )
             ) : (
               <p>You haven't created your profile yet...</p>
             )}
