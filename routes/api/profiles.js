@@ -42,6 +42,14 @@ router.post('/', auth, profileValidation, async (req, res) => {
     const profile = profileBuilder(req.body)
     const userProfile = new ProfileModel(profile)
     await userProfile.save()
+
+    await userProfile
+      .populate({
+        path: 'user',
+        select: ['_id', 'useImage', 'image', 'avatar']
+      })
+      .execPopulate()
+
     res.status(201).send(userProfile)
   } catch (err) {
     console.log(err.message)
@@ -95,6 +103,14 @@ router.patch('/me/update', auth, profileUpdateValidation, async (req, res) => {
       { $set: updates },
       { new: true }
     )
+
+    await profile
+      .populate({
+        path: 'user',
+        select: ['_id', 'useImage', 'image', 'avatar']
+      })
+      .execPopulate()
+
     res.status(200).send(profile)
   } catch (err) {
     console.log(err)
@@ -110,7 +126,7 @@ router.get('/', async (req, res) => {
     const profiles = await ProfileModel.find()
       .populate({
         path: 'user',
-        select: ['name', 'avatar', 'useImage', 'image']
+        select: ['_id', 'name', 'avatar', 'useImage', 'image']
       })
       .exec()
     if (profiles.length === 0) {
@@ -134,7 +150,7 @@ router.get('/user/:user_id', async (req, res) => {
       profile = await profile
         .populate({
           path: 'user',
-          select: ['name', 'avatar', 'useImage', 'image']
+          select: ['_id', 'name', 'avatar', 'useImage', 'image']
         }) // add fields
         .execPopulate()
       res.status(200).send(profile)
@@ -157,7 +173,6 @@ router.get('/user/:user_id', async (req, res) => {
 router.delete('/', auth, async (req, res) => {
   const { userId } = req.body
   try {
-    console.log(userId)
     const profile = await ProfileModel.findOneAndDelete({ user: userId })
     if (profile) {
       res.status(204).send()

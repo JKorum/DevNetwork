@@ -21,17 +21,21 @@ router.post('/', auth, postAndCommentValidation, async (req, res) => {
   try {
     const { userId, text } = req.body
     const user = await UserModel.findById(userId).select('-password')
-    const { name, avatar, useImage, image } = user
+    const { name } = user
 
     let post = new PostModel({
       owner: userId,
       text,
-      ownerName: name,
-      avatar,
-      useImage,
-      image
+      ownerName: name
     })
     post = await post.save()
+    await post
+      .populate({
+        path: 'owner',
+        select: ['_id', 'useImage', 'image', 'avatar']
+      })
+      .execPopulate()
+
     res.status(201).send(post)
   } catch (err) {
     console.log(err)
@@ -78,7 +82,36 @@ router.get('/', auth, async (req, res) => {
     if (posts.length === 0) {
       return res.status(404).send({ errors: [{ msg: 'posts not found' }] })
     }
-    res.status(200).send(posts)
+    // populate posts `owner` field
+    const populated = await Promise.all(
+      posts.map(post =>
+        post
+          .populate({
+            path: 'owner',
+            select: ['_id', 'useImage', 'image', 'avatar']
+          })
+          .execPopulate()
+      )
+    )
+
+    // populate `owner` field in each comment in each post
+    await Promise.all(
+      populated.map(post => {
+        return Promise.all(
+          post.comments.map((comment, index) =>
+            post
+              .populate({
+                path: `comments.${index}.owner`,
+                select: ['_id', 'useImage', 'image', 'avatar']
+              })
+              .execPopulate()
+          )
+        )
+      })
+    )
+    // Mongoose does not support calling populate() on nested docs. Instead of `doc.arr[0].populate("path")`, use `doc.populate("arr.0.path")`
+
+    res.status(200).send(populated)
   } catch (err) {
     console.log(err)
     res.status(500).send({ errors: [{ msg: 'server error' }] })
@@ -96,6 +129,13 @@ router.get('/:id', auth, async (req, res) => {
     if (!post) {
       return res.status(404).send({ errors: [{ msg: 'post not found' }] })
     }
+    await post
+      .populate({
+        path: 'owner',
+        select: ['_id', 'useImage', 'image', 'avatar']
+      })
+      .execPopulate()
+
     res.status(200).send(post)
   } catch (err) {
     console.log(err)
@@ -190,12 +230,22 @@ router.patch(
       post.comments.unshift({
         owner: userId,
         text,
-        ownerName: user.name,
-        avatar: user.avatar,
-        image: user.image,
-        useImage: user.useImage
+        ownerName: user.name
       })
       await post.save()
+
+      // Mongoose does not support calling populate() on nested docs. Instead of `doc.arr[0].populate("path")`, use `doc.populate("arr.0.path")`
+      await Promise.all(
+        post.comments.map((comment, index) =>
+          post
+            .populate({
+              path: `comments.${index}.owner`,
+              select: ['_id', 'useImage', 'image', 'avatar']
+            })
+            .execPopulate()
+        )
+      )
+
       res.status(201).send(post.comments)
     } catch (err) {
       console.log(err)
@@ -243,6 +293,14 @@ router.patch(
       post.comments[index].text = text
       post.comments[index].wasUpdated = true
       await post.save()
+
+      await post
+        .populate({
+          path: `comments.${index}.owner`,
+          select: ['_id', 'useImage', 'image', 'avatar']
+        })
+        .execPopulate()
+
       res.status(200).send(post.comments[index])
     } catch (err) {
       console.log(err)
@@ -279,6 +337,19 @@ router.delete('/:post_id/comments/:comment_id', auth, async (req, res) => {
     //remove comment
     post.comments.pull({ _id: comment_id })
     await post.save()
+
+    // Mongoose does not support calling populate() on nested docs. Instead of `doc.arr[0].populate("path")`, use `doc.populate("arr.0.path")`
+    await Promise.all(
+      post.comments.map((comment, index) =>
+        post
+          .populate({
+            path: `comments.${index}.owner`,
+            select: ['_id', 'useImage', 'image', 'avatar']
+          })
+          .execPopulate()
+      )
+    )
+
     res.status(200).send(post.comments)
   } catch (err) {
     console.log(err)
