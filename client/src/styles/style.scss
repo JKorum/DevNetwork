@@ -570,6 +570,29 @@ img {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+
+  h4 {
+    line-height: 1;
+    font-weight: 400;
+    margin-right: 0.5rem;
+  }
+
+  input {
+    line-height: 1;
+    font-weight: 400;
+    border: none;
+    padding: 0 0.5rem;
+    color: $black;
+    margin-right: 1rem;
+  }
+
+  i {
+    cursor: pointer;
+  }
+
+  .strict {
+    color: $dark-color;
+  }
 }
 
 @import 'mobile';

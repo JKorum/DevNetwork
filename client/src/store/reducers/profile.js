@@ -40,8 +40,8 @@ export default (state = initialState, action) => {
     case GET_PROFILES:
       return {
         ...state,
-        loading: false,
-        profiles: action.payload
+        profiles: action.payload,
+        loading: false
       }
     case GET_REPOS:
       return {
