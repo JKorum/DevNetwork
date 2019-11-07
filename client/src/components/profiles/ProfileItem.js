@@ -42,5 +42,3 @@ const ProfileItem = ({ profile }) => {
 }
 
 export default ProfileItem
-
-// export default () => <div>profile</div>

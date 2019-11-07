@@ -46,7 +46,7 @@ const AddExperience = ({ loadProfile, addExperience, history, alerts }) => {
       <h1 className='large text-primary mx-1'>Experience</h1>
 
       <div className='dashboard-header bg-primary mx-1'>
-        <h4>Add your programming experience</h4>
+        <h4 className='dashboard-greeting'>Add your programming experience</h4>
       </div>
       <div className='dashboard_main my-1 p-1'>
         <small>* required fields</small>

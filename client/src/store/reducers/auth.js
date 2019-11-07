@@ -6,7 +6,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  ACCOUNT_DELETED
+  ACCOUNT_DELETED,
+  UPLOADED_USER_UPDATE
 } from '../actions/types'
 
 const initialState = {
@@ -24,6 +25,12 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
         user: action.payload
+      }
+    case UPLOADED_USER_UPDATE:
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, ...action.payload }
       }
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:

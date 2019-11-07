@@ -7,19 +7,7 @@ import setHeartClass from '../../utils/setHeartClass'
 import setCommentClass from '../../utils/setCommentClass'
 
 const PostItem = ({
-  post: {
-    _id,
-    owner,
-    avatar,
-    ownerName,
-    text,
-    createdAt,
-    likes,
-    comments,
-    wasUpdated,
-    useImage,
-    image
-  },
+  post: { _id, owner, ownerName, text, createdAt, likes, comments, wasUpdated },
   user,
   likeOrUnlike,
   deletePost,
@@ -29,8 +17,11 @@ const PostItem = ({
     <div className='post my-1 p-1'>
       <div className='post__avatar_container'>
         {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
-        <Link to={`/profiles/${owner}`}>
-          <img className='round-img' src={useImage ? image : avatar} />
+        <Link to={`/profiles/${owner._id}`}>
+          <img
+            className='round-img'
+            src={owner.useImage ? owner.image : owner.avatar}
+          />
         </Link>
       </div>
       <div>
@@ -67,7 +58,7 @@ const PostItem = ({
             <Link to={`/posts/${_id}`} className='btn btn-dark'>
               Discussion
             </Link>
-            {user === owner && (
+            {user === owner._id && (
               <button
                 type='button'
                 className='btn btn-red'

@@ -63,6 +63,25 @@ router.patch('/:id', auth, postAndCommentValidation, async (req, res) => {
     post.text = text
     post.wasUpdated = true
     await post.save()
+
+    await post
+      .populate({
+        path: 'owner',
+        select: ['_id', 'useImage', 'image', 'avatar']
+      })
+      .execPopulate()
+
+    await Promise.all(
+      post.comments.map((comment, index) =>
+        post
+          .populate({
+            path: `comments.${index}.owner`,
+            select: ['_id', 'useImage', 'image', 'avatar']
+          })
+          .execPopulate()
+      )
+    )
+
     res.status(200).send(post)
   } catch (err) {
     console.log(err)
@@ -135,6 +154,17 @@ router.get('/:id', auth, async (req, res) => {
         select: ['_id', 'useImage', 'image', 'avatar']
       })
       .execPopulate()
+
+    await Promise.all(
+      post.comments.map((comment, index) =>
+        post
+          .populate({
+            path: `comments.${index}.owner`,
+            select: ['_id', 'useImage', 'image', 'avatar']
+          })
+          .execPopulate()
+      )
+    )
 
     res.status(200).send(post)
   } catch (err) {

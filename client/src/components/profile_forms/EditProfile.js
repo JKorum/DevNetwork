@@ -86,7 +86,9 @@ const EditProfile = ({
       {alerts.length > 0 && <Alert />}
       <h1 className='large text-primary mx-1'>Edit your profile</h1>
       <div className='dashboard-header bg-primary mx-1'>
-        <h4>Provide data to make your profile special</h4>
+        <h4 className='dashboard-greeting'>
+          Provide data to make your profile special
+        </h4>
       </div>
 
       <div className='dashboard_main my-1 p-1'>

@@ -17,7 +17,8 @@ import {
   CLEAR_PROFILE,
   GET_PROFILES,
   GET_REPOS,
-  CLEAR_REPOS
+  CLEAR_REPOS,
+  UPLOADED_USER_UPDATE
 } from '../actions/types'
 
 // get all profiles
@@ -151,6 +152,13 @@ export const toggleImgAndFetchProfileGenerator = userId => {
           dispatch({
             type: GET_PROFILE,
             payload: resProfile.data
+          })
+          dispatch({
+            type: UPLOADED_USER_UPDATE,
+            payload: {
+              useImage: resProfile.data.user.useImage,
+              image: resProfile.data.user.image
+            }
           })
         }
       }

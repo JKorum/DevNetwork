@@ -10,18 +10,7 @@ import {
 import setHeartClass from '../../utils/setHeartClass'
 
 const CommentItem = ({
-  comment: {
-    _id,
-    owner,
-    avatar,
-    ownerName,
-    text,
-    createdAt,
-    likes,
-    wasUpdated,
-    useImage,
-    image
-  },
+  comment: { _id, owner, ownerName, text, createdAt, likes, wasUpdated },
   deleteComment,
   updateComment,
   likeComment,
@@ -47,13 +36,16 @@ const CommentItem = ({
   return (
     <div className='comment my-1 p-1'>
       <div className='comment__avatar_container'>
-        <img className='round-img' src={useImage ? image : avatar} />
+        <img
+          className='round-img'
+          src={owner.useImage ? owner.image : owner.avatar}
+        />
       </div>
       <div>
         <div className='comment__info px-xs'>
           <span>
-            <Link to={`/profiles/${owner}`}>
-              <h4 className={user === owner ? 'user_comment' : 'void'}>
+            <Link to={`/profiles/${owner._id}`}>
+              <h4 className={user === owner._id ? 'user_comment' : 'void'}>
                 {ownerName}
               </h4>
             </Link>
@@ -85,7 +77,7 @@ const CommentItem = ({
             {likes.length > 0 && <p>{likes.length}</p>}
           </div>
           <div className='comment__buttons'>
-            {user === owner && (
+            {user === owner._id && (
               <Fragment>
                 <button
                   type='button'

@@ -85,10 +85,12 @@ const Post = ({
           <div className='post my-1 p-1'>
             <div className='post__avatar_container'>
               {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
-              <Link to={`/profiles/${post.owner}`}>
+              <Link to={`/profiles/${post.owner._id}`}>
                 <img
                   className='round-img'
-                  src={post.useImage ? post.image : post.avatar}
+                  src={
+                    post.owner.useImage ? post.owner.image : post.owner.avatar
+                  }
                 />
               </Link>
             </div>
@@ -128,7 +130,7 @@ const Post = ({
                   {post.likes.length > 0 && <p>{post.likes.length}</p>}
                 </div>
                 <div className='comment__buttons'>
-                  {auth.user._id === post.owner && (
+                  {auth.user._id === post.owner._id && (
                     <Fragment>
                       <button
                         type='button'
