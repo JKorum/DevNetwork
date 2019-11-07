@@ -15,12 +15,10 @@ const ProfilesList = ({ alerts, loadProfiles, profiles, isLoading }) => {
       {alerts.length > 0 && <Alert />}
       {!isLoading ? (
         <Fragment>
-          <h1 className='large text-primary'>Developers</h1>
-          <p className='lead'>
-            <i className='fab fa-connectdevelop'></i> Browse and collaborate
-            with developers
-          </p>
-          <div className='profiles'>
+          <h1 className='large text-primary mx-1'>Developers</h1>
+          <div className='developers-header bg-primary mx-1'>test</div>
+
+          <div className='profiles my-1 p-1'>
             {profiles.length > 0 ? (
               profiles.map(profile => (
                 <ProfileItem key={profile._id} profile={profile} />

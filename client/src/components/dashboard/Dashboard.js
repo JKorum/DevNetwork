@@ -38,7 +38,7 @@ const Dashboard = ({
         <Fragment>
           <h1 className='large text-primary mx-1'>Dashboard</h1>
           <div className='dashboard-header bg-primary mx-1'>
-            <h4>
+            <h4 className='dashboard-greeting'>
               {greetings()}, {user && user.name}!
             </h4>
             <div className='dash-buttons'>

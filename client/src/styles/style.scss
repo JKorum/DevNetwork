@@ -94,6 +94,24 @@ img {
   padding: 1rem;
   line-height: 1.8;
   margin-bottom: 1rem;
+  background: $grey;
+
+  &__summary {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__skills {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-left: 1.5px solid #fff;
+    align-self: stretch;
+    justify-content: center;
+  }
 }
 
 // profile page
@@ -486,6 +504,10 @@ img {
   }
 }
 
+.dashboard-greeting {
+  padding: 0.65rem 0 0.65rem 0;
+}
+
 .dashboard_main {
   min-height: 10rem;
   p,
@@ -549,6 +571,13 @@ img {
   input {
     margin-right: 0.5rem;
   }
+}
+
+.developers-header {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 @import 'mobile';
