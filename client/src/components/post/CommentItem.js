@@ -36,10 +36,14 @@ const CommentItem = ({
   return (
     <div className='comment my-1 p-1'>
       <div className='comment__avatar_container'>
-        <img
+        <div className='img_container--comments'>
+          <img src={owner.useImage ? owner.image : owner.avatar} />
+        </div>
+
+        {/* <img
           className='round-img'
           src={owner.useImage ? owner.image : owner.avatar}
-        />
+        /> */}
       </div>
       <div>
         <div className='comment__info px-xs'>

@@ -14,8 +14,12 @@ const PostForm = ({ addPost, image, postsNumber }) => {
   return (
     <div className='post my-1 p-1'>
       <div className='post__avatar_container'>
-        <img className='round-img' src={image} />
+        <div className='img_container--posts'>
+          <img src={image} />
+        </div>
+        {/* <img className='round-img' src={image} /> */}
       </div>
+
       <div>
         <div className='comment__info--top px-xs'>
           <h4 className='comment__head_text'>{postsNumber} posts total</h4>

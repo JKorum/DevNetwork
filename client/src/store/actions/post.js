@@ -217,7 +217,18 @@ export const deletePostGenerator = postId => {
           type: DELETE_POST,
           payload: postId
         })
+
         dispatch(setAlert('post deleted', 'success'))
+        // testing
+        const res = await axios.get('/api/posts')
+        if (res.status === 200) {
+          dispatch({
+            type: GET_POSTS,
+            payload: res.data
+          })
+        }
+
+        // testing
       }
     } catch (err) {
       // server responded with no 2** status

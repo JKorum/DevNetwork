@@ -1,6 +1,7 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import ReactModal from 'react-modal'
 import {
   fetchProfileGenerator,
   accountDeleteGenerator
@@ -19,22 +20,73 @@ const Dashboard = ({
   authentication: { user },
   profile: { loading, profile }
 }) => {
+  const [modalOpen, toggleModalOpen] = useState(false)
+
   useEffect(() => {
     console.log(`useEffect from <Dashboard /> is fired`)
     loadProfile()
   }, [])
 
-  // temp -->
-  const handleDelete = () => {
-    if (window.confirm("Are you sure? This action can't be undone")) {
-      deleteAccount()
-    }
-  }
-
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      {!loading ? (
+
+      <ReactModal
+        isOpen={modalOpen}
+        parentSelector={() => document.getElementById('root')}
+        appElement={document.getElementById('root')}
+        onRequestClose={() => toggleModalOpen(!modalOpen)}
+        closeTimeoutMS={200}
+        style={{
+          content: {
+            top: '30%',
+            bottom: '30%',
+            right: '30%',
+            left: '30%',
+            borderRadius: '5px',
+            border: '1px solid #17a2b8',
+            background: '#343a40'
+          }
+        }}
+      >
+        <h1>Confirm Account Deletion</h1>
+
+        <form
+          id='delete_form'
+          onSubmit={e => {
+            e.preventDefault()
+            if (e.target.delete.value.toLowerCase() === 'delete my account') {
+              toggleModalOpen(!modalOpen)
+              deleteAccount()
+            }
+          }}
+        >
+          <p>
+            To permanently delete your personal data enter 'Delete my account'.
+          </p>
+          <p>Please note that your posts and comments will be preserved.</p>
+          <input
+            name='delete'
+            type='text'
+            required
+            placeholder='delete my account...'
+          />
+        </form>
+        <div>
+          <button type='submit' form='delete_form' className='btn modal-red'>
+            Submit
+          </button>
+          <button
+            type='button'
+            onClick={() => toggleModalOpen(!modalOpen)}
+            className='btn modal-primary'
+          >
+            Cancel
+          </button>
+        </div>
+      </ReactModal>
+
+      {!loading && profile ? (
         <Fragment>
           <h1 className='large text-primary mx-1'>Dashboard</h1>
           <div className='dashboard-header bg-primary mx-1'>
@@ -66,7 +118,10 @@ const Dashboard = ({
           </div>
           <div className='dashboard_manageboard mx-1'>
             {profile !== null ? (
-              <button className='btn btn-red' onClick={handleDelete}>
+              <button
+                className='btn btn-red'
+                onClick={e => toggleModalOpen(!modalOpen)}
+              >
                 Delete Account
               </button>
             ) : (

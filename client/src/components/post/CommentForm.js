@@ -21,7 +21,11 @@ const CommentForm = ({
   return (
     <div className='comment my-1 p-1'>
       <div className='comment__avatar_container'>
-        <img src={useImage ? image : avatar} className='round-img' />
+        <div className='img_container--comments'>
+          <img src={useImage ? image : avatar} />
+        </div>
+
+        {/* <img src={useImage ? image : avatar} className='round-img' /> */}
       </div>
       <div>
         <div className='comment__info--top px-xs'>

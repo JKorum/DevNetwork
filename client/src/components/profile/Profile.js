@@ -1,6 +1,7 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
+import ReactModal from 'react-modal'
 import {
   fetchProfileByIdGenerator,
   setImgAndFetchProfileGenerator,
@@ -24,6 +25,8 @@ const Profile = ({
 }) => {
   const { user_id } = useParams()
 
+  const [modalOpen, toggleModalOpen] = useState(false)
+
   useEffect(() => {
     const id = user_id
     loadProfile(id)
@@ -34,6 +37,65 @@ const Profile = ({
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
+
+      <ReactModal
+        isOpen={modalOpen}
+        parentSelector={() => document.getElementById('root')}
+        appElement={document.getElementById('root')}
+        onRequestClose={() => toggleModalOpen(!modalOpen)}
+        closeTimeoutMS={200}
+        style={{
+          content: {
+            top: '30%',
+            bottom: '30%',
+            right: '30%',
+            left: '30%',
+            borderRadius: '5px',
+            border: '1px solid #17a2b8',
+            background: '#343a40'
+          }
+        }}
+      >
+        <h1>Upload Profile Image</h1>
+        {/* <div className='line--modal'></div> */}
+        <form
+          id='img_form'
+          onSubmit={e => {
+            e.preventDefault()
+            if (e.target.url.value !== '') {
+              setImgAndLoadProfile(user_id, {
+                image: e.target.url.value
+              })
+            }
+            toggleModalOpen(!modalOpen)
+          }}
+        >
+          <p>Please provide URL to an image.</p>
+          <p>
+            You will be able to switch between the image and the gravatar at any
+            time.
+          </p>
+          <input
+            name='url'
+            type='url'
+            required
+            placeholder='eg. https://avatars.githubusercontent.com/u/1234'
+          />
+        </form>
+        <div>
+          <button type='submit' form='img_form' className='btn modal-red'>
+            Submit
+          </button>
+          <button
+            type='button'
+            onClick={() => toggleModalOpen(!modalOpen)}
+            className='btn modal-primary'
+          >
+            Cancel
+          </button>
+        </div>
+      </ReactModal>
+
       {!loading && profile !== null ? (
         <Fragment>
           <div className='container__mini_banner mx-1'>
@@ -62,13 +124,7 @@ const Profile = ({
                 <div className='avatar_manageboard'>
                   <button
                     className='btn'
-                    // should be modal with input for URL
-                    onClick={e =>
-                      setImgAndLoadProfile(user_id, {
-                        image:
-                          'https://avatars1.githubusercontent.com/u/48204262?s=460&v=4'
-                      })
-                    }
+                    onClick={e => toggleModalOpen(!modalOpen)}
                   >
                     Switch Avatar
                   </button>

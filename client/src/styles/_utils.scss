@@ -73,6 +73,35 @@
   outline: none;
   transition: all 0.2s ease-in;
 
+  &.modal-red {
+    padding: 0.6rem 1.3rem;
+    border: 1.5px solid $red;
+    border-radius: 5px;
+    @include set-background($red);
+    &:hover {
+      background: lighten($red, 5%);
+    }
+  }
+
+  &.modal-dark {
+    padding: 0.6rem 1.3rem;
+    border: 1.5px solid $dark;
+    border-radius: 5px;
+    &:hover {
+      background: lighten($dark, 5%);
+    }
+  }
+
+  &.modal-primary {
+    padding: 0.6rem 1.3rem;
+    border: 1.5px solid $primary-color;
+    border-radius: 5px;
+    @include set-background($primary-color);
+    &:hover {
+      background: lighten($primary-color, 5%);
+    }
+  }
+
   &.btn-primary {
     @include set-background($primary-color);
     &:hover {
@@ -151,11 +180,78 @@
   border-radius: 50%;
 }
 
+.img_container {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+
+  &__img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.img_container--posts {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+
+  img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.img_container--comments {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+
+  img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.img_container--smallest {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+
+  img {
+    height: auto;
+    width: 100%;
+  }
+}
+
 // lines
 .line {
   height: 0.5px;
   background: darken($grey, 10%);
   margin: 1rem 0;
+}
+
+.line--modal {
+  height: 0.5px;
+  background: darken($grey, 10%);
+  width: 100%;
 }
 
 .vertical_line {
@@ -236,4 +332,11 @@
   font-weight: 400;
   text-transform: uppercase;
   margin: 0.5rem;
+}
+
+// spinner
+.spinner {
+  position: fixed;
+  left: 45%;
+  top: 40%;
 }

@@ -109,7 +109,7 @@ const Posts = ({
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      {isAuthenticated ? (
+      {isAuthenticated && !isLoading ? (
         <Fragment>
           <h1 className='large text-primary mx-1'>Posts</h1>
 

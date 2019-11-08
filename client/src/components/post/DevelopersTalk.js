@@ -47,12 +47,15 @@ const DevelopersTalk = ({ comments }) => {
     <div className='dev_container'>
       {firstFiveInList.map(dev => {
         return (
-          <img
-            key={dev.id}
-            src={dev.useImage ? dev.image : dev.avatar}
-            className='round-img mxr-xs'
-            title={dev.name}
-          />
+          <div key={dev.id} className='img_container--smallest mxr-xs'>
+            <img src={dev.useImage ? dev.image : dev.avatar} title={dev.name} />
+          </div>
+          // <img
+          //   key={dev.id}
+          //   src={dev.useImage ? dev.image : dev.avatar}
+          //   className='round-img mxr-xs'
+          //   title={dev.name}
+          // />
         )
       })}
       {restDev > 0 && (

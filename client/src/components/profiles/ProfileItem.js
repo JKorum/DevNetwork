@@ -12,7 +12,11 @@ const ProfileItem = ({ profile }) => {
 
   return (
     <div className='profile'>
-      <img className='round-img' src={useImage ? image : avatar} />
+      <div className='img_container'>
+        <img className='img_container__img' src={useImage ? image : avatar} />
+      </div>
+
+      {/* <img className='round-img' src={useImage ? image : avatar} /> */}
       <div className='profile__summary'>
         <div>
           <h2>{name}</h2>

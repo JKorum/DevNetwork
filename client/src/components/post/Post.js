@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 import Moment from 'react-moment'
+import ReactModal from 'react-modal'
 import { fetchPostByIdGenerator } from '../../store/actions/post'
 import Spinner from '../layout/Spinner'
 import CommentForm from './CommentForm'
@@ -32,6 +33,8 @@ const Post = ({
   deletePost,
   history
 }) => {
+  const [modalOpen, toggleModalOpen] = useState(false)
+
   const { post_id } = useParams()
 
   useEffect(() => {
@@ -63,15 +66,58 @@ const Post = ({
     setWaitForUpdate(false)
   }
 
-  // modal popup should be integrated
-  const handleDeletePost = e => {
-    deletePost(post._id)
-    history.push('/posts')
-  }
-
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
+
+      <ReactModal
+        isOpen={modalOpen}
+        parentSelector={() => document.getElementById('root')}
+        appElement={document.getElementById('root')}
+        onRequestClose={() => toggleModalOpen(!modalOpen)}
+        closeTimeoutMS={200}
+        style={{
+          content: {
+            top: '30%',
+            bottom: '30%',
+            right: '30%',
+            left: '30%',
+            borderRadius: '5px',
+            border: '1px solid #17a2b8',
+            background: '#343a40'
+          }
+        }}
+      >
+        <h1>Confirm Post Deletion</h1>
+
+        <form
+          id='delete_post_form'
+          onSubmit={e => {
+            e.preventDefault()
+            deletePost(post._id)
+            history.push('/posts')
+          }}
+        >
+          <h2>Are you sure?</h2>
+        </form>
+        <div>
+          <button
+            type='submit'
+            form='delete_post_form'
+            className='btn modal-red'
+          >
+            Submit
+          </button>
+          <button
+            type='button'
+            onClick={() => toggleModalOpen(!modalOpen)}
+            className='btn modal-primary'
+          >
+            Cancel
+          </button>
+        </div>
+      </ReactModal>
+
       {!isLoading && post ? (
         <Fragment>
           <div className='container__mini_banner mx-1'>
@@ -86,12 +132,20 @@ const Post = ({
             <div className='post__avatar_container'>
               {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
               <Link to={`/profiles/${post.owner._id}`}>
-                <img
+                <div className='img_container--posts'>
+                  <img
+                    src={
+                      post.owner.useImage ? post.owner.image : post.owner.avatar
+                    }
+                  />
+                </div>
+
+                {/* <img
                   className='round-img'
                   src={
                     post.owner.useImage ? post.owner.image : post.owner.avatar
                   }
-                />
+                /> */}
               </Link>
             </div>
             <div>
@@ -148,7 +202,7 @@ const Post = ({
                         className='btn btn-red'
                         onClick={
                           !waitForUpdate
-                            ? handleDeletePost
+                            ? e => toggleModalOpen(!modalOpen)
                             : e => setWaitForUpdate(false)
                         }
                       >
