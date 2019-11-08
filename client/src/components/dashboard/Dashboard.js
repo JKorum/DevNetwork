@@ -23,7 +23,6 @@ const Dashboard = ({
   const [modalOpen, toggleModalOpen] = useState(false)
 
   useEffect(() => {
-    console.log(`useEffect from <Dashboard /> is fired`)
     loadProfile()
   }, [])
 
@@ -86,7 +85,7 @@ const Dashboard = ({
         </div>
       </ReactModal>
 
-      {!loading && profile ? (
+      {!loading ? (
         <Fragment>
           <h1 className='large text-primary mx-1'>Dashboard</h1>
           <div className='dashboard-header bg-primary mx-1'>
