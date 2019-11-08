@@ -86,11 +86,11 @@ const ProfilesList = ({ alerts, loadProfiles, profiles, isLoading }) => {
             <input
               id='skill-filter'
               type='text'
-              placeholder='skills /use CSV/...'
+              placeholder='skills /CSV/...'
               onChange={strictStatus ? strictSearch : regularSearch}
-              title='Please note that filter result will include developers based on their skills that may be partly displayed in cards below'
+              title='Note that filter result will include developers based on their skills that may be partly displayed on cards below'
             />
-            <h4>{strictStatus ? 'Strict used' : 'Use strict'}</h4>
+            <h4>{strictStatus ? 'Strict mode' : 'Use strict'}</h4>
             <i
               className={`fas fa-chevron-circle-right fa-lg ${
                 strictStatus ? 'strict' : 'void'
@@ -100,6 +100,7 @@ const ProfilesList = ({ alerts, loadProfiles, profiles, isLoading }) => {
                 setFilteredProfiles(localProfiles)
                 $input.value = ''
               }}
+              title='In strict mode search result will include developers whose skills satisfy query completely'
             ></i>
           </div>
 
