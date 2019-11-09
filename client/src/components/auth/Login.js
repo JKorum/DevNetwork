@@ -32,6 +32,7 @@ const Login = ({ loginUser, isAuthenticated, alerts }) => {
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
+
       <h1 className='large text-primary'>Sign In</h1>
       <p className='lead'>
         <i className='fas fa-user'></i>Login to your account

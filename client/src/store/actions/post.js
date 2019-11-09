@@ -26,6 +26,7 @@ export const fetchPostsGenerator = () => {
         })
       }
     } catch (err) {
+      dispatch(setAlert('failed to fetch posts', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -39,7 +40,6 @@ export const fetchPostsGenerator = () => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -65,8 +65,10 @@ export const updatePostByIdGenerator = (postId, text) => {
           type: UPDATE_POST_TEXT,
           payload: res.data
         })
+        dispatch(setAlert('post updated', 'success'))
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -85,7 +87,7 @@ export const updatePostByIdGenerator = (postId, text) => {
       } else {
         // no response is received (or status 400)
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -107,6 +109,7 @@ export const fetchPostByIdGenerator = postId => {
         })
       }
     } catch (err) {
+      dispatch(setAlert('failed to fetch post', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -125,7 +128,7 @@ export const fetchPostByIdGenerator = postId => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -147,6 +150,7 @@ export const likesGenerator = postId => {
         })
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -160,7 +164,7 @@ export const likesGenerator = postId => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -184,6 +188,7 @@ export const likeCommentGenerator = (postId, commentId) => {
         })
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -197,7 +202,7 @@ export const likeCommentGenerator = (postId, commentId) => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -219,7 +224,7 @@ export const deletePostGenerator = postId => {
         })
 
         dispatch(setAlert('post deleted', 'success'))
-        // testing
+        // following block is added to fix a bug that occurred during redirection
         const res = await axios.get('/api/posts')
         if (res.status === 200) {
           dispatch({
@@ -227,10 +232,9 @@ export const deletePostGenerator = postId => {
             payload: res.data
           })
         }
-
-        // testing
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -249,7 +253,7 @@ export const deletePostGenerator = postId => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -278,6 +282,7 @@ export const addPostGenerator = data => {
         dispatch(setAlert('post added', 'success'))
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -291,7 +296,7 @@ export const addPostGenerator = data => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -321,6 +326,7 @@ export const addCommentGenerator = (postId, data) => {
         dispatch(setAlert('comment added', 'success'))
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -339,7 +345,7 @@ export const addCommentGenerator = (postId, data) => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -370,8 +376,10 @@ export const updateCommentTextGenerator = (postId, commentId, text) => {
             wasUpdated: res.data.wasUpdated
           }
         })
+        dispatch(setAlert('comment updated', 'success'))
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -390,7 +398,7 @@ export const updateCommentTextGenerator = (postId, commentId, text) => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err
@@ -416,6 +424,7 @@ export const deleteCommentGenerator = (postId, commentId) => {
         dispatch(setAlert('comment deleted', 'success'))
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -429,7 +438,7 @@ export const deleteCommentGenerator = (postId, commentId) => {
       } else {
         // no response is received
         console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
           type: POST_ERROR,
           payload: err

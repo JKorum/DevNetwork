@@ -54,6 +54,7 @@ export const registerGenerator = data => {
           payload: res.data
         })
         dispatch(loadUserGenerator())
+        dispatch(setAlert('Registered', 'success'))
       }
     } catch (err) {
       // server responded with no 2** status

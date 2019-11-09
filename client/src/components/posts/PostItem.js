@@ -96,16 +96,16 @@ const PostItem = ({
                 onClick={e => likeOrUnlike(_id)}
                 className={`fas fa-heart fa-lg${setHeartClass(likes, user)}`}
               ></i>{' '}
-              {likes.length > 0 && <p>{likes.length}</p>}
+              {likes !== undefined && likes.length > 0 && <p>{likes.length}</p>}
             </div>
             <div>
               <i
-                className={`fas fa-comment fa-lg${setCommentClass(
-                  comments.length
-                )}`}
+                className={`fas fa-comment fa-lg${setCommentClass(comments)}`}
                 onClick={e => history.push(`/posts/${_id}`)}
               ></i>{' '}
-              {comments.length > 0 && <p>{comments.length}</p>}
+              {comments !== undefined && comments.length > 0 && (
+                <p>{comments.length}</p>
+              )}
             </div>
           </div>
           <div className='comment__buttons'>

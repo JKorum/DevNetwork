@@ -124,9 +124,11 @@ const Post = ({
             <Link to='/posts' className='btn'>
               Back to posts
             </Link>
-            {post.comments.length > 0 && (
-              <DevelopersTalk comments={post.comments} />
-            )}
+            {post.comments !== undefined
+              ? post.comments.length > 0 && (
+                  <DevelopersTalk comments={post.comments} />
+                )
+              : false}
           </div>
           <div className='post my-1 p-1'>
             <div className='post__avatar_container'>
@@ -181,7 +183,10 @@ const Post = ({
                       auth.user._id
                     )}`}
                   ></i>{' '}
-                  {post.likes.length > 0 && <p>{post.likes.length}</p>}
+                  {post.likes !== undefined
+                    ? post.likes.length > 0 && <p>{post.likes.length}</p>
+                    : false}
+                  {/* {post.likes.length > 0 && <p>{post.likes.length}</p>} */}
                 </div>
                 <div className='comment__buttons'>
                   {auth.user._id === post.owner._id && (
@@ -229,7 +234,8 @@ const Post = ({
             </div>
             <CommentForm postId={post_id} />
             <div className='posts'>
-              {post.comments.length > 0 &&
+              {post.comments !== undefined &&
+                post.comments.length > 0 &&
                 post.comments.map(comment => (
                   <CommentItem
                     key={comment._id}

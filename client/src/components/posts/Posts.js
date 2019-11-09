@@ -26,28 +26,30 @@ const Posts = ({
   }, [isAuthenticated])
 
   useEffect(() => {
-    // check if new post was added
-    const isNewPostAdded = posts.length > localPosts.length ? true : false
+    if (posts !== undefined) {
+      // check if new post was added
+      const isNewPostAdded = posts.length > localPosts.length ? true : false
 
-    // local posts are always synchronized with global state
-    // they are used to produce filtered / sorted posts
-    setLocalPosts(posts)
+      // local posts are always synchronized with global state
+      // they are used to produce filtered / sorted posts
+      setLocalPosts(posts)
 
-    if (filteredPosts.length === 0 || isNewPostAdded) {
-      // necessary because only filtered posts are rendered
-      setFilteredPosts(posts)
-    } else {
-      const updatedFilteredPosts = []
+      if (filteredPosts.length === 0 || isNewPostAdded) {
+        // necessary because only filtered posts are rendered
+        setFilteredPosts(posts)
+      } else {
+        const updatedFilteredPosts = []
 
-      for (const localPost of filteredPosts) {
-        for (const globalPost of posts) {
-          if (localPost._id === globalPost._id) {
-            updatedFilteredPosts.push(globalPost)
+        for (const localPost of filteredPosts) {
+          for (const globalPost of posts) {
+            if (localPost._id === globalPost._id) {
+              updatedFilteredPosts.push(globalPost)
+            }
           }
         }
-      }
 
-      setFilteredPosts(updatedFilteredPosts)
+        setFilteredPosts(updatedFilteredPosts)
+      }
     }
   }, [posts])
 

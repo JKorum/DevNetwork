@@ -38,6 +38,7 @@ export const fetchAllProfilesGenerator = () => {
         })
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -72,6 +73,7 @@ export const fetchProfileByIdGenerator = userId => {
         })
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -107,6 +109,7 @@ export const setImgAndFetchProfileGenerator = (userId, data) => {
       // send image first ->
       const resImage = await axios(config)
       if (resImage.status === 204) {
+        dispatch(setAlert('New image saved', 'success'))
         // than get updated profile ->
         const resProfile = await axios.get(`/api/profiles/user/${userId}`)
         if (resProfile.status === 200) {
@@ -117,6 +120,7 @@ export const setImgAndFetchProfileGenerator = (userId, data) => {
         }
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -160,9 +164,11 @@ export const toggleImgAndFetchProfileGenerator = userId => {
               image: resProfile.data.user.image
             }
           })
+          dispatch(setAlert('Avatar switched', 'success'))
         }
       }
     } catch (err) {
+      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -218,10 +224,12 @@ export const fetchProfileGenerator = () => {
             type: PROFILE_ERROR,
             payload: { msg: errors[0].msg }
           })
+          dispatch(setAlert('something went wrong', 'danger'))
         }
       } else {
         // no response is received
         console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: PROFILE_ERROR,
           payload: { msg: 'something went wrong' }
@@ -539,6 +547,7 @@ export const getReposGenerator = githubName => {
         })
       }
     } catch (err) {
+      dispatch(setAlert('Failed to fetch github repos', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response

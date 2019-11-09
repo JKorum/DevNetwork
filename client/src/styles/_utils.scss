@@ -141,10 +141,18 @@
 // alerts
 .alert {
   padding: 0.8rem;
-  margin: 1rem;
+  margin: 0 0 1rem 2rem;
   opacity: 0.9;
-  background: $light-color;
-  color: #333;
+  background: lighten($primary-color, 10%);
+  color: #fff;
+  border-bottom: 3px solid $primary-color;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  min-width: 15vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
   &.alert-primary {
     @include set-background($primary-color);
@@ -153,10 +161,23 @@
     @include set-background($dark-color);
   }
   &.alert-success {
-    @include set-background($success-color);
+    background: lighten($success-color, 10%);
+    color: #fff;
+    border-bottom: 3px solid $success-color;
   }
   &.alert-danger {
-    @include set-background($danger-color);
+    background: lighten($red, 10%);
+    color: #fff;
+    border-bottom: 3px solid $red;
+  }
+
+  p {
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  i {
+    margin-right: 0.5rem;
   }
 }
 
