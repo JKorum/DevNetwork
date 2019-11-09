@@ -4,8 +4,15 @@ import { fetchAllProfilesGenerator } from '../../store/actions/profile'
 import Spinner from '../layout/Spinner'
 import ProfileItem from './ProfileItem'
 import Alert from '../layout/Alert'
+import { setAlert } from '../../store/actions/alert'
 
-const ProfilesList = ({ alerts, loadProfiles, profiles, isLoading }) => {
+const ProfilesList = ({
+  alerts,
+  loadProfiles,
+  profiles,
+  isLoading,
+  fireAlert
+}) => {
   const [localProfiles, setLocalProfiles] = useState([])
   const [filteredProfiles, setFilteredProfiles] = useState([])
   const [strictStatus, setStrictStatus] = useState(false)
@@ -22,6 +29,12 @@ const ProfilesList = ({ alerts, loadProfiles, profiles, isLoading }) => {
       setFilteredProfiles(profiles)
     }
   }, [profiles])
+
+  useEffect(() => {
+    if (strictStatus) {
+      fireAlert('strict mode enabled')
+    }
+  }, [strictStatus])
 
   //dev skill set should include some of query skills
   const regularSearch = e => {
@@ -54,23 +67,22 @@ const ProfilesList = ({ alerts, loadProfiles, profiles, isLoading }) => {
   //dev skill set must include all query skills
   const strictSearch = e => {
     const input = e.target.value.split(',').map(item => item.trim())
-
     const filtered = JSON.parse(JSON.stringify(localProfiles))
     const temp = []
 
-    localProfiles.forEach((profile, index) => {
+    filtered.forEach((profile, index) => {
       temp.push([index, profile.skills.join()])
     })
 
     for (let i = 0, n = temp.length; i < n; i++) {
       for (let j = 0, l = input.length; j < l; j++) {
         if (!temp[i][1].toLowerCase().includes(input[j].toLowerCase())) {
-          filtered.splice(temp[i][0], 1)
+          filtered[i].delete = true
         }
       }
     }
-
-    setFilteredProfiles(filtered)
+    const result = filtered.filter(dev => dev.delete !== true)
+    setFilteredProfiles(result)
   }
 
   const $input = document.getElementById('skill-filter')
@@ -128,7 +140,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadProfiles: () => dispatch(fetchAllProfilesGenerator())
+  loadProfiles: () => dispatch(fetchAllProfilesGenerator()),
+  fireAlert: (msg, alertType) => dispatch(setAlert(msg, alertType))
 })
 
 export default connect(
