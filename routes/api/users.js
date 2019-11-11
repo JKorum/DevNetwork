@@ -1,6 +1,10 @@
 const express = require('express')
 const { validationResult } = require('express-validator')
 const gravatar = require('gravatar')
+
+const sgMail = require('@sendgrid/mail')
+const config = require('config')
+
 const tokenGenerator = require('../../utils/token-generator')
 const auth = require('../../utils/auth')
 const {
@@ -45,7 +49,20 @@ router.post('/register', registerValidation, async (req, res) => {
     const token = await tokenGenerator(user.id)
     user.tokens.push({ token })
     await user.save()
-    //maybe add additional info to res
+
+    // sending welcome email
+    if (config.has('sendGrid') && config.has('mail')) {
+      sgMail.setApiKey(config.get('sendGrid'))
+      const msg = {
+        to: email,
+        from: config.get('mail'),
+        subject: `Welcome to DevNetwork, ${name}!`,
+        html: `<p>Thank you for your interest to DevNetwork project! I hope you will find it worthy of your attention.</p>
+        <p style="font-style: italic;">Warm regards, jKorum</p>`
+      }
+      sgMail.send(msg)
+    }
+
     res.status(201).send({ token })
   } catch (err) {
     console.log(err.message)
@@ -59,7 +76,23 @@ router.post('/register', registerValidation, async (req, res) => {
 router.delete('/unregister', auth, async (req, res) => {
   const { userId } = req.body
   try {
-    await UserModel.findByIdAndDelete(userId)
+    const { name, email } = await UserModel.findByIdAndDelete(userId).select(
+      'name email'
+    )
+
+    // sending farawell email
+    if (config.has('sendGrid') && config.has('mail')) {
+      sgMail.setApiKey(config.get('sendGrid'))
+      const msg = {
+        to: email,
+        from: config.get('mail'),
+        subject: `Farewell from DevNetwork`,
+        html: `<p>It's sad you have to go, ${name}. But that's ok. Take care and stay awesome!</p>
+        <p style="font-style: italic;">Warm regards, jKorum</p>`
+      }
+      sgMail.send(msg)
+    }
+
     res.status(204).send()
   } catch (err) {
     console.log(err.message)
@@ -85,7 +118,12 @@ router.post('/login', loginValidation, async (req, res) => {
       if (isValid) {
         //generate token and add new session
         const token = await tokenGenerator(user.id)
-        await user.updateOne({ $addToSet: { tokens: { token } } }) // -> to not trigger `pre` hook with `save`
+        // following operation shouldn't trigger `pre` hook with `save`
+        // emailSentCounter -> 0 to set notification counter to default for email sending
+        await user.updateOne({
+          $addToSet: { tokens: { token } },
+          $set: { emailSentCounter: 0 }
+        })
         res.status(200).send({ token })
       } else {
         throw new Error('password not valid')

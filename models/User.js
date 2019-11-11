@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema(
     },
     useImage: {
       type: Boolean
+    },
+    emailSentCounter: {
+      type: Number,
+      default: 0
     }
   },
   options

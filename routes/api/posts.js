@@ -1,5 +1,10 @@
 const express = require('express')
 const { validationResult } = require('express-validator')
+
+const sgMail = require('@sendgrid/mail')
+const config = require('config')
+const { messageOnComment } = require('../../utils/messanger')
+
 const PostModel = require('../../models/Post')
 const UserModel = require('../../models/User')
 const ProfileModel = require('../../models/Profile')
@@ -275,6 +280,39 @@ router.patch(
             .execPopulate()
         )
       )
+
+      // sending notification to post owner
+      if (config.has('sendGrid') && config.has('mail')) {
+        const { owner, likes, comments, createdAt } = await post
+          .populate({
+            path: 'owner',
+            select: ['_id', 'name', 'email', 'tokens', 'emailSentCounter']
+          })
+          .execPopulate()
+
+        // check if post owner has no active sessions
+        if (owner.tokens !== undefined && owner.tokens.length === 0) {
+          // check if post owner reached offline notification limit
+          if (owner.emailSentCounter < 5) {
+            // build email body
+            const html = messageOnComment(user.name, createdAt, comments, likes)
+
+            sgMail.setApiKey(config.get('sendGrid'))
+            const msg = {
+              to: owner.email,
+              from: config.get('mail'),
+              subject: `${owner.name}, your post on DevNetwork got more popular!`,
+              html
+            }
+            sgMail.send(msg)
+
+            // update notification counter of post owner
+            await UserModel.findByIdAndUpdate(owner._id, {
+              $inc: { emailSentCounter: 1 }
+            })
+          }
+        }
+      }
 
       res.status(201).send(post.comments)
     } catch (err) {
