@@ -11,7 +11,8 @@ import {
   DELETE_EXPERIENCE,
   DELETE_EXPERIENCE_ERROR,
   GET_PROFILES,
-  GET_REPOS
+  GET_REPOS,
+  CLEAR_PROFILES
 } from '../actions/types'
 
 const initialState = {
@@ -52,8 +53,15 @@ export default (state = initialState, action) => {
     case CLEAR_PROFILE:
       return {
         ...state,
-        profile: null, // should it also clear `profiles` & `errors`?
+        profile: null,
         repos: [],
+        loading: false
+      }
+    case CLEAR_PROFILES:
+      return {
+        ...state,
+        profiles: [],
+        error: {},
         loading: false
       }
     case ADD_EXPERIENCE:

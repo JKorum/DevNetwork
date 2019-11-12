@@ -18,7 +18,8 @@ import {
   GET_PROFILES,
   GET_REPOS,
   CLEAR_REPOS,
-  UPLOADED_USER_UPDATE
+  UPLOADED_USER_UPDATE,
+  CLEAR_PROFILES
 } from '../actions/types'
 
 // get all profiles
@@ -521,6 +522,9 @@ export const accountDeleteGenerator = () => {
       if (res.status === 204) {
         dispatch({
           type: CLEAR_PROFILE
+        })
+        dispatch({
+          type: CLEAR_PROFILES
         })
         await axios.delete('api/users/unregister')
         dispatch({

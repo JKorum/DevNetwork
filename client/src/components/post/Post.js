@@ -133,7 +133,7 @@ const Post = ({
           <div className='post my-1 p-1'>
             <div className='post__avatar_container'>
               {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
-              {post.owner !== null ? (
+              {post.owner !== null && post.owner !== undefined ? (
                 <Link
                   to={`/profiles/${post.owner._id}`}
                   title={'view public profile'}
@@ -194,32 +194,34 @@ const Post = ({
                     : false}
                 </div>
                 <div className='comment__buttons'>
-                  {post.owner !== null && auth.user._id === post.owner._id && (
-                    <Fragment>
-                      <button
-                        type='button'
-                        className='btn btn-dark'
-                        onClick={
-                          !waitForUpdate
-                            ? e => setWaitForUpdate(true)
-                            : handleUpdatePost
-                        }
-                      >
-                        {!waitForUpdate ? 'Update' : 'Submit'}
-                      </button>
-                      <button
-                        type='button'
-                        className='btn btn-red'
-                        onClick={
-                          !waitForUpdate
-                            ? e => toggleModalOpen(!modalOpen)
-                            : e => setWaitForUpdate(false)
-                        }
-                      >
-                        {!waitForUpdate ? 'Delete' : 'Cancel'}
-                      </button>
-                    </Fragment>
-                  )}
+                  {post.owner !== null &&
+                    post.owner !== undefined &&
+                    auth.user._id === post.owner._id && (
+                      <Fragment>
+                        <button
+                          type='button'
+                          className='btn btn-dark'
+                          onClick={
+                            !waitForUpdate
+                              ? e => setWaitForUpdate(true)
+                              : handleUpdatePost
+                          }
+                        >
+                          {!waitForUpdate ? 'Update' : 'Submit'}
+                        </button>
+                        <button
+                          type='button'
+                          className='btn btn-red'
+                          onClick={
+                            !waitForUpdate
+                              ? e => toggleModalOpen(!modalOpen)
+                              : e => setWaitForUpdate(false)
+                          }
+                        >
+                          {!waitForUpdate ? 'Delete' : 'Cancel'}
+                        </button>
+                      </Fragment>
+                    )}
                 </div>
               </div>
             </div>

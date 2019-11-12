@@ -36,7 +36,7 @@ const CommentItem = ({
   return (
     <div className='comment my-1 p-1'>
       <div className='comment__avatar_container'>
-        {owner !== null ? (
+        {owner !== null && owner !== undefined ? (
           <div className='img_container--comments'>
             <img src={owner.useImage ? owner.image : owner.avatar} />
           </div>
@@ -49,7 +49,7 @@ const CommentItem = ({
       <div>
         <div className='comment__info px-xs'>
           <span>
-            {owner !== null ? (
+            {owner !== null && owner !== undefined ? (
               <Link to={`/profiles/${owner._id}`} title={'view public profile'}>
                 <h4 className={user === owner._id ? 'user_comment' : 'void'}>
                   {ownerName}
@@ -88,7 +88,7 @@ const CommentItem = ({
             {likes !== undefined && likes.length > 0 && <p>{likes.length}</p>}
           </div>
           <div className='comment__buttons'>
-            {owner !== null && user === owner._id && (
+            {owner !== null && owner !== undefined && user === owner._id && (
               <Fragment>
                 <button
                   type='button'
