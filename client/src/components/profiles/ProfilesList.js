@@ -122,7 +122,9 @@ const ProfilesList = ({
                 <ProfileItem key={profile._id} profile={profile} />
               ))
             ) : (
-              <h4>No profiles found</h4>
+              <div className='filter_results'>
+                <h4>No profiles found</h4>
+              </div>
             )}
           </div>
         </Fragment>
