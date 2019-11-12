@@ -191,5 +191,19 @@ module.exports = {
       .not()
       .isEmpty()
       .isURL()
+  ],
+  emailValidation: [
+    check('email', 'should be valid email address')
+      .isString()
+      .trim()
+      .isEmail()
+      .normalizeEmail()
+  ],
+  passwordValidation: [
+    check('password', 'string of min six chars required')
+      .isString()
+      .trim()
+      .not()
+      .isEmpty()
   ]
 }
