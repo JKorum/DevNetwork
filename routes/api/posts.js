@@ -290,26 +290,34 @@ router.patch(
           })
           .execPopulate()
 
-        // check if post owner has no active sessions
-        if (owner.tokens !== undefined && owner.tokens.length === 0) {
-          // check if post owner reached offline notification limit
-          if (owner.emailSentCounter < 5) {
-            // build email body
-            const html = messageOnComment(user.name, createdAt, comments, likes)
+        //check if user exists
+        if (owner !== null) {
+          // check if post owner has no active sessions
+          if (owner.tokens !== undefined && owner.tokens.length === 0) {
+            // check if post owner reached offline notification limit
+            if (owner.emailSentCounter < 5) {
+              // build email body
+              const html = messageOnComment(
+                user.name,
+                createdAt,
+                comments,
+                likes
+              )
 
-            sgMail.setApiKey(config.get('sendGrid'))
-            const msg = {
-              to: owner.email,
-              from: config.get('mail'),
-              subject: `${owner.name}, your post on DevNetwork got more popular!`,
-              html
+              sgMail.setApiKey(config.get('sendGrid'))
+              const msg = {
+                to: owner.email,
+                from: config.get('mail'),
+                subject: `${owner.name}, your post on DevNetwork got more popular!`,
+                html
+              }
+              sgMail.send(msg)
+
+              // update notification counter of post owner
+              await UserModel.findByIdAndUpdate(owner._id, {
+                $inc: { emailSentCounter: 1 }
+              })
             }
-            sgMail.send(msg)
-
-            // update notification counter of post owner
-            await UserModel.findByIdAndUpdate(owner._id, {
-              $inc: { emailSentCounter: 1 }
-            })
           }
         }
       }
@@ -339,7 +347,7 @@ router.patch(
     }
     try {
       const { userId, text } = req.body
-      console.log(req.body)
+
       const { post_id, comment_id } = req.params
 
       //check for post

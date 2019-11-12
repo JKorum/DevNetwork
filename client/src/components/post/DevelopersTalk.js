@@ -5,26 +5,30 @@ const DevelopersTalk = ({ comments }) => {
   const developers = []
   comments.forEach(comment => {
     const { owner, ownerName } = comment
-    if (developers.length === 0) {
-      developers.push({
-        id: owner._id,
-        name: ownerName,
-        avatar: owner.avatar,
-        useImage: owner.useImage,
-        image: owner.image
-      })
-    } else if (
-      developers.findIndex(dev => {
-        return dev.id === owner._id
-      }) === -1
-    ) {
-      developers.push({
-        id: owner._id,
-        name: ownerName,
-        avatar: owner.avatar,
-        useImage: owner.useImage,
-        image: owner.image
-      })
+    // check if user exists
+    if (owner !== null) {
+      // they do -> proceed
+      if (developers.length === 0) {
+        developers.push({
+          id: owner._id,
+          name: ownerName,
+          avatar: owner.avatar,
+          useImage: owner.useImage,
+          image: owner.image
+        })
+      } else if (
+        developers.findIndex(dev => {
+          return dev.id === owner._id
+        }) === -1
+      ) {
+        developers.push({
+          id: owner._id,
+          name: ownerName,
+          avatar: owner.avatar,
+          useImage: owner.useImage,
+          image: owner.image
+        })
+      }
     }
   })
   // extract first five developers
@@ -50,12 +54,6 @@ const DevelopersTalk = ({ comments }) => {
           <div key={dev.id} className='img_container--smallest mxr-xs'>
             <img src={dev.useImage ? dev.image : dev.avatar} title={dev.name} />
           </div>
-          // <img
-          //   key={dev.id}
-          //   src={dev.useImage ? dev.image : dev.avatar}
-          //   className='round-img mxr-xs'
-          //   title={dev.name}
-          // />
         )
       })}
       {restDev > 0 && (

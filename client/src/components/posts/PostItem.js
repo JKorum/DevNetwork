@@ -67,16 +67,19 @@ const PostItem = ({
       </ReactModal>
 
       <div className='post__avatar_container'>
-        {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
-        <Link to={`/profiles/${owner._id}`}>
-          <div className='img_container--posts'>
-            <img src={owner.useImage ? owner.image : owner.avatar} />
-          </div>
-          {/* <img
-            className='round-img'
-            src={owner.useImage ? owner.image : owner.avatar}
-          /> */}
-        </Link>
+        {owner !== null ? (
+          <Link to={`/profiles/${owner._id}`} title={'view public profile'}>
+            <div className='img_container--posts'>
+              <img src={owner.useImage ? owner.image : owner.avatar} />
+            </div>
+          </Link>
+        ) : (
+          <a title={'non-existent user'} style={{ cursor: 'default' }}>
+            <div className='img_container--posts'>
+              <img src='https://www.gravatar.com/avatar/HASH?s=200&d=retro' />
+            </div>
+          </a>
+        )}
       </div>
       <div>
         <div className='comment__info px-xs'>
@@ -112,7 +115,7 @@ const PostItem = ({
             <Link to={`/posts/${_id}`} className='btn btn-dark'>
               Discussion
             </Link>
-            {user === owner._id && (
+            {owner !== null && user === owner._id && (
               <button
                 type='button'
                 className='btn btn-red'

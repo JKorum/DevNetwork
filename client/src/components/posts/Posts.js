@@ -136,7 +136,7 @@ const Posts = ({
 
             <PostForm
               image={user.useImage ? user.image : user.avatar}
-              postsNumber={posts.length}
+              postsNumber={posts !== undefined ? posts.length : 0}
             />
 
             <div className='posts'>

@@ -36,23 +36,30 @@ const CommentItem = ({
   return (
     <div className='comment my-1 p-1'>
       <div className='comment__avatar_container'>
-        <div className='img_container--comments'>
-          <img src={owner.useImage ? owner.image : owner.avatar} />
-        </div>
-
-        {/* <img
-          className='round-img'
-          src={owner.useImage ? owner.image : owner.avatar}
-        /> */}
+        {owner !== null ? (
+          <div className='img_container--comments'>
+            <img src={owner.useImage ? owner.image : owner.avatar} />
+          </div>
+        ) : (
+          <div className='img_container--comments'>
+            <img src='https://www.gravatar.com/avatar/HASH?s=200&d=retro' />
+          </div>
+        )}
       </div>
       <div>
         <div className='comment__info px-xs'>
           <span>
-            <Link to={`/profiles/${owner._id}`}>
-              <h4 className={user === owner._id ? 'user_comment' : 'void'}>
-                {ownerName}
-              </h4>
-            </Link>
+            {owner !== null ? (
+              <Link to={`/profiles/${owner._id}`} title={'view public profile'}>
+                <h4 className={user === owner._id ? 'user_comment' : 'void'}>
+                  {ownerName}
+                </h4>
+              </Link>
+            ) : (
+              <a title={'non-existent user'} style={{ cursor: 'default' }}>
+                <h4>{ownerName}</h4>
+              </a>
+            )}
             <h4 className='comment__head_text mxl-xs'>
               <Moment date={createdAt} fromNow={true} />
             </h4>
@@ -78,10 +85,10 @@ const CommentItem = ({
               className={`fas fa-heart fa-lg${setHeartClass(likes, user)}`}
               onClick={handleLikeComment}
             ></i>{' '}
-            {likes.length > 0 && <p>{likes.length}</p>}
+            {likes !== undefined && likes.length > 0 && <p>{likes.length}</p>}
           </div>
           <div className='comment__buttons'>
-            {user === owner._id && (
+            {owner !== null && user === owner._id && (
               <Fragment>
                 <button
                   type='button'

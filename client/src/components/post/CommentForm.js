@@ -24,13 +24,11 @@ const CommentForm = ({
         <div className='img_container--comments'>
           <img src={useImage ? image : avatar} />
         </div>
-
-        {/* <img src={useImage ? image : avatar} className='round-img' /> */}
       </div>
       <div>
         <div className='comment__info--top px-xs'>
           <h4 className='comment__head_text'>
-            {comments.length} comments total
+            {comments !== undefined ? comments.length : 0} comments total
           </h4>
         </div>
         <form id='comment_form' className='form' onSubmit={handleSubmit}>

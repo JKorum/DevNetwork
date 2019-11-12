@@ -133,22 +133,28 @@ const Post = ({
           <div className='post my-1 p-1'>
             <div className='post__avatar_container'>
               {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
-              <Link to={`/profiles/${post.owner._id}`}>
-                <div className='img_container--posts'>
-                  <img
-                    src={
-                      post.owner.useImage ? post.owner.image : post.owner.avatar
-                    }
-                  />
-                </div>
-
-                {/* <img
-                  className='round-img'
-                  src={
-                    post.owner.useImage ? post.owner.image : post.owner.avatar
-                  }
-                /> */}
-              </Link>
+              {post.owner !== null ? (
+                <Link
+                  to={`/profiles/${post.owner._id}`}
+                  title={'view public profile'}
+                >
+                  <div className='img_container--posts'>
+                    <img
+                      src={
+                        post.owner.useImage
+                          ? post.owner.image
+                          : post.owner.avatar
+                      }
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <a title={'non-existent user'} style={{ cursor: 'default' }}>
+                  <div className='img_container--posts'>
+                    <img src='https://www.gravatar.com/avatar/HASH?s=200&d=retro' />
+                  </div>
+                </a>
+              )}
             </div>
             <div>
               <div className='comment__info px-xs'>
@@ -186,10 +192,9 @@ const Post = ({
                   {post.likes !== undefined
                     ? post.likes.length > 0 && <p>{post.likes.length}</p>
                     : false}
-                  {/* {post.likes.length > 0 && <p>{post.likes.length}</p>} */}
                 </div>
                 <div className='comment__buttons'>
-                  {auth.user._id === post.owner._id && (
+                  {post.owner !== null && auth.user._id === post.owner._id && (
                     <Fragment>
                       <button
                         type='button'
@@ -224,12 +229,20 @@ const Post = ({
               <h4>Sort by</h4>
               <i
                 className='fas fa-heart fa-lg'
-                onClick={e => post.comments.length > 1 && sortCommentsLikes()}
+                onClick={e =>
+                  post.comments !== undefined &&
+                  post.comments.length > 1 &&
+                  sortCommentsLikes()
+                }
               ></i>
 
               <i
                 className='fas fa-clock fa-lg'
-                onClick={e => post.comments.length > 1 && sortCommentsTime()}
+                onClick={e =>
+                  post.comments !== undefined &&
+                  post.comments.length > 1 &&
+                  sortCommentsTime()
+                }
               ></i>
             </div>
             <CommentForm postId={post_id} />

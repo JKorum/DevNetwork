@@ -17,7 +17,6 @@ const PostForm = ({ addPost, image, postsNumber }) => {
         <div className='img_container--posts'>
           <img src={image} />
         </div>
-        {/* <img className='round-img' src={image} /> */}
       </div>
 
       <div>
