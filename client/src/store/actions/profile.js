@@ -38,19 +38,32 @@ export const fetchAllProfilesGenerator = () => {
         })
       }
     } catch (err) {
-      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
         const { errors } = err.response.data
-        if (status === 500 || status === 404) {
+        // 404 -> can be if no profiles found
+        if (status === 404) {
           dispatch({
             type: PROFILE_ERROR,
             payload: errors[0]
           })
+        } else if (status === 500) {
+          dispatch(setAlert('something went wrong', 'danger'))
+          dispatch({
+            type: PROFILE_ERROR,
+            payload: { type: 'server error' }
+          })
+        } else {
+          dispatch(setAlert('something went wrong', 'danger'))
+          dispatch({
+            type: PROFILE_ERROR,
+            payload: { type: 'unknown error' }
+          })
         }
       } else {
         // no response is received
+        dispatch(setAlert('something went wrong', 'danger'))
         console.log(err.message)
         dispatch({
           type: PROFILE_ERROR,
@@ -73,18 +86,22 @@ export const fetchProfileByIdGenerator = userId => {
         })
       }
     } catch (err) {
-      dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
         const { errors } = err.response.data
-        if (status === 500 || status === 404) {
-          dispatch({
-            type: PROFILE_ERROR,
-            payload: errors[0]
-          })
+
+        if (status === 404) {
+          dispatch(setAlert('failed to load profile', 'danger'))
+        } else {
+          dispatch(setAlert('something went wrong', 'danger'))
         }
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: errors[0]
+        })
       } else {
+        dispatch(setAlert('something went wrong', 'danger'))
         // no response is received
         console.log(err.message)
         dispatch({

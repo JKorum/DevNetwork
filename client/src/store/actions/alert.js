@@ -17,6 +17,6 @@ export const setAlert = (msg, alertType) => {
         type: REMOVE_ALERT,
         payload: { id }
       })
-    }, 5000)
+    }, 2000)
   }
 }
