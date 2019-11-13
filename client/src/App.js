@@ -21,6 +21,7 @@ import Profile from './components/profile/Profile'
 import Posts from './components/posts/Posts'
 import Post from './components/post/Post'
 import NotFound from './components/layout/404'
+import Recovery from './components/auth/Recovery'
 
 const App = () => {
   //will run after component is rendered -> when first load the app & after each browser refresh
@@ -42,6 +43,9 @@ const App = () => {
             </Route>
             <Route path='/register' exact={true}>
               <Register />
+            </Route>
+            <Route path='/recovery' exact={true}>
+              <Recovery />
             </Route>
             <Route path='/profiles' exact={true}>
               <ProfilesList />

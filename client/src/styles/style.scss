@@ -476,12 +476,66 @@ img {
   }
 }
 
+// recovery
+.recovery-header {
+  padding: 0 0.5rem 0 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: none;
+  border-bottom: 1.5px solid $primary-color;
+
+  h4 {
+    line-height: 1;
+    font-weight: 400;
+    margin-right: 0.5rem;
+    padding: 0.65rem 0 0.65rem 0;
+  }
+}
+
+.recovery-manageboard {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 2rem;
+  border-top: 1.5px solid $primary-color;
+  padding-top: 0.65rem;
+  * {
+    margin: 0;
+    line-height: 1.15;
+  }
+  button,
+  a {
+    margin-right: 0.5rem;
+  }
+}
+
+.recovery-main {
+  background: $grey;
+  margin: 1rem;
+  min-height: 10rem;
+  padding: 1rem 0.5rem;
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    font-size: 1.2rem;
+    border: none;
+  }
+
+  input:nth-child(2) {
+    margin-top: 0.4rem;
+  }
+}
+
 // dashboard
 .dashboard-header {
   padding: 0 0.5rem 0 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   h4 {
     line-height: 1;
     font-weight: 400;

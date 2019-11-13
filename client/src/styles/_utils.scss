@@ -6,6 +6,9 @@
   margin-bottom: 3rem;
   overflow: hidden;
   padding: 0 2rem;
+  &.welcome {
+    max-width: 600px;
+  }
 
   &__mini_banner {
     display: flex;

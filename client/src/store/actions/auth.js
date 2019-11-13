@@ -7,7 +7,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  RECOVERY_OK,
+  RECOVERY_DEFAULT
 } from '../actions/types'
 import { setAlert } from './alert'
 import setAuthHeader from '../../utils/setAuthHeader'
@@ -181,3 +183,72 @@ export const logoutAllSessionsGenerator = () => {
     }
   }
 }
+
+/* recovery password actions */
+
+export const sendRecoveryRequestGenerator = data => {
+  const config = {
+    url: '/api/users/recovery',
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 200) {
+        dispatch(setAlert('check your email', 'success'))
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        console.log(err.response.data)
+        dispatch(setAlert('recovery failed', 'danger'))
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+      }
+    }
+  }
+}
+
+export const sendNewPasswordGenerator = (token, data) => {
+  const config = {
+    url: '/api/users/recovery/confirm',
+    method: 'patch',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    data
+  }
+  return async dispatch => {
+    try {
+      const res = await axios(config)
+      if (res.status === 200) {
+        dispatch(setAlert('password changed', 'success'))
+        dispatch({
+          type: RECOVERY_OK
+        })
+        setTimeout(() => {
+          dispatch({
+            type: RECOVERY_DEFAULT
+          })
+        }, 2000)
+      }
+    } catch (err) {
+      // server responded with no 2** status
+      if (err.response) {
+        console.log(err.response.data)
+        dispatch(setAlert('recovery failed', 'danger'))
+      } else {
+        // no response is received
+        console.log(err.message)
+        dispatch(setAlert('something went wrong', 'danger'))
+      }
+    }
+  }
+}
+
+/* recovery password actions */
