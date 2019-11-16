@@ -43,7 +43,7 @@ const AddExperience = ({ loadProfile, addExperience, history, alerts }) => {
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      <h1 className='large text-primary mx-1'>Experience</h1>
+      <h1 className='section-head text-primary mx-1'>Experience</h1>
 
       <div className='dashboard-header bg-primary mx-1'>
         <h4 className='dashboard-greeting'>Add your programming experience</h4>
@@ -150,7 +150,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addExperienceGenerator(data, history))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddExperience)
+export default connect(mapStateToProps, mapDispatchToProps)(AddExperience)

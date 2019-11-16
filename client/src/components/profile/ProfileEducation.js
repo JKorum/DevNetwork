@@ -19,7 +19,7 @@ const ProfileEducation = ({
       {fieldofstudy}
     </p>
     {description && (
-      <p>
+      <p className='description'>
         <strong>Description: </strong>
         {description}
       </p>

@@ -12,8 +12,8 @@ const PostForm = ({ addPost, image, postsNumber }) => {
   }
 
   return (
-    <div className='post my-1 p-1'>
-      <div className='post__avatar_container'>
+    <div className='post grid-top my-1 p-1'>
+      <div className='post__avatar_container top'>
         <div className='img_container--posts'>
           <img src={image} />
         </div>
@@ -50,7 +50,4 @@ const mapDispatchToProps = dispatch => ({
   addPost: text => dispatch(addPostGenerator(text))
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(PostForm)
+export default connect(null, mapDispatchToProps)(PostForm)

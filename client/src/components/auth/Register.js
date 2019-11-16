@@ -36,12 +36,10 @@ const Register = ({ setAlert, registerUser, isAuthenticated, alerts }) => {
   }
 
   return (
-    <section className='container'>
+    <section className='container welcome bord-l'>
       {alerts.length > 0 && <Alert />}
       <h1 className='large text-primary'>Sign Up</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i>Create your account
-      </p>
+      <p className='lead'>Create your account</p>
       <form className='form' onSubmit={handleSubmit}>
         <div className='form-group'>
           <input
@@ -63,9 +61,10 @@ const Register = ({ setAlert, registerUser, isAuthenticated, alerts }) => {
             onChange={handleChange}
           />
           <small className='form-text'>
-            You can use a Gravatar email to set up a profile image (you can
-            switch it later)
+            You can use a Gravatar email to set up a profile image<br></br>
+            (you can switch it later)
           </small>
+          {/* <small className='form-text'>(you can switch it later)</small> */}
         </div>
         <div className='form-group'>
           <input
@@ -89,11 +88,13 @@ const Register = ({ setAlert, registerUser, isAuthenticated, alerts }) => {
             required
           />
         </div>
-        <input type='submit' value='register' className='btn btn-primary' />
+        <input type='submit' value='Register' className='btn btn-primary' />
       </form>
-      <p className='my-1'>
-        Already have an account? <Link to='/login'>Login</Link>
-      </p>
+      <div className='guest_nav my-1'>
+        <p>
+          Already have an account? <Link to='/login'>Login</Link>
+        </p>
+      </div>
     </section>
   )
 }
@@ -108,7 +109,4 @@ const mapDispatchToProps = dispatch => ({
   registerUser: data => dispatch(registerGenerator(data))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

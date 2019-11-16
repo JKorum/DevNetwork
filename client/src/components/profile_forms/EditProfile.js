@@ -86,7 +86,7 @@ const EditProfile = ({
       {alerts.length > 0 && <Alert />}
       {!loading && profile ? (
         <Fragment>
-          <h1 className='large text-primary mx-1'>Edit your profile</h1>
+          <h1 className='section-head text-primary mx-1'>Edit profile</h1>
           <div className='dashboard-header bg-primary mx-1'>
             <h4 className='dashboard-greeting'>
               Provide data to make your profile special
@@ -286,7 +286,4 @@ const mapDispatchToProps = dispatch => ({
   loadProfile: () => dispatch(fetchProfileGenerator())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfile)

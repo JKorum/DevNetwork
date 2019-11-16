@@ -30,13 +30,11 @@ const Login = ({ loginUser, isAuthenticated, alerts }) => {
   }
 
   return (
-    <section className='container'>
+    <section className='container welcome bord-l'>
       {alerts.length > 0 && <Alert />}
 
       <h1 className='large text-primary'>Sign In</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i>Login to your account
-      </p>
+      <p className='lead'>Login to your account</p>
       <form className='form' onSubmit={handleSubmit}>
         <div className='form-group'>
           <input
@@ -58,14 +56,16 @@ const Login = ({ loginUser, isAuthenticated, alerts }) => {
             required
           />
         </div>
-        <input type='submit' value='login' className='btn btn-primary' />
+        <input type='submit' value='Login' className='btn btn-primary' />
       </form>
-      <p className='my-1'>
-        Don't have an account? <Link to='/register'>Sign Up</Link>
-      </p>
-      <p className='my-1'>
-        Forgot password? <Link to='/recovery'>Recover</Link>
-      </p>
+      <div className='guest_nav my-1'>
+        <p>
+          Don't have an account? <Link to='/register'>Sign Up</Link>
+        </p>
+        <p>
+          Forgot password? <Link to='/recovery'>Recover</Link>
+        </p>
+      </div>
     </section>
   )
 }
@@ -79,7 +79,4 @@ const mapDispatchToProps = dispatch => ({
   loginUser: data => dispatch(loginUserGenerator(data))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

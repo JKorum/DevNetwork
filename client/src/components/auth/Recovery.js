@@ -41,66 +41,65 @@ const Recovery = ({
   }
 
   return (
-    <section className='container welcome'>
+    <section className='container welcome bord-l'>
       {alerts.length > 0 && <Alert />}
       {!recovery ? (
         <Fragment>
-          <h1 className='large text-primary mx-1'>Password recovery</h1>
-          <div className='recovery-header bg-white mx-1'>
-            <h4>
-              {token === null
-                ? 'Enter your registered email to get a recovery link'
-                : 'Come up with a new password'}
-            </h4>
-          </div>
-
+          <h1 className='large text-primary'>Recover</h1>
+          <p className='lead'>
+            {token === null
+              ? 'Revive your password'
+              : 'Come up with a new password'}
+          </p>
           <form
             id='recovery-form'
-            className='recovery-main'
+            className='form'
             onSubmit={token === null ? handleSendEmail : handleSendPassword}
           >
             {token === null ? (
-              <input
-                type='email'
-                name='email'
-                placeholder='eg. developer@gmail.com...'
-                autoFocus={true}
-                required
-              />
-            ) : (
-              <Fragment>
+              <div className='form-group'>
                 <input
-                  type='password'
-                  name='password'
-                  placeholder='password'
-                  minLength='6'
+                  type='email'
+                  name='email'
+                  placeholder='developer@gmail.com'
                   autoFocus={true}
                   required
                 />
-                <input
-                  type='password'
-                  name='confirm'
-                  placeholder='confirm password'
-                  minLength='6'
-                  required
-                />
+                <small className='form-text'>
+                  Enter email you used when registered
+                </small>
+              </div>
+            ) : (
+              <Fragment>
+                <div className='form-group'>
+                  <input
+                    type='password'
+                    name='password'
+                    placeholder='password'
+                    minLength='6'
+                    autoFocus={true}
+                    required
+                  />
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='password'
+                    name='confirm'
+                    placeholder='confirm password'
+                    minLength='6'
+                    required
+                  />
+                </div>
               </Fragment>
             )}
           </form>
-
-          <div className='recovery-manageboard mx-1'>
-            <div>
-              <button
-                type='submit'
-                className='btn btn-red'
-                form='recovery-form'
-              >
-                Submit
-              </button>
-              <Link to='/login' className='btn'>
-                Go Back
-              </Link>
-            </div>
+          <div className='guest_nav my-1'>
+            <button type='submit' className='btn btn-red' form='recovery-form'>
+              Submit
+            </button>
+            <Link to='/login' className='btn btn-guest'>
+              Go Back
+            </Link>
           </div>
         </Fragment>
       ) : (

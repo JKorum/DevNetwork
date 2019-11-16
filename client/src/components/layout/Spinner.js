@@ -15,17 +15,8 @@ export default () => {
 
   return (
     <Fragment>
-      {countToRedirect < 2 ? (
-        <img
-          src={spinner}
-          className='spinner'
-          style={{
-            width: '150px',
-            display: 'block',
-            margin: 'auto'
-          }}
-          alt='loading...'
-        />
+      {countToRedirect < 3 ? (
+        <img src={spinner} className='spinner' alt='loading...' />
       ) : (
         <Redirect to='/dashboard' />
       )}

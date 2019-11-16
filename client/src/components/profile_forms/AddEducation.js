@@ -60,7 +60,7 @@ const AddEducation = ({
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      <h1 className='large text-primary mx-1'>Education</h1>
+      <h1 className='section-head text-primary mx-1'>Education</h1>
       <div className='dashboard-header bg-primary mx-1'>
         <h4 className='dashboard-greeting'>
           Add school, bootcamp, online course etc.
@@ -171,7 +171,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addEducationGenerator(data, history))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddEducation)
+export default connect(mapStateToProps, mapDispatchToProps)(AddEducation)

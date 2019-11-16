@@ -17,24 +17,14 @@ const PostItem = ({
   const [modalOpen, toggleModalOpen] = useState(false)
 
   return (
-    <div className='post my-1 p-1'>
+    <div className='post grid-bottom my-1 p-1'>
       <ReactModal
         isOpen={modalOpen}
         parentSelector={() => document.getElementById('root')}
         appElement={document.getElementById('root')}
         onRequestClose={() => toggleModalOpen(!modalOpen)}
         closeTimeoutMS={200}
-        style={{
-          content: {
-            top: '30%',
-            bottom: '30%',
-            right: '30%',
-            left: '30%',
-            borderRadius: '5px',
-            border: '1px solid #17a2b8',
-            background: '#343a40'
-          }
-        }}
+        className='modal'
       >
         <h1>Confirm Post Deletion</h1>
 
@@ -140,7 +130,4 @@ const mapDispatchToProps = dispatch => ({
   deletePost: postId => dispatch(deletePostGenerator(postId))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PostItem)
+export default connect(mapStateToProps, mapDispatchToProps)(PostItem)

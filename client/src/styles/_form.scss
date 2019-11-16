@@ -4,8 +4,9 @@
   }
   &-text {
     display: block;
-    margin-top: 0.3rem;
+    margin: 0.3rem 0 0 0.3rem;
     color: #888;
+    font-size: 0.7rem;
   }
   input[type='text'],
   input[type='email'],

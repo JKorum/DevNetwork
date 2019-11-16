@@ -16,7 +16,6 @@ const ProfileItem = ({ profile }) => {
         <img className='img_container__img' src={useImage ? image : avatar} />
       </div>
 
-      {/* <img className='round-img' src={useImage ? image : avatar} /> */}
       <div className='profile__summary'>
         <div>
           <h2>{name}</h2>
@@ -34,7 +33,7 @@ const ProfileItem = ({ profile }) => {
           View Profile
         </Link>
       </div>
-      <ul className='profile__skills'>
+      <ul className='profile__skills hide-skills'>
         {skills.slice(0, 4).map((skill, index) => (
           <li className='skill_item ' key={index}>
             <i className='fas fa-fire-alt'></i> {skill}

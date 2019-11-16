@@ -76,17 +76,7 @@ const Post = ({
         appElement={document.getElementById('root')}
         onRequestClose={() => toggleModalOpen(!modalOpen)}
         closeTimeoutMS={200}
-        style={{
-          content: {
-            top: '30%',
-            bottom: '30%',
-            right: '30%',
-            left: '30%',
-            borderRadius: '5px',
-            border: '1px solid #17a2b8',
-            background: '#343a40'
-          }
-        }}
+        className='modal'
       >
         <h1>Confirm Post Deletion</h1>
 
@@ -120,7 +110,7 @@ const Post = ({
 
       {!isLoading && post ? (
         <Fragment>
-          <div className='container__mini_banner mx-1'>
+          <div className='container__mini_banner mx-1 post-hide'>
             <Link to='/posts' className='btn'>
               Back to posts
             </Link>
@@ -130,7 +120,7 @@ const Post = ({
                 )
               : false}
           </div>
-          <div className='post my-1 p-1'>
+          <div className='post my-1 p-1 post_data'>
             <div className='post__avatar_container'>
               {/* if link directs to non-existent profile -> there will be a instant spinner -> fix it  */}
               {post.owner !== null && post.owner !== undefined ? (
@@ -284,7 +274,4 @@ const mapDispatchToProps = dispatch => ({
   deletePost: postId => dispatch(deletePostGenerator(postId))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Post)
+export default connect(mapStateToProps, mapDispatchToProps)(Post)

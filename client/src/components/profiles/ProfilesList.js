@@ -85,35 +85,39 @@ const ProfilesList = ({
     setFilteredProfiles(result)
   }
 
-  const $input = document.getElementById('skill-filter')
-
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
       {!isLoading ? (
         <Fragment>
-          <h1 className='large text-primary mx-1'>Developers</h1>
+          <h1 className='section-head text-primary mx-1'>Developers</h1>
           <div className='developers-header bg-primary mx-1'>
-            <h4>Search by</h4>
-            <input
-              id='skill-filter'
-              type='text'
-              placeholder='skills /CSV/...'
-              onChange={strictStatus ? strictSearch : regularSearch}
-              title='Note that filter result will include developers based on their skills that may be partly displayed on cards below'
-            />
-            <h4>{strictStatus ? 'Strict mode' : 'Use strict'}</h4>
-            <i
-              className={`fas fa-chevron-circle-right fa-lg ${
-                strictStatus ? 'strict' : 'void'
-              }`}
-              onClick={e => {
-                setStrictStatus(!strictStatus)
-                setFilteredProfiles(localProfiles)
-                $input.value = ''
-              }}
-              title='In strict mode search result will include developers whose skills satisfy query completely'
-            ></i>
+            <div>
+              <h4 className='hide-search'>Search by</h4>
+              <input
+                id='skill-filter'
+                type='text'
+                placeholder='skills /CSV/...'
+                onChange={strictStatus ? strictSearch : regularSearch}
+                title='Developers skills may be partly displayed on cards below'
+              />
+            </div>
+            <div>
+              <h4 className='hide-strict'>
+                {strictStatus ? 'Strict mode' : 'Use strict'}
+              </h4>
+              <i
+                className={`fas fa-chevron-circle-right fa-lg ${
+                  strictStatus ? 'strict' : 'void'
+                }`}
+                onClick={e => {
+                  setStrictStatus(!strictStatus)
+                  setFilteredProfiles(localProfiles)
+                  document.getElementById('skill-filter').value = ''
+                }}
+                title='`Strict` mode: all skills specified are required'
+              ></i>
+            </div>
           </div>
 
           <div className='profiles my-1 p-1'>
@@ -123,7 +127,7 @@ const ProfilesList = ({
               ))
             ) : (
               <div className='filter_results'>
-                <h4>No profiles found</h4>
+                <h4>No Profiles Found</h4>
               </div>
             )}
           </div>
@@ -146,7 +150,4 @@ const mapDispatchToProps = dispatch => ({
   fireAlert: (msg, alertType) => dispatch(setAlert(msg, alertType))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfilesList)
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilesList)

@@ -19,8 +19,8 @@ const EducationList = ({ education, deleteEducation }) => {
           <thead>
             <tr>
               <th>School</th>
-              <th className='hide-sm'>Degree</th>
-              <th className='hide-sm'>Years</th>
+              <th>Degree</th>
+              <th className='dash-hide'>Years</th>
               <th></th>
             </tr>
           </thead>
@@ -28,8 +28,8 @@ const EducationList = ({ education, deleteEducation }) => {
             {sorter(education).map(item => (
               <tr key={item._id}>
                 <td>{item.school}</td>
-                <td className='hide-sm'>{item.degree}</td>
-                <td className='hide-sm'>
+                <td>{item.degree}</td>
+                <td className='dash-hide'>
                   <Moment date={item.from} format='YYYY/MM/DD' /> -{' '}
                   {item.current ? (
                     'Till Now'
@@ -57,7 +57,4 @@ const mapDispatchToProps = dispatch => ({
   deleteEducation: id => dispatch(deleteEducationGenerator(id))
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(EducationList)
+export default connect(null, mapDispatchToProps)(EducationList)

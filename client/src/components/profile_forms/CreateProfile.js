@@ -57,7 +57,7 @@ const CreateProfile = ({ createProfile, history, alerts }) => {
   return (
     <section className='container'>
       {alerts.length > 0 && <Alert />}
-      <h1 className='large text-primary mx-1'>Create profile</h1>
+      <h1 className='section-head text-primary mx-1'>Create profile</h1>
       <div className='dashboard-header bg-primary mx-1'>
         <h4>Provide data to make your profile special</h4>
       </div>
@@ -249,7 +249,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(createProfileGenerator(data, history))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile)

@@ -16,10 +16,7 @@ const Navbar = ({ isAuthenticated, loading, logoutUser, logoutAll }) => {
         <Link to='/posts'>Posts</Link>
       </li>
       <li>
-        <Link to='/dashboard'>
-          <i className='fas fa-user'></i>{' '}
-          <span className='hide-sm'>Dashboard</span>
-        </Link>
+        <Link to='/dashboard'>Dashboard</Link>
       </li>
       <li>
         <Link onClick={logoutUser} to='/'>
@@ -55,7 +52,8 @@ const Navbar = ({ isAuthenticated, loading, logoutUser, logoutAll }) => {
     <nav className='navbar bg-dark'>
       <h1>
         <Link to='/'>
-          <i className='fas fa-meteor'></i> DevNetwork
+          <i className='fas fa-meteor'></i>{' '}
+          <span className='hide-sm'>DevNetwork</span>
         </Link>
       </h1>
       {!loading && (
@@ -75,7 +73,4 @@ const mapDispatchToProps = dispatch => ({
   logoutAll: () => dispatch(logoutAllSessionsGenerator())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

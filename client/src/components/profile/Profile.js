@@ -44,17 +44,7 @@ const Profile = ({
         appElement={document.getElementById('root')}
         onRequestClose={() => toggleModalOpen(!modalOpen)}
         closeTimeoutMS={200}
-        style={{
-          content: {
-            top: '30%',
-            bottom: '30%',
-            right: '30%',
-            left: '30%',
-            borderRadius: '5px',
-            border: '1px solid #17a2b8',
-            background: '#343a40'
-          }
-        }}
+        className='modal'
       >
         <h1>Upload Profile Image</h1>
         {/* <div className='line--modal'></div> */}
@@ -76,6 +66,7 @@ const Profile = ({
             time.
           </p>
           <input
+            id='url_input'
             name='url'
             type='url'
             required
@@ -191,7 +182,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleImgAndFetchProfileGenerator(userId))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Profile)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

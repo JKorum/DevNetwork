@@ -2,19 +2,23 @@
 .container {
   max-width: $max-width;
   margin: auto;
-  margin-top: 6rem;
+  margin-top: 7rem;
   margin-bottom: 3rem;
   overflow: hidden;
   padding: 0 2rem;
-  &.welcome {
-    max-width: 600px;
-  }
+  min-width: 287px;
 
   &__mini_banner {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    min-width: 287px;
   }
+}
+
+// container sizes
+.welcome {
+  max-width: 600px;
 }
 
 // text styles
@@ -27,7 +31,7 @@
 .large {
   font-size: 3rem;
   line-height: 1.2;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .lead {
@@ -37,6 +41,13 @@
 
 .text-primary {
   color: $primary-color;
+}
+
+// section main header
+.section-head {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin: 1rem;
 }
 
 // backgrounds
@@ -148,7 +159,7 @@
   opacity: 0.9;
   background: lighten($primary-color, 10%);
   color: #fff;
-  border-bottom: 3px solid $primary-color;
+  border-bottom: 2px solid $primary-color;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -361,6 +372,20 @@
 // spinner
 .spinner {
   position: fixed;
-  left: 45%;
-  top: 40%;
+  width: 150px;
+  height: 150px;
+  left: 50%;
+  top: 50%;
+  margin-left: -75px;
+  margin-top: -75px;
+}
+
+// borders
+.bord-l {
+  border-left: 1.1px solid $primary-color;
+}
+
+#url_input {
+  width: 320px;
+  font-size: 0.9rem;
 }

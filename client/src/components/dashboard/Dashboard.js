@@ -36,17 +36,7 @@ const Dashboard = ({
         appElement={document.getElementById('root')}
         onRequestClose={() => toggleModalOpen(!modalOpen)}
         closeTimeoutMS={200}
-        style={{
-          content: {
-            top: '30%',
-            bottom: '30%',
-            right: '30%',
-            left: '30%',
-            borderRadius: '5px',
-            border: '1px solid #17a2b8',
-            background: '#343a40'
-          }
-        }}
+        className='modal'
       >
         <h1>Confirm Account Deletion</h1>
 
@@ -87,32 +77,39 @@ const Dashboard = ({
 
       {!loading ? (
         <Fragment>
-          <h1 className='large text-primary mx-1'>Dashboard</h1>
+          <h1 className='section-head text-primary mx-1'>Dashboard</h1>
           <div className='dashboard-header bg-primary mx-1'>
             <h4 className='dashboard-greeting'>
               {greetings()}, {user && user.name}!
             </h4>
             <div className='dash-buttons'>
-              {profile !== null && <DashboardActions userId={user._id} />}
+              {profile !== null &&
+                profile !== undefined &&
+                user !== null &&
+                user !== undefined && <DashboardActions userId={user._id} />}
             </div>
           </div>
           <div className='dashboard_main my-1 p-1'>
-            {profile !== null ? (
+            {profile !== null && profile !== undefined ? (
               profile.experience.length > 0 || profile.education.length > 0 ? (
                 <div className='dashboard_main__separator'>
                   <div>
                     <ExperienceList experience={profile.experience} />
                   </div>
-                  {/* <div className='vertical_line'></div> */}
+
                   <div>
                     <EducationList education={profile.education} />
                   </div>
                 </div>
               ) : (
-                <p>No experience & education data provided... </p>
+                <div className='filter_results'>
+                  <h4>No experience & education data provided... </h4>
+                </div>
               )
             ) : (
-              <p>You haven't created your profile yet...</p>
+              <div className='filter_results'>
+                <h4>You haven't created your profile yet...</h4>
+              </div>
             )}
           </div>
           <div className='dashboard_manageboard mx-1'>
@@ -148,7 +145,4 @@ const mapDispatchToProps = dispatch => ({
   deleteAccount: () => dispatch(accountDeleteGenerator())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

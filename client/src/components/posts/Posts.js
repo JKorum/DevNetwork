@@ -113,25 +113,35 @@ const Posts = ({
       {alerts.length > 0 && <Alert />}
       {isAuthenticated && !isLoading ? (
         <Fragment>
-          <h1 className='large text-primary mx-1'>Posts</h1>
+          <h1 className='section-head text-primary mx-1'>Posts</h1>
 
           <div className='post-form'>
             <div className='post-form-header bg-primary mx-1'>
-              <h4>Filter by</h4>
-              <input
-                id='filter'
-                type='text'
-                placeholder='author name...'
-                onChange={handleFilter}
-              />
-              <h4>Sort by</h4>
-              <i className='fas fa-heart fa-lg' onClick={handleSortByLikes}></i>
-              <i
-                className='fas fa-comment fa-lg'
-                onClick={handleSortByComments}
-              ></i>
+              <div>
+                <h4>Filter by</h4>
+                <input
+                  id='filter'
+                  type='text'
+                  placeholder='author name...'
+                  onChange={handleFilter}
+                />
+              </div>
+              <div>
+                <h4 className='posts-hide'>Sort by</h4>
+                <i
+                  className='fas fa-heart fa-lg'
+                  onClick={handleSortByLikes}
+                ></i>
+                <i
+                  className='fas fa-comment fa-lg'
+                  onClick={handleSortByComments}
+                ></i>
 
-              <i className='fas fa-clock fa-lg' onClick={handleSortByTime}></i>
+                <i
+                  className='fas fa-clock fa-lg'
+                  onClick={handleSortByTime}
+                ></i>
+              </div>
             </div>
 
             <PostForm
@@ -146,7 +156,7 @@ const Posts = ({
                 ))
               ) : (
                 <div className='filter_results mx-1'>
-                  <h4>No posts found</h4>
+                  <h4>No Posts Found</h4>
                 </div>
               )}
             </div>
@@ -171,7 +181,4 @@ const mapDispatchToProps = dispatch => ({
   loadPosts: () => dispatch(fetchPostsGenerator())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Posts)
+export default connect(mapStateToProps, mapDispatchToProps)(Posts)

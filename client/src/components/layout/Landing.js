@@ -13,7 +13,7 @@ const Landing = ({ isAuthenticated }) => {
         <video src={video} autoPlay loop muted></video>
 
         <div className='landing-inner'>
-          <h1 className='x-large'>Developer Network ^1.0.6</h1>
+          <h1 className='project_title'>Developer Network ^1.1.0</h1>
           <p className='lead'>
             The place for landing your knowledge portfolio, collaboration and
             fetching feedback
@@ -27,6 +27,16 @@ const Landing = ({ isAuthenticated }) => {
             </Link>
           </div>
         </div>
+        <p id='thanks'>
+          <a
+            href='https://www.traversymedia.com'
+            rel='noopener noreferrer'
+            target='_blank'
+          >
+            <i className='fas fa-heart'></i>{' '}
+            <span>Thanks Brad Traversy for great courses </span>
+          </a>
+        </p>
       </div>
     </section>
   )

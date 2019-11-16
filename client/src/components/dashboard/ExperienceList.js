@@ -18,8 +18,8 @@ const ExperienceList = ({ experience, deleteExperience }) => {
           <thead>
             <tr>
               <th>Company</th>
-              <th className='hide-sm'>Title</th>
-              <th className='hide-sm'>Years</th>
+              <th>Title</th>
+              <th className='dash-hide'>Years</th>
               <th></th>
             </tr>
           </thead>
@@ -27,8 +27,8 @@ const ExperienceList = ({ experience, deleteExperience }) => {
             {sorter(experience).map(item => (
               <tr key={item._id}>
                 <td>{item.company}</td>
-                <td className='hide-sm'>{item.title}</td>
-                <td className='hide-sm'>
+                <td>{item.title}</td>
+                <td className='dash-hide'>
                   <Moment date={item.from} format='YYYY/MM/DD' /> -{' '}
                   {item.current ? (
                     'Till Now'
@@ -56,7 +56,4 @@ const mapDispatchToProps = dispatch => ({
   deleteExperience: id => dispatch(deleteExperienceGenerator(id))
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ExperienceList)
+export default connect(null, mapDispatchToProps)(ExperienceList)
