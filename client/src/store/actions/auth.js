@@ -29,9 +29,7 @@ export const loadUserGenerator = () => {
         })
       }
     } catch (err) {
-      console.log(
-        `loadUserGenerator failed to load user. reason: ${err.message}`
-      )
+      console.log('auth error:', err)
       dispatch({
         type: AUTH_ERROR
       })
@@ -61,20 +59,23 @@ export const registerGenerator = data => {
     } catch (err) {
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 400 || status === 422 || status === 500) {
-          const { errors } = err.response.data
-          errors &&
-            errors.forEach(err => {
-              dispatch(setAlert(err.msg, 'danger'))
-            })
-        }
+        console.log('register error:', err)
+        dispatch(setAlert('register failed', 'danger'))
+
+        // const { status } = err.response
+        // if (status === 400 || status === 422 || status === 500) {
+        //   const { errors } = err.response.data
+        //   errors &&
+        //     errors.forEach(err => {
+        //       dispatch(setAlert(err.msg, 'danger'))
+        //     })
+        // }
         dispatch({
           type: REGISTER_FAIL
         })
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('register error:', err)
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: REGISTER_FAIL
@@ -105,20 +106,23 @@ export const loginUserGenerator = data => {
     } catch (err) {
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 400 || status === 422) {
-          const { errors } = err.response.data
-          errors &&
-            errors.forEach(err => {
-              dispatch(setAlert(err.msg, 'danger'))
-            })
-        }
+        console.log('login error:', err)
+        dispatch(setAlert('login failed', 'danger'))
+
+        // const { status } = err.response
+        // if (status === 400 || status === 422) {
+        //   const { errors } = err.response.data
+        //   errors &&
+        //     errors.forEach(err => {
+        //       dispatch(setAlert(err.msg, 'danger'))
+        //     })
+        // }
         dispatch({
           type: LOGIN_FAIL
         })
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('login error:', err)
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: LOGIN_FAIL
@@ -141,15 +145,18 @@ export const logoutUserGenerator = () => {
     })
     // then hit logout endpoint
     try {
-      const res = await axios.patch('api/users/logout')
-      if (res.status === 204) console.log('server responded with 204 (logout)')
+      await axios.patch('api/users/logout')
+      // if (res.status === 204) console.log('server responded with 204 (logout)')
     } catch (err) {
-      if (err.response && err.response.status === 500) {
-        console.log('server responded with 500 (logout)')
-      } else {
-        console.log('no response from server (logout)')
-        console.log(err.message)
-      }
+      console.log('logout error:', err)
+
+      // if (err.response) {
+      //   console.log('logout error:', err)
+
+      // } else {
+      //   console.log('no response from server (logout)')
+      //   console.log(err.message)
+      // }
     }
   }
 }
@@ -165,21 +172,21 @@ export const logoutAllSessionsGenerator = () => {
     })
 
     try {
-      const res = await axios.patch('/api/users/logoutall')
-      if (res.status === 204) {
-        console.log('logoutall: success')
-      }
+      await axios.patch('/api/users/logoutall')
+      // if (res.status === 204) {
+      //   console.log('logoutall: success')
+      // }
     } catch (err) {
-      // server responded with no 2** status
-      if (err.response) {
-        const { status } = err.response
-        if (status === 500 || status === 401 || status === 400) {
-          console.log(err.response.data)
-        }
-      } else {
-        // no response is received
-        console.log(err.message)
-      }
+      console.log('logoutall error:', err)
+      // if (err.response) {
+      //   const { status } = err.response
+      //   if (status === 500 || status === 401 || status === 400) {
+      //     console.log(err.response.data)
+      //   }
+      // } else {
+      //   // no response is received
+      //   console.log(err.message)
+      // }
     }
   }
 }
@@ -202,11 +209,11 @@ export const sendRecoveryRequestGenerator = data => {
     } catch (err) {
       // server responded with no 2** status
       if (err.response) {
-        console.log(err.response.data)
+        console.log('recovery error:', err)
         dispatch(setAlert('recovery failed', 'danger'))
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('recovery error:', err)
         dispatch(setAlert('something went wrong', 'danger'))
       }
     }
@@ -240,11 +247,11 @@ export const sendNewPasswordGenerator = (token, data) => {
     } catch (err) {
       // server responded with no 2** status
       if (err.response) {
-        console.log(err.response.data)
+        console.log('recovery error:', err)
         dispatch(setAlert('recovery failed', 'danger'))
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('recovery error:', err)
         dispatch(setAlert('something went wrong', 'danger'))
       }
     }

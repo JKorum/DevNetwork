@@ -34,20 +34,29 @@ export const fetchPostsGenerator = () => {
       dispatch(setAlert('failed to fetch posts', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 400 || status === 422 || status === 401) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received
-        console.log(err.message)
+        console.log('posts error:', err)
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: { msg: 'failed to fetch posts', status: 'server responded' }
+        })
+
+        // const { status } = err.response
+        // if (status === 400 || status === 422 || status === 401) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received
+        console.log('posts error:', err)
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to fetch posts',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -76,26 +85,34 @@ export const updatePostByIdGenerator = (postId, text) => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (
-          status === 422 ||
-          status === 401 ||
-          status === 404 ||
-          status === 500
-        ) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
+        console.log('update post error:', err)
+        dispatch({
+          type: POST_ERROR,
+          payload: { msg: 'failed to update post', status: 'server responded' }
+        })
+        // const { status } = err.response
+        // if (
+        //   status === 422 ||
+        //   status === 401 ||
+        //   status === 404 ||
+        //   status === 500
+        // ) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
       } else {
         // no response is received (or status 400)
-        console.log(err.message)
+        console.log('update post error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to update post',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -121,26 +138,35 @@ export const fetchPostByIdGenerator = postId => {
       dispatch(setAlert('failed to fetch post', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (
-          status === 400 ||
-          status === 404 ||
-          status === 401 ||
-          status === 500
-        ) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received
-        console.log(err.message)
+        console.log('fetch post error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: { msg: 'failed to fetch post', status: 'server responded' }
+        })
+        // const { status } = err.response
+        // if (
+        //   status === 400 ||
+        //   status === 404 ||
+        //   status === 401 ||
+        //   status === 500
+        // ) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received
+        console.log('fetch post error:', err)
+
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to fetch post',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -162,21 +188,33 @@ export const likesGenerator = postId => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 404 || status === 500 || status === 401) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
+        console.log('like error:', err)
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to toggle like on post',
+            status: 'server responded'
+          }
+        })
+
+        // const { status } = err.response
+        // if (status === 404 || status === 500 || status === 401) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('like error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to toggle like on post',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -200,21 +238,33 @@ export const likeCommentGenerator = (postId, commentId) => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 404 || status === 500 || status === 401) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
+        console.log('like error:', err)
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to toggle like on comment',
+            status: 'server responded'
+          }
+        })
+
+        // const { status } = err.response
+        // if (status === 404 || status === 500 || status === 401) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('like error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to toggle like on comment',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -246,26 +296,35 @@ export const deletePostGenerator = postId => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (
-          status === 404 ||
-          status === 403 ||
-          status === 500 ||
-          status === 401
-        ) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
+        console.log('delete post error:', err)
+        dispatch({
+          type: POST_ERROR,
+          payload: { msg: 'failed to delete post', status: 'server responded' }
+        })
+
+        // const { status } = err.response
+        // if (
+        //   status === 404 ||
+        //   status === 403 ||
+        //   status === 500 ||
+        //   status === 401
+        // ) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('delete post error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to delete post',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -294,21 +353,31 @@ export const addPostGenerator = data => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 422 || status === 401 || status === 500) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received
-        console.log(err.message)
+        console.log('add post error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: { msg: 'failed to add post', status: 'server responded' }
+        })
+
+        // const { status } = err.response
+        // if (status === 422 || status === 401 || status === 500) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received
+        console.log('add post error:', err)
+
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to add post',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -338,26 +407,36 @@ export const addCommentGenerator = (postId, data) => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (
-          status === 422 ||
-          status === 401 ||
-          status === 404 ||
-          status === 500
-        ) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received
-        console.log(err.message)
+        console.log('add comment error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: { msg: 'failed to add comment', status: 'server responded' }
+        })
+
+        // const { status } = err.response
+        // if (
+        //   status === 422 ||
+        //   status === 401 ||
+        //   status === 404 ||
+        //   status === 500
+        // ) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received
+        console.log('add comment error:', err)
+
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to add comment',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -391,26 +470,38 @@ export const updateCommentTextGenerator = (postId, commentId, text) => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (
-          status === 404 ||
-          status === 500 ||
-          status === 401 ||
-          status === 422
-        ) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
+        console.log('update comment error:', err)
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to update comment',
+            status: 'server responded'
+          }
+        })
+
+        // const { status } = err.response
+        // if (
+        //   status === 404 ||
+        //   status === 500 ||
+        //   status === 401 ||
+        //   status === 422
+        // ) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('update comment error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to update comment',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -436,21 +527,34 @@ export const deleteCommentGenerator = (postId, commentId) => {
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 401 || status === 404 || status === 500) {
-          const { errors } = err.response.data
-          dispatch({
-            type: POST_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received
-        console.log(err.message)
+        console.log('delete comment error:', err)
 
         dispatch({
           type: POST_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to delete comment',
+            status: 'server responded'
+          }
+        })
+
+        // const { status } = err.response
+        // if (status === 401 || status === 404 || status === 500) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: POST_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received
+        console.log('delete comment error:', err)
+
+        dispatch({
+          type: POST_ERROR,
+          payload: {
+            msg: 'failed to delete comment',
+            status: 'no response from server'
+          }
         })
       }
     }

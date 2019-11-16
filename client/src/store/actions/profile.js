@@ -38,37 +38,55 @@ export const fetchAllProfilesGenerator = () => {
         })
       }
     } catch (err) {
+      console.log('fetch profiles error:', err)
+      dispatch(setAlert('something went wrong', 'danger'))
+
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        // 404 -> can be if no profiles found
-        if (status === 404) {
-          dispatch({
-            type: PROFILE_ERROR,
-            payload: errors[0]
-          })
-        } else if (status === 500) {
-          dispatch(setAlert('something went wrong', 'danger'))
-          dispatch({
-            type: PROFILE_ERROR,
-            payload: { type: 'server error' }
-          })
-        } else {
-          dispatch(setAlert('something went wrong', 'danger'))
-          dispatch({
-            type: PROFILE_ERROR,
-            payload: { type: 'unknown error' }
-          })
-        }
-      } else {
-        // no response is received
-        dispatch(setAlert('something went wrong', 'danger'))
-        console.log(err.message)
         dispatch({
           type: PROFILE_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to fetch profiles',
+            status: 'server responded'
+          }
         })
+
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // // 404 -> can be if no profiles found
+        // if (status === 404) {
+        //   dispatch({
+        //     type: PROFILE_ERROR,
+        //     payload: errors[0]
+        //   })
+        // } else if (status === 500) {
+        //   dispatch(setAlert('something went wrong', 'danger'))
+        //   dispatch({
+        //     type: PROFILE_ERROR,
+        //     payload: { type: 'server error' }
+        //   })
+        // } else {
+        //   dispatch(setAlert('something went wrong', 'danger'))
+        //   dispatch({
+        //     type: PROFILE_ERROR,
+        //     payload: { type: 'unknown error' }
+        //   })
+        // }
+      } else {
+        // no response is received
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: {
+            msg: 'failed to fetch profiles',
+            status: 'no response from server'
+          }
+        })
+        // dispatch(setAlert('something went wrong', 'danger'))
+        // console.log(err.message)
+        // dispatch({
+        //   type: PROFILE_ERROR,
+        //   payload: err
+        // })
       }
     }
   }
@@ -86,27 +104,37 @@ export const fetchProfileByIdGenerator = userId => {
         })
       }
     } catch (err) {
+      console.log('fetch profile error:', err)
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-
-        if (status === 404) {
-          dispatch(setAlert('failed to load profile', 'danger'))
-        } else {
-          dispatch(setAlert('something went wrong', 'danger'))
-        }
+        dispatch(setAlert('failed to load profile', 'danger'))
         dispatch({
           type: PROFILE_ERROR,
-          payload: errors[0]
+          payload: { msg: 'failed to load profile', status: 'server responded' }
         })
+
+        // const { status } = err.response
+        // const { errors } = err.response.data
+
+        // if (status === 404) {
+        //   dispatch(setAlert('failed to load profile', 'danger'))
+        // } else {
+        //   dispatch(setAlert('something went wrong', 'danger'))
+        // }
+        // dispatch({
+        //   type: PROFILE_ERROR,
+        //   payload: errors[0]
+        // })
       } else {
         dispatch(setAlert('something went wrong', 'danger'))
         // no response is received
-        console.log(err.message)
+
         dispatch({
           type: PROFILE_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to load profile',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -137,23 +165,35 @@ export const setImgAndFetchProfileGenerator = (userId, data) => {
         }
       }
     } catch (err) {
+      console.log('set image error:', err)
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 500 || status === 404 || status === 422) {
-          dispatch({
-            type: PROFILE_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received OR status 400
-        console.log(err.message)
         dispatch({
           type: PROFILE_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to set avatar image',
+            status: 'server responded'
+          }
+        })
+
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 500 || status === 404 || status === 422) {
+        //   dispatch({
+        //     type: PROFILE_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received OR status 400
+
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: {
+            msg: 'failed to set avatar image',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -185,23 +225,35 @@ export const toggleImgAndFetchProfileGenerator = userId => {
         }
       }
     } catch (err) {
+      console.log('toggle avatar error:', err)
       dispatch(setAlert('something went wrong', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 500 || status === 404) {
-          dispatch({
-            type: PROFILE_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received OR status 400
-        console.log(err.message)
         dispatch({
           type: PROFILE_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to toggle avatar',
+            status: 'server responded'
+          }
+        })
+
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 500 || status === 404) {
+        //   dispatch({
+        //     type: PROFILE_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received OR status 400
+
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: {
+            msg: 'failed to toggle avatar',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -224,7 +276,6 @@ export const fetchProfileGenerator = () => {
         })
       }
     } catch (err) {
-      // integrate Alerts?
       // server responded with no 2** status
       if (err.response) {
         const { status } = err.response
@@ -234,22 +285,35 @@ export const fetchProfileGenerator = () => {
             type: GET_PROFILE,
             payload: null
           })
-        }
-        if (status === 500 || status === 401) {
-          const { errors } = err.response.data
+        } else {
+          console.log('fetch user profile error:', err)
+          dispatch(setAlert('something went wrong', 'danger'))
           dispatch({
             type: PROFILE_ERROR,
-            payload: { msg: errors[0].msg }
+            payload: {
+              msg: 'failed to fetch current user profile',
+              status: 'server responded'
+            }
           })
-          dispatch(setAlert('something went wrong', 'danger'))
         }
+        // if (status === 500 || status === 401) {
+        //   const { errors } = err.response.data
+        //   dispatch({
+        //     type: PROFILE_ERROR,
+        //     payload: { msg: errors[0].msg }
+        //   })
+        //   dispatch(setAlert('something went wrong', 'danger'))
+        // }
       } else {
         // no response is received
-        console.log(err.message)
+        console.log('fetch user profile error:', err)
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: PROFILE_ERROR,
-          payload: { msg: 'something went wrong' }
+          payload: {
+            msg: 'failed to fetch current user profile',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -276,25 +340,38 @@ export const createProfileGenerator = (data, history) => {
         history.push('/dashboard')
       }
     } catch (err) {
+      console.log('create profile error:', err)
+      dispatch(setAlert('failed to create profile', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (status === 400 || status === 422 || status === 500) {
-          const { errors } = err.response.data
-          errors &&
-            errors.forEach(err => {
-              dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
-            })
-        }
         dispatch({
-          type: PROFILE_ERROR
+          type: PROFILE_ERROR,
+          payload: {
+            msg: 'failed to create profile',
+            status: 'server responded'
+          }
         })
+
+        // const { status } = err.response
+        // if (status === 400 || status === 422 || status === 500) {
+        //   const { errors } = err.response.data
+        //   errors &&
+        //     errors.forEach(err => {
+        //       dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
+        //     })
+        // }
+        // dispatch({
+        //   type: PROFILE_ERROR
+        // })
       } else {
         // no response is received
-        console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
+
         dispatch({
-          type: PROFILE_ERROR
+          type: PROFILE_ERROR,
+          payload: {
+            msg: 'failed to create profile',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -320,30 +397,36 @@ export const editProfileGenerator = data => {
         dispatch(setAlert('profile updated', 'success'))
       }
     } catch (err) {
+      console.log('edit profile error:', err)
+      dispatch(setAlert('failed to edit profile', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        if (
-          status === 401 ||
-          status === 422 ||
-          status === 500 ||
-          status === 404
-        ) {
-          const { errors } = err.response.data
-          errors &&
-            errors.forEach(err => {
-              dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
-            })
-        }
         dispatch({
-          type: PROFILE_ERROR
+          type: PROFILE_ERROR,
+          payload: { msg: 'failed to edit profile', status: 'server responded' }
         })
+
+        // const { status } = err.response
+        // if (
+        //   status === 401 ||
+        //   status === 422 ||
+        //   status === 500 ||
+        //   status === 404
+        // ) {
+        //   const { errors } = err.response.data
+        //   errors &&
+        //     errors.forEach(err => {
+        //       dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
+        //     })
+        // }
       } else {
         // no response is received
-        console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
-          type: PROFILE_ERROR
+          type: PROFILE_ERROR,
+          payload: {
+            msg: 'failed to edit profile',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -369,26 +452,40 @@ export const addExperienceGenerator = (data, history) => {
         history.push('/dashboard')
       }
     } catch (err) {
+      console.log('add experience error:', err)
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 422) {
-          errors.forEach(err =>
-            dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
-          )
-        } else if (status === 404 || status === 500) {
-          errors.forEach(err => dispatch(setAlert(err.msg, 'danger')))
-        }
+        dispatch(setAlert('failed to add experience', 'danger'))
         dispatch({
-          type: ADD_EXPERIENCE_ERROR
+          type: ADD_EXPERIENCE_ERROR,
+          payload: {
+            msg: 'failed to add experience',
+            status: 'server responded'
+          }
         })
+
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 422) {
+        //   errors.forEach(err =>
+        //     dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
+        //   )
+        // } else if (status === 404 || status === 500) {
+        //   errors.forEach(err => dispatch(setAlert(err.msg, 'danger')))
+        // }
+        // dispatch({
+        //   type: ADD_EXPERIENCE_ERROR
+        // })
       } else {
         // no response is received
-        console.log(err.message)
+
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
-          type: ADD_EXPERIENCE_ERROR
+          type: ADD_EXPERIENCE_ERROR,
+          payload: {
+            msg: 'failed to add experience',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -414,33 +511,44 @@ export const addEducationGenerator = (data, history) => {
         history.push('/dashboard')
       }
     } catch (err) {
+      console.log('add education error:', err)
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 422) {
-          errors.forEach(err =>
-            dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
-          )
-        } else if (status === 404 || status === 500) {
-          errors.forEach(err => dispatch(setAlert(err.msg, 'danger')))
-        }
+        dispatch(setAlert('failed to add education', 'danger'))
         dispatch({
-          type: ADD_EDUCATION_ERROR
+          type: ADD_EDUCATION_ERROR,
+          payload: {
+            msg: 'failed to add education',
+            status: 'server responded'
+          }
         })
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 422) {
+        //   errors.forEach(err =>
+        //     dispatch(setAlert(`${err.param} ${err.msg}`, 'danger'))
+        //   )
+        // } else if (status === 404 || status === 500) {
+        //   errors.forEach(err => dispatch(setAlert(err.msg, 'danger')))
+        // }
+        // dispatch({
+        //   type: ADD_EDUCATION_ERROR
+        // })
       } else {
         // no response is received
-        console.log(err.message)
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
-          type: ADD_EDUCATION_ERROR
+          type: ADD_EDUCATION_ERROR,
+          payload: {
+            msg: 'failed to add education',
+            status: 'no response from server'
+          }
         })
       }
     }
   }
 }
 
-// should add logic for handling 404!
 export const deleteExperienceGenerator = id => {
   return async dispatch => {
     try {
@@ -453,24 +561,35 @@ export const deleteExperienceGenerator = id => {
         dispatch(fetchProfileGenerator())
       }
     } catch (err) {
+      console.log('delete experience error:', err)
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 500) {
-          dispatch(setAlert(errors[0].msg, 'danger'))
-        }
+        dispatch(setAlert('failed to delete experience', 'danger'))
         dispatch({
           type: DELETE_EXPERIENCE_ERROR,
-          payload: errors[0]
+          payload: {
+            msg: 'failed to delete experience',
+            status: 'server responded'
+          }
         })
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 500) {
+        //   dispatch(setAlert(errors[0].msg, 'danger'))
+        // }
+        // dispatch({
+        //   type: DELETE_EXPERIENCE_ERROR,
+        //   payload: errors[0]
+        // })
       } else {
         // no response is received
-        console.log(err.message)
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: DELETE_EXPERIENCE_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to delete experience',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -490,24 +609,36 @@ export const deleteEducationGenerator = id => {
         dispatch(fetchProfileGenerator())
       }
     } catch (err) {
+      console.log('delete education error:', err)
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 500) {
-          dispatch(setAlert(errors[0].msg, 'danger'))
-        }
+        dispatch(setAlert('failed to delete education', 'danger'))
         dispatch({
           type: DELETE_EDUCATION_ERROR,
-          payload: errors[0]
+          payload: {
+            msg: 'failed to delete education',
+            status: 'server responded'
+          }
         })
+
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 500) {
+        //   dispatch(setAlert(errors[0].msg, 'danger'))
+        // }
+        // dispatch({
+        //   type: DELETE_EDUCATION_ERROR,
+        //   payload: errors[0]
+        // })
       } else {
         // no response is received
-        console.log(err.message)
         dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: DELETE_EDUCATION_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to delete education',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -532,23 +663,35 @@ export const accountDeleteGenerator = () => {
         dispatch(setAlert('account deleted'))
       }
     } catch (err) {
+      console.log('account delete error:', err)
+      dispatch(setAlert('something went wrong', 'danger'))
+
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 500 || status === 404) {
-          dispatch(setAlert(errors[0].msg, 'danger'))
-        }
         dispatch({
           type: PROFILE_ERROR,
-          payload: errors[0]
+          payload: {
+            msg: 'failed to delete account',
+            status: 'server responded'
+          }
         })
+
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 500 || status === 404) {
+        //   dispatch(setAlert(errors[0].msg, 'danger'))
+        // }
+        // dispatch({
+        //   type: PROFILE_ERROR,
+        //   payload: errors[0]
+        // })
       } else {
         // no response is received
-        console.log(err.message)
-        dispatch(setAlert('something went wrong', 'danger'))
         dispatch({
           type: PROFILE_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to delete account',
+            status: 'no response from server'
+          }
         })
       }
     }
@@ -567,23 +710,33 @@ export const getReposGenerator = githubName => {
         })
       }
     } catch (err) {
-      dispatch(setAlert('Failed to fetch github repos', 'danger'))
+      console.log('failed to fetch repos', err)
+      dispatch(setAlert('failed to fetch github repos', 'danger'))
       // server responded with no 2** status
       if (err.response) {
-        const { status } = err.response
-        const { errors } = err.response.data
-        if (status === 500 || status === 404) {
-          dispatch({
-            type: PROFILE_ERROR,
-            payload: errors[0]
-          })
-        }
-      } else {
-        // no response is received
-        console.log(err.message)
         dispatch({
           type: PROFILE_ERROR,
-          payload: err
+          payload: {
+            msg: 'failed to fetch github repos',
+            status: 'server responded'
+          }
+        })
+        // const { status } = err.response
+        // const { errors } = err.response.data
+        // if (status === 500 || status === 404) {
+        //   dispatch({
+        //     type: PROFILE_ERROR,
+        //     payload: errors[0]
+        //   })
+        // }
+      } else {
+        // no response is received
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: {
+            msg: 'failed to fetch github repos',
+            status: 'no response from server'
+          }
         })
       }
     }
