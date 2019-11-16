@@ -11,13 +11,18 @@ import {
   DELETE_COMMENT,
   UPDATE_COMMENT_LIKES,
   UPDATE_COMMENT_TEXT,
-  UPDATE_POST_TEXT
+  UPDATE_POST_TEXT,
+  CLEAR_PROFILE
 } from '../actions/types'
 
 // get posts
 export const fetchPostsGenerator = () => {
   return async dispatch => {
     try {
+      dispatch({
+        type: CLEAR_PROFILE
+      })
+
       const res = await axios.get('/api/posts')
       if (res.status === 200) {
         dispatch({
@@ -101,6 +106,10 @@ export const updatePostByIdGenerator = (postId, text) => {
 export const fetchPostByIdGenerator = postId => {
   return async dispatch => {
     try {
+      dispatch({
+        type: CLEAR_PROFILE
+      })
+
       const res = await axios.get(`/api/posts/${postId}`)
       if (res.status === 200) {
         dispatch({
