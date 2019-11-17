@@ -53,7 +53,7 @@ router.post('/recovery', emailValidation, async (req, res) => {
     let link
     // when deployed use another link
     if (process.env.NODE_ENV === 'production') {
-      link = '<--add production link here-->'
+      link = `http://devnetwork.jkorum.com/recovery?token=${token}`
     } else {
       link = `http://127.0.0.1:3000/recovery?token=${token}`
     }
