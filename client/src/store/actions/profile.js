@@ -162,6 +162,13 @@ export const setImgAndFetchProfileGenerator = (userId, data) => {
             type: GET_PROFILE,
             payload: resProfile.data
           })
+          dispatch({
+            type: UPLOADED_USER_UPDATE,
+            payload: {
+              useImage: resProfile.data.user.useImage,
+              image: resProfile.data.user.image
+            }
+          })
         }
       }
     } catch (err) {

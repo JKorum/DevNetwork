@@ -379,13 +379,21 @@ img {
   &__text_container {
     background: $grey;
     min-height: 12rem;
-    height: 1px;
+    // height: 1px;
     padding: 0.8rem;
     margin: 0.4rem 0 0.4rem 0;
     word-break: normal;
     p {
       word-break: normal;
     }
+    textarea {
+      height: 100%;
+      width: 100%;
+      background: $grey;
+      min-height: 12rem;
+      border: none;
+    }
+
     input {
       height: 100%;
       width: 100%;
@@ -452,12 +460,20 @@ img {
   &__text_container {
     background: $grey;
     min-height: 6rem;
-    height: 1px;
+    // height: 1px;
     padding: 0.8rem;
     margin: 0.4rem 0 0.4rem 0;
     word-break: normal;
     p {
       word-break: normal;
+    }
+
+    textarea {
+      height: 100%;
+      width: 100%;
+      background: $grey;
+      min-height: 6rem;
+      border: none;
     }
     input {
       height: 100%;

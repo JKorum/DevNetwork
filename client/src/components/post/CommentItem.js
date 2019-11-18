@@ -70,12 +70,17 @@ const CommentItem = ({
           {!waitForUpdate ? (
             <p>{text}</p>
           ) : (
-            <input
-              type='text'
+            <textarea
               value={commentText}
               onChange={handleCommentChange}
               autoFocus={true}
-            />
+            ></textarea>
+            // <input
+            //   type='text'
+            //   value={commentText}
+            //   onChange={handleCommentChange}
+            //   autoFocus={true}
+            // />
           )}
         </div>
 
@@ -132,7 +137,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateCommentTextGenerator(postId, commentId, data))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CommentItem)
+export default connect(mapStateToProps, mapDispatchToProps)(CommentItem)

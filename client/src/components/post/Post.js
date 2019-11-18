@@ -161,12 +161,17 @@ const Post = ({
                 {!waitForUpdate ? (
                   <p>{post.text}</p>
                 ) : (
-                  <input
-                    type='text'
-                    value={postText}
+                  <textarea
                     onChange={handlePostTextChange}
                     autoFocus={true}
-                  />
+                    value={postText}
+                  ></textarea>
+                  // <input
+                  //   type='text'
+                  //   value={postText}
+                  //   onChange={handlePostTextChange}
+                  //   autoFocus={true}
+                  // />
                 )}
               </div>
 
